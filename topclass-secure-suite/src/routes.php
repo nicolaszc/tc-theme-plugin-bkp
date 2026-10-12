@@ -54,3 +54,4 @@ function topclass_handle_custom_stream_request() {
     ));
     exit;
 }
+
