@@ -12,69 +12,123 @@ Text Domain:  wporg
 Domain Path:  /languages
 */
 
+if (!defined('ABSPATH')) {
+    exit;
+}
 
 // Add vendors fieds to vendors settings
 // 1. Ensure acf_form_head runs early
 add_action('admin_head', 'acf_form_head');
-add_action('admin_menu', function() {
-$vendor_id = get_current_user_id();
-$vendor_term = get_user_meta($vendor_id, '_wcpv_active_vendor', true);
+// Vendor styles
+/* function vendor_admin_styles(){
+    wp_enqueue_style( 'admin-style', plugins_url( '/vendor.css' , __FILE__ ));
 
-if ($vendor_term) {
-    add_menu_page(
-        __('Tu espacio','text-domain'), // Page title
-        __('Tu espacio','text-domain'), // Menu title
-        'wc_product_vendors_admin_vendor', // Capability (vendors should have access)
-        'datos-imagenes', // Menu slug
-        'custom_vendor_settings_page', // Callback function
-    'dashicons-edit-large', // Icon
-    63 // Position
-    );
 }
+add_action('admin_head', 'vendor_admin_styles'); */
+
+function vendor_admin_script(){
+    wp_enqueue_style( 'admin-style', plugins_url( '/vendor.css' , __FILE__ ));
+
+    wp_enqueue_script( 'admin-script', plugins_url( '/admin-script.js' , __FILE__ ), array( 'jquery' ), '1.0', true );
+}
+
+add_action('admin_enqueue_scripts', 'vendor_admin_script');
+
+add_action('admin_init', function() {
+    global $vendor_id, $vendor_term, $vendor_name;
+
+    $vendor_id = get_current_user_id();
+    //$vendor_term = get_user_meta($vendor_id, '_wcpv_active_vendor', true);
+
+    $vendor_user_object = get_user_by( 'id', $vendor_id );
+    $vendor_name = $vendor_user_object->user_nicename;
 });
 
-function custom_vendor_settings_page() {
-    //$host = $_SERVER['HTTP_HOST'];
-	$vendor_id = get_current_user_id();
-	$vendor_term = get_user_meta($vendor_id, '_wcpv_active_vendor', true);
-	//var_dump($vendor_term);
-	if (!$vendor_term) {
-        echo '<p>' . __('No tienes creado un perfil de modelo aún.', 'text-domain') . '</p>';
-        return;
+// Función para renombrar imagen al subir y actualizar ACF
+function topclass_rename_vendor_image_on_upload( $value, $post_id, $field ) {
+    if ( ! $value || ! is_numeric( $value ) ) {
+        return $value;
     }
 
-    add_filter('gettext', function($translated_text, $text, $domain) {
-    if (is_user_logged_in() && $translated_text === 'Perfil') {
-        $user_id = get_current_user_id();
-        $is_vendor = get_user_meta($user_id, '_wcpv_active_vendor', true);
-        if ($is_vendor) {
-            return 'Cuenta';
+    $fallback_name = 'TopClass' . $GLOBALS['current_site_cat'];
+    $attachment_id = $value;
+    $file = get_attached_file( $attachment_id );
+    if ( ! file_exists( $file ) ) return $value;
+
+    $alias = $GLOBALS['vendor_name'] ?? $fallback_name;
+
+    $pathinfo = pathinfo( $file );
+    $ext = $pathinfo['extension'];
+    $dirname = $pathinfo['dirname'];
+
+    $timestamp = date( 'Ymd-His' );
+    $new_filename = "{$alias}-{$timestamp}.{$ext}";
+    $new_file_path = $dirname . '/' . $new_filename;
+
+    if ( rename( $file, $new_file_path ) ) {
+        update_attached_file( $attachment_id, $new_file_path );
+
+        wp_update_post([
+            'ID' => $attachment_id,
+            'post_title' => $alias,
+            'post_name'  => $alias,
+        ]);
+
+        require_once( ABSPATH . 'wp-admin/includes/image.php' );
+        wp_generate_attachment_metadata( $attachment_id, $new_file_path );
+
+        // Actualizar el campo ACF para que quede con la URL del tamaño optimizado
+        $size = 'custom-card-avatar'; // Cambiar por el tamaño que uses
+        $image_src_array = wp_get_attachment_image_src( $attachment_id, $size );
+        if ( $image_src_array ) {
+            update_field( $field['name'], $image_src_array[0], $post_id );
+        }
+        
+        // Usar la variable global vendor_id que tenés disponible
+        $user_id = $GLOBALS['vendor_id'] ?? 0;
+
+        if ($user_id) {
+            // Guardar en user meta la ID del attachment como avatar personalizado
+            update_user_meta( $user_id, 'wp_user_avatar', $attachment_id );
+            // También podés guardar una URL directa, pero con ID es mejor para WP
         }
     }
-    return $translated_text;
-    }, 10, 3);
-
-    ?>
-    <div class="wrap">
-        <h1><?php _e('Tu espacio', 'text-domain'); ?></h1>
-        <form method="post">
-            <?php
-            $fields = array('profile_image', 'vendor_availability','vendor_schedule', 'show_map','vendor_price','vendor_phone','vendor_country','vendor_districts','vendor_age','vendor_height','vendor_measures','vendor_hair','vendor_breast','vendor_back','main_screen', 'vendor_slider','vendor_description','vendor_google_map');
-
-            if ($GLOBALS['current_site_cat'] == 'Trans') {
-                
-                array_splice($fields, 14, 0, 'vendor_dotation');
-            }
-
-            //$fields = array_merge($fields, array('main_slider', 'moods', 'vendor_slider', 'vendor_description', 'vendor_google_map'));
-
-            acf_form(array(
-                'post_id' => 'term_' . $vendor_id,
-                'fields' => $fields,
-                'submit_value' => __('Save Settings', 'text-domain')
-            ));
-            ?>
-        </form>
-    </div>
-    <?php
+  
+    return $attachment_id;
 }
+
+
+
+/**
+ * Filtro dinámico para el prefijo de AWS S3 (WP Offload Media / AS3CF)
+ * Lee de forma síncrona los parámetros de la URL actual de la sesión.
+ */
+$GLOBALS['topclass_media_context'] = 'public';
+
+function topclass_detect_upload_context_in_flight( $file ) {
+    // 1. Capturamos la URL exacta que golpeó al VPS (incluye async-upload.php?is_woo_download=1)
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    
+    // 2. Si no la encuentra ahí, revisamos el REFERER (la página madre del navegador) por si acaso
+    $referer_url = $_SERVER['HTTP_REFERER'] ?? '';
+
+    // Tu ternario maestro adaptado para morder los canales crudos del servidor
+    $is_downloadable = ( strpos( $request_uri, 'is_woo_download=1' ) !== false || strpos( $referer_url, 'is_woo_download=1' ) !== false );
+
+    $GLOBALS['topclass_media_context'] = $is_downloadable ? 'private' : 'public';
+
+    return $file;
+}
+add_filter( 'wp_handle_upload_prefilter', 'topclass_detect_upload_context_in_flight', 1 );
+
+function topclass_media_object_prefix_by_browser_url( $prefix ) {
+    // Inicializamos el contexto por defecto local
+    $context = $GLOBALS['topclass_media_context'] ?? 'public';
+
+
+    // Retornamos la ruta final mapeada en tu bucket de S3
+    return 'trans/' . $context . '/';
+}
+add_filter( 'as3cf_setting_object-prefix', 'topclass_media_object_prefix_by_browser_url', 10, 1 );
+
+

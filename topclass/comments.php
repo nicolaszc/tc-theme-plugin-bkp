@@ -38,7 +38,7 @@ if ($modelo_slug) {
  * the visitor has not yet entered the password we will
  * return early without loading the comments.
  */
-if (post_password_required()) {
+if (post_password_required()) { 
   return;
 }
 ?>
@@ -46,8 +46,8 @@ if (post_password_required()) {
   <div id="sticky-comments">
   <div id="comments" class="comments-area">
     <div class="container">
-      <div class="row justify-content-center">
-        <?php
+      <div class="row justify-content-center fixed-row">
+        <?php 
         // You can start editing here -- including this comment!
         if (have_comments()) : 
           $comments_number = count($comments);
@@ -119,6 +119,7 @@ if (post_password_required()) {
       
       <div class="col-md-5 <?php if ($comments_number > 0)  : echo 'offset-md-1'; endif; ?> mb-5 my-md-0" id="commentform-container">
         <?php
+        
         // If comments are closed and there are comments, let's leave a little note, shall we?
         if (!comments_open() && get_comments_number() && post_type_supports(get_post_type(), 'comments')) : ?>
 

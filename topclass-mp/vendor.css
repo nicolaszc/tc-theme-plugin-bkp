@@ -1,0 +1,198 @@
+ /* Vendor styles */
+       
+        .vendor #wpfooter{
+            display: block !important;
+            opacity: 1 !important;
+            padding: 0;
+            margin: 0;
+        }  
+        .vendor #wpfooter strong{
+            font-weight: 400;
+            margin: 0 1rem;
+            text-align: center;
+            display: block;
+        }      
+        #wcpv-vendor-settings .form-field:nth-child(2),
+        form#your-profile h2:nth-child(10),
+        form#your-profile h2:nth-child(10)+table{
+            display:none;
+        } 
+        /*     
+        .vendor .woocommerce-product-description{
+            display: none !important;
+        }    
+        */
+       
+        .vendor #postimagediv{
+            display: block !important;
+        }
+        .vendor #product_cat-all{
+            border: none !important;
+            padding: 0 !important;
+        }
+        @media(max-width: 782px){
+
+            body.vendor{
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+            .vendor #wpadminbar{
+                position: fixed;
+                width: 100vw;
+                top: 0 !important;
+            }
+            .vendor .wrap h1{
+                font-weight: 600;
+            }
+            .vendor form#your-profile h2{
+                margin: 2em 0 0;
+            }
+            .vendor form#your-profile p:nth-child(3){
+                margin: 0;
+            }
+            .vendor form#your-profile h2:nth-child(4){
+                margin-top: 1rem;
+            }
+            .vendor form#your-profile .form-table{
+                margin-top: 0;
+            }
+            .vendor form#your-profile .submit{
+                position: fixed;
+                bottom: .25rem;
+                right: 0;
+                z-index: 9;
+                background: #fff;
+                padding: .5rem 0 .5rem .5rem;
+                border-radius: .375rem;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+            }
+            .vendor form#your-profile .submit input{
+                margin: 0 -12px 0 0;
+            }
+            .vendor form#your-profile .acf-field-tab{
+                display: none !important;
+            }
+            .vendor form#your-profile .acf-field-tab .acf-label label{ 
+                font-size: 1.3em;
+                font-weight:600;
+                margin-top: 2em;
+
+            }
+            .vendor form#your-profile .acf-field-tab .acf-input{ 
+                display: none !important;
+            }
+            .vendor .acf-tab-wrap td{
+                padding-right: 0 !important;
+            }
+            .vendor .form-table>tbody>tr.acf-tab-wrap .acf-tab-group{
+                 padding: 0 !important;
+            }
+            .vendor .acf-tab-group li {
+                margin: 0 .25em 0 0;
+            }
+            .vendor .acf-tab-group li a{
+                padding: 5px 5px;
+            }
+            .vendor .handle-actions,
+            /* .acf-tab-wrap, */
+            .vendor form#your-profile tr.acf-field-tab[data-name="info"]{
+                display: none !important;
+            }
+            
+            .vendor form#your-profile tr{
+                display: block !important;
+                width:100% !important;
+            }
+            .vendor .form-table>tbody>.acf-field>.acf-label{
+                padding-bottom: 0 !important;
+                padding-top: .25rem;
+                margin-bottom: 0 !important;
+                width: auto;
+            }
+            .vendor .form-table>tbody>.acf-field>.acf-input{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                padding-top: 0 !important;
+            }
+            /* .vendor .mobile-acf-50:nth-child(odd) {
+                padding-left: 8px !important;
+                padding-right: 0 !important;
+            }
+            .vendor .mobile-acf-50:nth-child(even) {
+                padding-left: 0 !important;
+                padding-right: 8px !important;
+            } */
+            .vendor tr[data-name="vendor_shows_map"] .acf-input{
+                margin-top: 1rem;
+            }
+            .vendor .mobile-acf-100 .image-wrap, .mobile-acf-100 img{
+                width: auto!important;
+                max-width: unset!important;
+                box-sizing: border-box!important;
+                padding-left: 0!important;
+                padding-right: 0!important;
+            }
+            .vendor tr[data-name="vendor_dotation"],
+            .vendor tr[data-name="vendor_schedule"],
+            .vendor tr[data-name="vendor_twitter"],
+            .vendor tr[data-name="vendor_youtube"],
+            .vendor tr[data-name="vendor_facebook"],
+            .vendor tr[data-name="vendor_instagram"]{
+                display: block !important;
+            }
+            .vendor tr[data-name="vendor_image"]{
+                margin-top: .5rem;
+            }
+             
+        }
+        .vendor .woocommerce-product-description, 
+        .vendor .form-field._wcpv_product_commission_field,
+        .vendor .inventory_tab,
+        .vendor .shipping_tab,
+        .vendor .attribute_tab,
+        .vendor #product-type,
+        .vendor label[for="_virtual"],
+        .vendor .woocommerce-product-type-tip,
+        .vendor #wp-mastertoolkit-custom-body-class,
+        .vendor #channel_visibility,
+        .vendor #tagsdiv-product_tag,
+        .vendor #product_branddiv,
+        .vendor #product_cat-tabs,
+        .vendor .wp-editor-tabs,
+        .vendor .wp-media-buttons,
+        .vendor .product_data_tabs,
+        .vendor .downloadable_files .sort,
+        .vendor .downloadable_files .woocommerce-help-tip,
+        .vendor #mceu_67,
+        .vendor #mceu_68,
+        .vendor #mceu_69,
+        .vendor #mceu_70,
+        .vendor #mceu_71,
+        .vendor #mceu_72,
+        .vendor #mceu_73,
+        .vendor #mceu_126,
+        .vendor #mceu_127,
+        .vendor #mceu_128,
+        .vendor #mceu_129,
+        .vendor #mceu_130,
+        .vendor #mceu_131,
+        .vendor #mceu_132,
+        form#your-profile tr.url-wrap,
+        form#your-profile tr.user-facebook-wrap,
+        form#your-profile tr.user-skype-wrap,
+        form#your-profile tr.user-twitter-wrap,
+        form#your-profile tr.user-youtube-wrap,
+        form#your-profile tr.user-linkedin-wrap,
+        form#your-profile tr.user-googleplus-wrap,
+        form#your-profile tr.user-pinterest-wrap,
+        form#your-profile tr.user-instagram-wrap,
+        form#your-profile tr.user-github-wrap,
+        form#your-profile tr.acf-hidden,
+        form#your-profile h3:nth-last-child(5),
+        form#your-profile table:nth-last-child(4),
+        .acf-field-688c5c7006ef0,
+        .acf-field-688c6eafb0b5c {
+            display: none !important;
+        }

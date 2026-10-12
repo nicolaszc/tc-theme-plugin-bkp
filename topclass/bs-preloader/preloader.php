@@ -24,7 +24,14 @@ function get_logos($logo){
 ?>
 <style>
    @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Six+Caps&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");    
-  .gradient-preloader-top{
+    #preloader{
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, .5);
+      font-weight: lighter;
+      text-rendering: geometricPrecision;
+    }
+   .gradient-preloader-top{
     position: absolute;
     top: 0;
     left: 0;
@@ -46,12 +53,21 @@ function get_logos($logo){
     z-index: 1;
     animation: gradient-animation 3s ease-in-out infinite;
   }
+  sup{
+    font-family: Montserrat;
+    font-size: .75rem;
+    font-weight: 600;
+    margin-bottom: .75rem;
+  }
 </style>
 <div id="preloader" class="<?= apply_filters('bootscore/class/preloader/bg', 'tc-preloader bg-body align-items-center justify-content-center position-fixed top-0 end-0 bottom-0 start-0 zi-1070'); ?>">
-  <div id="status" class="<?= apply_filters('bootscore/class/preloader/spinner', 'spinner-border'); ?>" role="status">
-    <?php /* do_action( 'bootscore_preloader_status' ); */ ?>   
-   <img src="<?php echo get_logos('iso_loading'); ?>" alt="Brillo Logo" class="d-td-none opacity-50 w-100">
+<span>TopClass</span>  
+<div id="status" class="<?= apply_filters('bootscore/class/preloader/spinner', 'spinner-border'); ?>" role="status">
+    <?php /* do_action( 'bootscore_preloader_status' ); */ ?>
+    
+    <img src="<?php echo get_logos('iso_loading'); ?>" alt="Brillo Logo" class="d-td-none opacity-50 w-100">
   </div>
+    <span><?php echo $GLOBALS['current_site_cat'] ?></span><sup>©</sup>
   
   <div class="gradient-preloader-top"></div>
   <div class="gradient-preloader-bottom"></div>

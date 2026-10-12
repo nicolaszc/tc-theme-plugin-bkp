@@ -44,20 +44,7 @@ if (!function_exists('bootscore_comment')) :
         <article id="div-comment-<?php comment_ID(); ?>" class="comment-body d-flex">
 
           <div class="flex-shrink-0 me-3">
-            <?php /* if (get_avatar() == false): 
-            echo 'no';
-             
-            else: */
-            $avatar = get_avatar($comment, 80, 'mystery', '', array('class' => apply_filters('bootscore/class/comment/avatar', 'img-thumbnail rounded-circle')));
-            if($avatar) {
-              echo $avatar ; 
-            }else{
-              echo '<img alt="" src="https://topclass50.com/wp-content/uploads/2025/04/topclass-logo.svg" srcset="https://topclass50.com/wp-content/themes/topclass/assets/img/profiles/anonymous.webp" class="avatar avatar-80 photo img-thumbnail rounded-circle" height="80" width="80" loading="lazy" decoding="async">';
-            }
-            
-            //get_avatar($comment, 80, 'mystery', '', array('class' => apply_filters('bootscore/class/comment/avatar', 'img-thumbnail rounded-circle'))); 
-            //endif;
-            ?>
+            <?= get_avatar($comment, 80, '', '', array('class' => apply_filters('bootscore/class/comment/avatar', 'img-thumbnail rounded-circle'))); ?>
             </div>
 
           <div class="comment-content">

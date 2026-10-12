@@ -2,10 +2,11 @@
 /* Bubbles*/
 .bubbles-wrapper {
     pointer-events: none;
-	z-index: 0;
+	z-index: 1;
 	position: absolute;
     top: 0;
     width: 100vw;
+	height:90vh;
 	overflow: hidden;
 }
 

@@ -1,0 +1,364 @@
+{
+    "sebastian": {
+        "nombre": "Sebastian",
+        "telefono": "+56944655947",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1": true
+        },
+        "answ_enviados": {
+            "yellow_2": true
+        },
+        "nota": "wsdfdf"
+    },
+    "jess": {
+        "nombre": "Jess",
+        "telefono": "+56938670216",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "jeda": {
+        "nombre": "Jeda",
+        "telefono": "+56991820328",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "tayla": {
+        "nombre": "Tayla",
+        "telefono": "+56946852830",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "maddilyn": {
+        "nombre": "Maddilyn",
+        "telefono": "+56969180435",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "alice": {
+        "nombre": "Alice",
+        "telefono": "+56945248683",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "mia": {
+        "nombre": "Mia",
+        "telefono": "+56945868999",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "isabel": {
+        "nombre": "Isabel",
+        "telefono": "+56985094574",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "heloisa": {
+        "nombre": "Heloisa",
+        "telefono": "+56937892836",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "yunaa": {
+        "nombre": "Yunaa",
+        "telefono": "+56933223371",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "catarinna": {
+        "nombre": "Catarinna",
+        "telefono": "+56955210255",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "amara": {
+        "nombre": "Amara",
+        "telefono": "+56971669261",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "bela": {
+        "nombre": "Bela",
+        "telefono": "+56945237669",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "valentina": {
+        "nombre": "Valentina",
+        "telefono": "+56985762690",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "ray": {
+        "nombre": "Ray",
+        "telefono": "+56974412442",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "Luanna": {
+        "nombre": "Luanna",
+        "telefono": "+56937852580",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "margarita": {
+        "nombre": "Margarita",
+        "telefono": "+56990179982",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "kimberly": {
+        "nombre": "Kimberly",
+        "telefono": "+56963507544",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "olivia": {
+        "nombre": "Olivia",
+        "telefono": "+56956628728",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "ranya": {
+        "nombre": "Ranya",
+        "telefono": "+56952227644",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "belinda": {
+        "nombre": "Belinda",
+        "telefono": "+56998631662",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "lucy": {
+        "nombre": "Lucy",
+        "telefono": "+56942884835",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "linny": {
+        "nombre": "Linny",
+        "telefono": "+56965309459",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "chiara": {
+        "nombre": "Chiara",
+        "telefono": "+56974067166",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "londy": {
+        "nombre": "Londy",
+        "telefono": "+56948892941",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "brandy": {
+        "nombre": "Brandy",
+        "telefono": "+56950706243",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "alinna": {
+        "nombre": "Alinna",
+        "telefono": "+56942330798",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "tatiana": {
+        "nombre": "Tatiana",
+        "telefono": "+56973305471",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "camila": {
+        "nombre": "Camila",
+        "telefono": "+56990576855",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "naomi": {
+        "nombre": "Naomi",
+        "telefono": "+56987026396",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "Louise": {
+        "nombre": "Louise",
+        "telefono": "+56985222259",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "nataly": {
+        "nombre": "Nataly",
+        "telefono": "+56961212818",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "brigiette": {
+        "nombre": "Brigiette",
+        "telefono": "+56926866029",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "amalia": {
+        "nombre": "Amalia",
+        "telefono": "+56926330142",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "marcely": {
+        "nombre": "Marcely",
+        "telefono": "+56936921765",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "bevini": {
+        "nombre": "Bevini",
+        "telefono": "+56965076059",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "eva": {
+        "nombre": "Eva",
+        "telefono": "+56944787905",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "rebeca": {
+        "nombre": "Rebeca",
+        "telefono": "+56926014979",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "megan": {
+        "nombre": "Megan",
+        "telefono": "+56949169152",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "ivy": {
+        "nombre": "Ivy",
+        "telefono": "+56930898635",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "colucci": {
+        "nombre": "Colucci",
+        "telefono": "+56965326189",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "juliana": {
+        "nombre": "Juliana",
+        "telefono": "+56937647464",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "laisa": {
+        "nombre": "Laisa",
+        "telefono": "+56994025636",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "melli": {
+        "nombre": "Melli",
+        "telefono": "+56976473676",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "ciara": {
+        "nombre": "Ciara",
+        "telefono": "+56976829557",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "alexa": {
+        "nombre": "Alexa",
+        "telefono": "+56988272214",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "renata": {
+        "nombre": "Renata",
+        "telefono": "+56940967474",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "hazel": {
+        "nombre": "Hazel",
+        "telefono": "+56962765765",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "munique": {
+        "nombre": "Munique",
+        "telefono": "+56951023206",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "july": {
+        "nombre": "July",
+        "telefono": "+56951810476",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    },
+    "constanza": {
+        "nombre": "Constanza",
+        "telefono": "+56934821044",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": []
+    }
+}

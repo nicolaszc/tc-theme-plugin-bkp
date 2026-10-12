@@ -2,7 +2,7 @@
 <div class="filter-sort">
     <div class="filter-container d-flex justify-content-between align-items-center">
 
-        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/banners/top-banner-box-center.png"  alt="..." class="d-none d-md-block m-auto position-absolute">
+        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/banners/top-banner-box-center.webp"  alt="..." class="d-none d-md-block m-auto position-absolute">
         
         <div class="button-group filter-group d-flex align-items-center">
             <div id="dropdown-district-filter"></div>
@@ -17,6 +17,7 @@
                 <li><button class="dropdown-item" type="input" data-value="precio_ma">Precio Mayor</button></li>
                 <li><button class="dropdown-item" type="input" data-value="precio_me">Precio Menor</button></li>
                 <li><button class="dropdown-item" type="input" data-value="random" checked>Aleatorio</button></li>
+                <li class="drop-down-last-item" style="border-bottom-left-radius: 6px !important; border-bottom-right-radius: 6px !important; height: 5px; background-color: rgb(from var(--light-color) r g b / .9);"></li>
             </ul>
         </div>
          

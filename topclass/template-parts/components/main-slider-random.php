@@ -2,20 +2,10 @@
 <!-- Main Slider -->
           
 <div id="caption-placeholder" class="position-absolute w-100 pe-none"></div>
-<section id="main-slider" class="vh-100 overflow-hidden">
+<section id="main-slider" class="vh-100 overflow-hidden show">
 <?php  get_template_part('template-parts/components/strip'); ?>
 <?php
-function isMobileDevice() {
-  // Get the user agent string
-  $userAgent = $_SERVER['HTTP_USER_AGENT'];
-  
-  // Check if the user agent matches any common patterns for mobile devices
-  if (preg_match('/android|iphone|ipod|blackberry|iemobile|opera mobile|palmos|webos/i', $userAgent)) {
-      return true;
-      } else {
-      return false;
-      }
-}
+
 // Banner
 if ( have_rows( 'main_banner' ) ) : 
   while ( have_rows( 'main_banner' ) ) : the_row(); 
@@ -98,7 +88,7 @@ if ( have_rows( 'main_banner' ) ) :
           $link_background_color = $link_array['background_color'];
           $link_border_color = $link_array['border_color'];
           $link_shadow = $link_array['shadow'];
-          $device = isMobileDevice();
+          $device = $GLOBALS['device'];
     ?>
       <!-- Slide -->
       <div class="item position-relative vh-100 overflow-hidden" data-dot="<span>0<?php echo $count ?> </span>">

@@ -1,0 +1,538 @@
+{
+    "marcely": {
+        "nombre": "Marcely ",
+        "telefono": "56936921765",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56936921765": true,
+            "dia_2_56936921765": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "Revisar"
+    },
+    "heloisa": {
+        "nombre": "Heloisa ",
+        "telefono": "56937892836",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56937892836": true,
+            "dia_2_56937892836": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "maddilyn": {
+        "nombre": "Maddilyn ",
+        "telefono": "56969180435",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56969180435": true,
+            "dia_2_56969180435": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "colucci": {
+        "nombre": "Colucci ",
+        "telefono": "56965326189",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "ciara": {
+        "nombre": "Ciara ",
+        "telefono": "56976829557",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true,
+        "nota": ""
+    },
+    "bela": {
+        "nombre": "Bela ",
+        "telefono": "56945237669",
+        "status": "Green",
+        "enviados": {
+            "dia_1_56945237669": true,
+            "dia_2_56945237669": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "amara": {
+        "nombre": "Amara ",
+        "telefono": "56971669261",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56971669261": true,
+            "dia_2_56971669261": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "isabel": {
+        "nombre": "Isabel ",
+        "telefono": "56985094574",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56985094574": true,
+            "dia_2_56985094574": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "amalia": {
+        "nombre": "Amalia ",
+        "telefono": "56926330142",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56926330142": true,
+            "dia_2_56926330142": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "ivy": {
+        "nombre": "Ivy ",
+        "telefono": "56930898635",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56930898635": true,
+            "dia_2_56930898635": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "juliana": {
+        "nombre": "Juliana ",
+        "telefono": "56937647464",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "alice": {
+        "nombre": "Alice ",
+        "telefono": "56945248683",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56945248683": true,
+            "dia_2_56945248683": true,
+            "dia_3_56945248683": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "alinna": {
+        "nombre": "Alinna ",
+        "telefono": "56942330798",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56942330798": true,
+            "dia_2_56942330798": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "londy": {
+        "nombre": "Londy ",
+        "telefono": "56948892941",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56948892941": true,
+            "dia_2_56948892941": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "munique": {
+        "nombre": "Munique ",
+        "telefono": "56951023206",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "eva": {
+        "nombre": "Eva ",
+        "telefono": "56944787905",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56944787905": true,
+            "dia_2_56944787905": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "Revisar, no hizo click"
+    },
+    "bevini": {
+        "nombre": "Bevini ",
+        "telefono": "56965076059",
+        "status": "Green",
+        "enviados": {
+            "dia_1_56965076059": true,
+            "dia_2_56965076059": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "belinda": {
+        "nombre": "Belinda ",
+        "telefono": "56998631662",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56998631662": true,
+            "dia_2_56998631662": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "No tiene whatsapp"
+    },
+    "brigiette": {
+        "nombre": "Brigiette ",
+        "telefono": "56926866029",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56926866029": true,
+            "dia_2_56926866029": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "Revisar, sin autorizaci\u00f3n."
+    },
+    "valentina": {
+        "nombre": "Valentina ",
+        "telefono": "56985762690",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56985762690": true,
+            "dia_2_56985762690": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "laisa": {
+        "nombre": "Laisa ",
+        "telefono": "56994025636",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "tayla": {
+        "nombre": "Tayla ",
+        "telefono": "56946852830",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56946852830": true,
+            "dia_2_56946852830": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "tatiana": {
+        "nombre": "Tatiana ",
+        "telefono": "56973305471",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56973305471": true,
+            "dia_2_56973305471": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "luanna": {
+        "nombre": "Luanna ",
+        "telefono": "56937852580",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56937852580": true,
+            "dia_2_56937852580": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "ranya": {
+        "nombre": "Ranya ",
+        "telefono": "56952227644",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56952227644": true,
+            "dia_2_56952227644": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "linny": {
+        "nombre": "Linny ",
+        "telefono": "56965309459",
+        "status": "Green",
+        "enviados": {
+            "dia_1_56965309459": true,
+            "dia_2_56965309459": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "alexa": {
+        "nombre": "Alexa ",
+        "telefono": "56988272214",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "catarinna": {
+        "nombre": "Catarinna ",
+        "telefono": "56955210255",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56955210255": true,
+            "dia_2_56955210255": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "rebeca": {
+        "nombre": "Rebeca ",
+        "telefono": "56926014979",
+        "status": "Green",
+        "enviados": {
+            "dia_1_56926014979": true,
+            "dia_2_56926014979": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "renata": {
+        "nombre": "Renata ",
+        "telefono": "56940967474",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "brandy": {
+        "nombre": "Brandy ",
+        "telefono": "56950706243",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56950706243": true,
+            "dia_2_56950706243": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "Revisar"
+    },
+    "olivia": {
+        "nombre": "Olivia ",
+        "telefono": "56956628728",
+        "status": "Green",
+        "enviados": {
+            "dia_1_56956628728": true,
+            "dia_2_56956628728": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "camila": {
+        "nombre": "Camila ",
+        "telefono": "56990576855",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56990576855": true,
+            "dia_2_56990576855": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "No gracias"
+    },
+    "hazel": {
+        "nombre": "Hazel ",
+        "telefono": "56962765765",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "melli": {
+        "nombre": "Melli ",
+        "telefono": "56976473676",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "kimberly": {
+        "nombre": "Kimberly ",
+        "telefono": "56963507544",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56963507544": true,
+            "dia_2_56963507544": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "chiara": {
+        "nombre": "Chiara ",
+        "telefono": "56974067166",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56974067166": true,
+            "dia_2_56974067166": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "Esta fue la que se fue en volada la principio"
+    },
+    "lucy": {
+        "nombre": "Lucy ",
+        "telefono": "56942884835",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56942884835": true,
+            "dia_2_56942884835": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "mia": {
+        "nombre": "Mia ",
+        "telefono": "56945868999",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56945868999": true,
+            "dia_2_56945868999": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "jess": {
+        "nombre": "Jess ",
+        "telefono": "56965431235",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56965431235": true,
+            "dia_2_56965431235": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "july": {
+        "nombre": "July ",
+        "telefono": "56951810476",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "louise": {
+        "nombre": "Louise ",
+        "telefono": "56985222259",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56985222259": true,
+            "dia_2_56985222259": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "megan": {
+        "nombre": "Megan ",
+        "telefono": "56949169152",
+        "status": "Green",
+        "enviados": {
+            "dia_1_56949169152": true,
+            "dia_2_56949169152": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "margarita": {
+        "nombre": "Margarita ",
+        "telefono": "56990179982",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56990179982": true,
+            "dia_2_56990179982": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "ray": {
+        "nombre": "Ray ",
+        "telefono": "56974412442",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56974412442": true,
+            "dia_2_56974412442": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "jeda": {
+        "nombre": "Jeda ",
+        "telefono": "56991820328",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56991820328": true,
+            "dia_2_56991820328": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "nataly": {
+        "nombre": "Nataly ",
+        "telefono": "56961212818",
+        "status": "Yellow",
+        "enviados": {
+            "dia_1_56961212818": true,
+            "dia_2_56961212818": true
+        },
+        "answ_enviados": [],
+        "activo": true
+    },
+    "naomi": {
+        "nombre": "Naomi ",
+        "telefono": "56987026396",
+        "status": "Red",
+        "enviados": {
+            "dia_1_56987026396": true,
+            "dia_2_56987026396": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": "Revisar"
+    },
+    "constanza": {
+        "nombre": "Constanza ",
+        "telefono": "56934821044",
+        "status": "Yellow",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "yunaa": {
+        "nombre": "Yunaa ",
+        "telefono": "56933223371",
+        "status": "Red",
+        "enviados": [],
+        "answ_enviados": [],
+        "activo": true
+    },
+    "tester": {
+        "nombre": "Tester",
+        "user": "tester",
+        "telefono": "56944655947",
+        "status": "Green",
+        "enviados": {
+            "dia_1258_56944655947": true
+        },
+        "answ_enviados": [],
+        "activo": true,
+        "nota": ""
+    }
+}

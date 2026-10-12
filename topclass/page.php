@@ -38,7 +38,8 @@ get_header();
             <?php do_action( 'bootscore_after_featured_image', 'page' ); ?>
 
 
-              <?php the_content(); ?>
+              <?php the_content(); 
+              ?>
  
             
             <?php do_action( 'bootscore_before_entry_footer', 'page' ); ?>

@@ -44,32 +44,7 @@ jQuery(function ($) {
         scrollTop: [$(clicked).offset().top - 240
     , 'linear']},300)
     })
-    /* $('#main-slider .item').each(function () {
-      const $slide = $(this);
     
-      // Clone the hidden global animation
-      const $smoke = $('#global-smoke #smoke').clone().removeAttr('id').show();
-      const $bubbles = $('#global-bubbles').clone().removeAttr('id').show();
-      
-      if($smoke){
-        // Optionally tweak class here
-        $smoke.addClass('slider-smoke-clone');
-        // Inject in the desired place
-        $slide.find('.caption.mobile').after($smoke);
-      }
-      
-      if($bubbles){
-        // Optionally tweak class here
-        $bubbles.removeClass('footer-bubbles');
-        $bubbles.addClass('banner-bubbles');
-        // Inject in the desired place
-        $slide.find('.caption.mobile').after($bubbles);
-      }    
-      
-    }); */
-
-  
-
     //Bubbles
     var bannerHeight = Math.round($('.owl-main-slider .item').height());
     var contentHeight = Math.round($('body').height()) - bannerHeight;   

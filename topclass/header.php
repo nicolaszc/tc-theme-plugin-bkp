@@ -20,15 +20,15 @@ defined('ABSPATH') || exit;
 
   <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GDY39XBR13"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $GLOBALS['gtag'] ?>"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-GDY39XBR13');
+      gtag('config', '<?php echo $GLOBALS['gtag'] ?>');
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYAd2QZcznCstR389YkVI3Kjwkiq5SfFQ&callback=Function.prototype"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYAd2QZcznCstR389YkVI3Kjwkiq5SfFQ"></script>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="height=device-height, width=device-width, minimum-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
@@ -53,10 +53,11 @@ defined('ABSPATH') || exit;
       <?php endif; ?> 
       <!-- /Top Bar Widget --> 
 
-      <?php if(is_front_page()):?>                                                                             
-       <?php get_template_part('template-parts/components/main-slider-random'); ?>
-       <?php get_template_part('template-parts/components/moods'); ?>
-      <?php endif; ?> 
+      <?php if(is_front_page()):                                                                            
+        get_template_part('template-parts/components/main-swiper');
+        get_template_part('template-parts/components/moods');
+      endif;
+      ?>
       <div class="overlay-header-top"></div>
         <!-- Header -->
       <header id="masthead" class="site-header">
@@ -98,8 +99,8 @@ defined('ABSPATH') || exit;
                     <!-- /WooCommerce -->
                     <!-- Gender selector -->
                     <div class="d-flex mb-3 mb-md-0 ms-1 ms-md-3 gender-toggler <?php echo ($GLOBALS['current_site_cat'] == 'Trans')? 'flex-row-reverse':'' ?>">                          
-                        <a href="<?php echo $GLOBALS['trans_link'] ?>" class="btn <?php echo $GLOBALS['trans_class'] ?> border-0  trans"><i class="fa-solid fa-transgender"></i></a>
-                        <a href="<?php echo $GLOBALS['venus_link'] ?>" class="btn <?php echo $GLOBALS['venus_class'] ?> border-0 venus"><i class="fa-solid fa-venus"></i></a>                 
+                        <a href="<?php echo $GLOBALS['trans_link'] ?>" class="btn <?php echo $GLOBALS['trans_class'] ?> border-0  trans" aria-label="Acompañantes transgenero"><i class="fa-solid fa-transgender"></i></a>
+                        <a href="<?php echo $GLOBALS['venus_link'] ?>" class="btn <?php echo $GLOBALS['venus_class'] ?> border-0 venus" aria-label="Acompañantes mujeres"><i class="fa-solid fa-venus"></i></a>                 
                     </div>
                     <!-- Gender selector -->
                 </div>
@@ -127,7 +128,9 @@ defined('ABSPATH') || exit;
           <!-- Navbar Toggler -->
           <?php if(!is_checkout()) { ?>
             <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0 mt-2 position-absolute end-0', 'nav-toggler'); ?> <?= apply_filters('bootscore/class/header/navbar/toggler/breakpoint', 'd-lg-none'); ?> ms-1 ms-md-2 nav-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
-                <i class="fa-solid fa-ellipsis-vertical"></i><span class="visually-hidden-focusable">Menu</span>
+            <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/svg/menu.svg"  alt="..." class="">
+                
+            <!-- <i class="fa-solid fa-ellipsis-vertical"></i> --><span class="visually-hidden-focusable">Menu</span>
             </button>
           <?php } ?> 
           <!-- /Navbar Toggler -->
@@ -162,19 +165,20 @@ defined('ABSPATH') || exit;
         
       </header>
       <!-- /Header -->
-
+      <!-- <a href="#masthead" class="mouse-container pe-auto mx-auto position-absolute w-100" style="z-index: 1021; bottom: -1.125rem"><span class="mouse bounce"> <i class="fa-solid fa-computer-mouse"></i><i class="fa-solid fa-angles-down"></i></span></a> -->
       <?php
         $classes = get_body_class();
         if(is_front_page() || in_array('page-template-page-modelo',$classes)):
       ?>
-        <div class="top-box is-open">         
-            <div class="row w-100">                
+        <!-- <div class="top-box is-open">  -->     
+          <div class="top-box">    
+            <div class="row">                
               <div class="col-md-12 ">   
 
                 <?php 
                 if(is_front_page()) :
                   get_template_part('template-parts/components/filters');
-                  get_template_part('template-parts/components/top-banner');                 
+                 // get_template_part('template-parts/components/top-banner');                 
                 endif;
 
                 if (in_array('page-template-page-modelo',$classes)) :             
@@ -183,7 +187,7 @@ defined('ABSPATH') || exit;
                 ?>         
                 
             </div> 
-            <?php if(is_front_page()) : ?><a href="javascript:void(0)" class="toggle-top-box d-none d-md-block"><i class="fa-solid fa-chevron-down"></i></a><?php endif; ?>       
+            <!-- <?php if(is_front_page()) : ?><a href="javascript:void(0)" class="toggle-top-box d-none d-md-block"><i class="fa-solid fa-chevron-down"></i></a><?php endif; ?>      -->  
           </div>                      
         </div>
       <?php

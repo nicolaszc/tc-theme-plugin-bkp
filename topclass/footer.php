@@ -12,7 +12,8 @@ defined('ABSPATH') || exit;
     <?php 
       
       $classes = get_body_class();
-      if (in_array('page-template-page-modelo',$classes)) :   
+      if (in_array('page-template-page-modelo',$classes)) : 
+        
         comments_template();  
       endif;
     ?>
@@ -29,22 +30,25 @@ defined('ABSPATH') || exit;
           <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/svg/silueta-desktop.svg" />
         </div>
          <!-- /Silueta -->
+      <h6 class="text-center text-light fw-medium">Partners</h6>
       <?php 
           get_template_part('template-parts/components/partners');
         }
       ?>
+      <?php get_template_part('template-parts/components/top-banner');   ?> 
       <!-- Footer Gradient -->  
       <div class="<?php if(!is_checkout()) { ?>footer-gradient<?php } ?>">
         <div class="container">  
           <div class="row mt-5 text-light justify-content-center">
 
-            <?php if(!is_checkout()) { ?>             
+            <?php if(!is_checkout()) { ?>    
+                   
               <!-- Newsletter -->
               <div class="col col-md-4 text-center pb-5 newsletter mb-5 mb-md-0">
                 <p class="mb-0">Mantente informado</p> 
                 <h5 class="mb-3">Suscríbete a nuestro newsletter</h5> 
                 <div class="input-group mx-auto mb-0 w-75 rounded-pill">
-                    <input type="text" class="border-white form-control rounded-start-pill search-input quicksearch" placeholder="email" aria-label="email">
+                    <input id="newsletter" name="newsletter" type="text" class="border-white form-control rounded-start-pill search-input quicksearch" placeholder="email" aria-label="email">
                     <button class="input-group-text btn btn-primary rounded-end-pill px-4" id="newsletter">
                       <i class="fa-solid fa-arrow-right"></i>
                     </button>
@@ -79,7 +83,8 @@ defined('ABSPATH') || exit;
         <div class="text-body-secondary pb-2 text-center footer-info">            
           <div class="container footer-info">
             <?php global $site_cat; ?>
-            <div class="small copyright text-light notranslate" translate="no"><span class="cr-symbol">&copy;</span>&nbsp;<?= date('Y'); ?> TopClass<?php echo $GLOBALS['current_site_cat'] ?> - <?php echo $_SERVER['HTTP_HOST'] ?><span class="d-none d-md-inline-block"> - TopclassClub 2005</span></div>
+            <div class="small copyright text-light notranslate" translate="no"><span class="cr-symbol">&copy;</span>&nbsp;<?= date('Y'); ?> TopclassClub&nbsp; - &nbsp;<?php echo $_SERVER['HTTP_HOST'] ?>
+          </div>
           </div>
         </div>
       </div>
@@ -94,10 +99,10 @@ defined('ABSPATH') || exit;
     <?php 
     $animation = get_animation('animation');
     if(!is_checkout()) {
-      if($animation == 'Smoke'){ 
+      //if($animation == 'Smoke'){ 
           get_template_part('template-parts/components/smoke'); 
 
-        } 
+        //} 
       }; 
     ?>
     <!-- /Smoke -->
@@ -130,7 +135,7 @@ defined('ABSPATH') || exit;
       <!-- x button -->
 
       <!-- WA button -->
-      <a href="https://api.whatsapp.com/send?phone=56977253992&text=Hola%20TopclassClub%20quiero%20saber..." class="d-flex justify-content-center align-items-center shadow wa-button bottom-actions-btn sub-menu-btn" target="_blank">
+      <a href="https://api.whatsapp.com/send?phone=12363044518&text=Hola%20TopclassClub%20quiero%20saber..." class="d-flex justify-content-center align-items-center shadow wa-button bottom-actions-btn sub-menu-btn" target="_blank">
         <i class="fa-brands fa-whatsapp"></i>
       </a>
       <!-- WA button -->
@@ -143,7 +148,7 @@ defined('ABSPATH') || exit;
       <!-- Open button -->
       <span href="javascript:void(0)" class="d-flex justify-content-center align-items-center shadow open-button bottom-actions-btn shakeY" >
         <i class="fa-solid fa-plus"></i>
-    </span>
+      </span>
       <!-- /Open button -->
     </div>
     <?php wp_footer(); ?>
@@ -154,12 +159,12 @@ defined('ABSPATH') || exit;
     </div> 
     <!-- Bubbles -->
     <?php if(!is_checkout()) {
-        if($animation == 'Bubbles'){
+        //if($animation == 'Bubbles'){
           ?>
           <div id="global-bubbles" class="footer-bubbles bubbles-wrapper" >
             <?php get_template_part('template-parts/components/bubbles'); ?>
           </div>
-    <?php } 
+    <?php //} 
         }; 
     ?>
     <!-- /Bubbles -->

@@ -99,7 +99,7 @@ do_action('woocommerce_before_mini_cart'); ?>
               
             </div>
 
-            <div class="remove col-3 text-end">
+            <div class="remove col-3 text-end ps-0">
               
               <div class="bootscore-custom-render-total h6 mb-4">
                 <?php echo WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ); // PHPCS: XSS ok.
