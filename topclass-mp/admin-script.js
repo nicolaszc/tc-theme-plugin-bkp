@@ -1,36 +1,4 @@
 
-/* document.addEventListener('DOMContentLoaded', function () {
-    const downloadableCheckbox = document.querySelector('#_downloadable');
-
-    if (downloadableCheckbox) {
-        // Función para inyectar o remover el parámetro de la barra del navegador
-        const toggleUrlParameter = function() {
-            // Creamos un objeto URL basado en la dirección actual del navegador
-            let currentUrl = new URL(window.location.href);
-
-            if (downloadableCheckbox.checked) {
-                // Añadimos el parámetro de forma visible arriba
-                currentUrl.searchParams.set('is_woo_download', '1');
-                console.log('TopClass: [URL Browser] Parámetro inyectado en la barra de direcciones.');
-            } else {
-                // Lo removemos si se desmarca
-                currentUrl.searchParams.delete('is_woo_download');
-                console.log('TopClass: [URL Browser] Parámetro removido de la barra de direcciones.');
-            }
-
-            // Cambiamos la URL de la barra de direcciones en caliente SIN recargar la página
-            window.history.replaceState({}, '', currentUrl.toString());
-        };
-
-        // 1. Escuchamos cuando el usuario cambia el estado del checkbox manualmente
-        downloadableCheckbox.addEventListener('change', toggleUrlParameter);
-
-        // 2. Lo ejecutamos al cargar por si el producto ya venía guardado como descargable
-        toggleUrlParameter();
-    }
-}); */
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // 1. Verificamos que la API de medios de WordPress esté disponible
     if (typeof window.wp !== 'undefined' && window.wp.media) {

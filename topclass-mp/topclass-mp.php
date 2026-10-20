@@ -19,12 +19,6 @@ if (!defined('ABSPATH')) {
 // Add vendors fieds to vendors settings
 // 1. Ensure acf_form_head runs early
 add_action('admin_head', 'acf_form_head');
-// Vendor styles
-/* function vendor_admin_styles(){
-    wp_enqueue_style( 'admin-style', plugins_url( '/vendor.css' , __FILE__ ));
-
-}
-add_action('admin_head', 'vendor_admin_styles'); */
 
 function vendor_admin_script(){
     wp_enqueue_style( 'admin-style', plugins_url( '/vendor.css' , __FILE__ ));
