@@ -3,30 +3,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Permitir autenticación por cookie en nuestra ruta REST específica sin requerir Nonce
-add_filter('rest_authentication_errors', function ($result) {
-    if (!empty($result)) {
-        return $result;
-    }
-    $uri = $_SERVER['REQUEST_URI'] ?? '';
-    if (strpos($uri, '/wp-json/topclass/v1/stream/') !== false) {
-        if (is_user_logged_in()) {
-            return true;
-        }
-    }
-    return $result;
-});
 
-// Registrar la ruta REST limpia (sin extensiones en la URL)
-add_action('rest_api_init', function () {
-    register_rest_route('topclass/v1', '/stream/(?P<product_id>\d+)/(?P<filetype>[a-zA-Z0-9_-]+)', array(
-        'methods' => 'GET',
-        'callback' => 'topclass_virtual_manifest_endpoint',
-        'permission_callback' => function () {
-            return is_user_logged_in();
-        }
-    ));
-});
 
 function topclass_virtual_manifest_endpoint($request) {
     $product_id = intval($request['product_id']);
@@ -53,28 +30,39 @@ function topclass_virtual_manifest_endpoint($request) {
         exit;
     }
 
-    $path_info = pathinfo($s3_path);
-    $filename  = $path_info['filename'];           
-    $dir_path  = trim($path_info['dirname'], '/'); 
-
+    // -------------------------------------------------------------
+    // AQUÍ ESTÁ EL CAMBIO CLAVE: SETEAMOS LAS SIGNED COOKIES DE CLOUDFRONT
+    // -------------------------------------------------------------
     $config = include __DIR__ . '/config.php';
     $cloudfront_domain = rtrim($config['cloudfront_domain'], '/');
+    
+    // Definimos el recurso wildcard que cubrirá toda la carpeta (ej: https://tudominio.com/curso/*)
+    $path_info = pathinfo($s3_path);
+    $dir_path  = trim($path_info['dirname'], '/');
+    $wildcard_resource = $cloudfront_domain . '/' . ($dir_path ? $dir_path . '/' : '') . '*';
+
+    // Duración amplia para que no exprese durante la reproducción (ej: 4 horas)
+    $expires = time() + 14400; 
+
+    // Llamamos a tu nueva función de helper para despachar las cookies al navegador
+    topclass_set_cloudfront_signed_cookies($wildcard_resource, $expires);
+
+    // -------------------------------------------------------------
+    // PREPARACIÓN DE DATOS PARA LOS MANIFIESTOS
+    $filename  = $path_info['filename'];           
     $base_s3_hls_folder = $cloudfront_domain . '/' . $dir_path . '/' . $filename . '_hls/' . $filename;
 
-    $resource_url = $cloudfront_domain . '/' . ltrim($s3_path, '/');
-    $attachment_id = attachment_url_to_postid($resource_url);
+    $post_meta = tc_get_product_meta($product_id);
     $original_duration = 0;
-    if ($attachment_id) {
-        $meta = wp_get_attachment_metadata($attachment_id);
-        $original_duration = isset($meta['length']) ? floatval($meta['length']) : 0;
-        $original_resolution = isset($meta['resolution']) ? $meta['resolution'] : '';
+    if ($post_meta) {
+        $original_duration = $post_meta['duration'];
+        $resolution = $post_meta['resolution'];
     }
     if ($original_duration <= 0) {
         $original_duration = 60.0; 
     }
 
-    $content_duration = $original_duration + 10;
-    $expires = time() + 60;
+    $content_duration = $original_duration + $config['intros_duration'];
 
     // Cabeceras estrictas de HLS en texto plano puro
     header('Content-Type: application/vnd.apple.mpegurl; charset=UTF-8');
@@ -90,9 +78,9 @@ function topclass_virtual_manifest_endpoint($request) {
 
         $lines = array(
             "#EXTM3U",
-            "#EXT-X-VERSION:6",
+            "#EXT-X-VERSION:" . $config['version'],
             "#EXT-X-INDEPENDENT-SEGMENTS",
-            '#EXT-X-STREAM-INF:BANDWIDTH=834408,AVERAGE-BANDWIDTH=535245,VIDEO-RANGE=SDR,CODECS="avc1.64001f",RESOLUTION=720x1280,FRAME-RATE=30.000,AUDIO="main"',
+            '#EXT-X-STREAM-INF:BANDWIDTH=' . $config['bandwidth'] . ',AVERAGE-BANDWIDTH=' . $config['average_bandwidth'] . ',VIDEO-RANGE=SDR,CODECS="' . $config['codec'] . '",RESOLUTION=' . $resolution . ',FRAME-RATE=30.000,AUDIO="main"',
             $video_endpoint,
             '#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="main",LANGUAGE="eng",NAME="main",DEFAULT=YES,AUTOSELECT=YES,LANGUAGE="es",CHANNELS="2",URI="' . $audio_endpoint . '"'
         );
@@ -101,16 +89,7 @@ function topclass_virtual_manifest_endpoint($request) {
         exit;
     }
 
-    // Generar firma wildcard
-    $remote_wildcard_url = $base_s3_hls_folder . '*';
-    $signed_wildcard_url = topclass_generate_cloudfront_signed_url($remote_wildcard_url, $expires, true);
-    $query_params = '';
-    if ($signed_wildcard_url) {
-        $parsed_wildcard = parse_url($signed_wildcard_url);
-        $query_params = isset($parsed_wildcard['query']) ? $parsed_wildcard['query'] : '';
-    }
-
-    $target_duration = 6;
+    $target_duration = $config['target_duration'];
     $total_chunks = (int) ceil($content_duration / $target_duration);
     if ($total_chunks < 1) $total_chunks = 1;
 
@@ -130,16 +109,16 @@ function topclass_virtual_manifest_endpoint($request) {
     }
 
     // -------------------------------------------------------------
-    // LOOP MANIFIESTO DE VIDEO & AUDIO
+    // LOOP MANIFIESTO DE VIDEO & AUDIO (¡URLs 100% limpias de firmas!)
     // -------------------------------------------------------------
     if ($filetype === 'video' || $filetype === 'audio') {
         $lines = array(
             "#EXTM3U",
-            "#EXT-X-VERSION:6",
+            "#EXT-X-VERSION:" . $config['version'],
             "#EXT-X-TARGETDURATION:" . $target_duration,
-            "#EXT-X-MEDIA-SEQUENCE:1",
+            "#EXT-X-MEDIA-SEQUENCE:" . $config['sequence'],
             "#EXT-X-PLAYLIST-TYPE:VOD",
-            '#EXT-X-MAP:URI="' . $base_s3_hls_folder . $file_nameModifier . 'init' .$file_extension . '?' . $query_params . '"',
+            '#EXT-X-MAP:URI="' . $base_s3_hls_folder . $file_nameModifier . 'init' . $file_extension . '"',
         );
 
         for ($i = 0; $i < $total_chunks; $i++) {
@@ -147,8 +126,10 @@ function topclass_virtual_manifest_endpoint($request) {
             if ($duration <= 0) $duration = $target_duration;
             $segment_num = sprintf('%09d', $i + 1);
             $chunk_name = sprintf($base_s3_hls_folder . $file_nameModifier . '_' . $segment_num . $file_extension, $i);
+            
+            // ¡Se acabaron los query params de firma en los chunks!
             $lines[] = "#EXTINF:" . $duration . ',';
-            $lines[] =  $chunk_name . '?' . $query_params;
+            $lines[] = $chunk_name;
         }
         $lines[] = "#EXT-X-ENDLIST";
 

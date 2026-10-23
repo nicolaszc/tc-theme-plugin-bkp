@@ -614,9 +614,42 @@ function topclass_modelos_endpoint() {
 
     return $result;
 }
+// Disable or clear default breadcrumb output
 
+if ( ! function_exists( 'the_breadcrumb' ) ) {
+    function the_breadcrumb() {
+        // No hace nada, por lo que no imprime nada en el HTML
+        return;
+    }
+}
 
+// Left column
+remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
+remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
+remove_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_thumbnails', 20 );
+ 
+// Right column
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
 
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+
+// Tabs, upsells and related products
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
+remove_action( 'woocommerce_product_additional_information', 'wc_display_product_attributes', 10 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+ 
+// Reviews
+remove_action( 'woocommerce_review_before', 'woocommerce_review_display_gravatar', 10 );
+remove_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_rating', 10 );
+remove_action( 'woocommerce_review_meta', 'woocommerce_review_display_meta', 10 );
+remove_action( 'woocommerce_review_comment_text', 'woocommerce_review_display_comment_text', 10 );
+
+apply_filters('bootscore/breadcrumb/handler', true);
 
 
 
