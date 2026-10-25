@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tt ttp:cellResolution="60 20" xml:lang="es" xmlns="http://www.w3.org/ns/ttml"  
+xmlns:ttp="http://www.w3.org/ns/ttml#parameter" xmlns:tts="http://www.w3.org/ns/ttml#styling">
+  <head>  
+    <styling xmlns:tts="http://www.w3.org/ns/ttml#styling">
+      <style xml:id="typo_s" 
+              tts:color="red"
+              tts:textAlign="center"
+              tts:fontFamily="monospaceSansSerif"
+              tts:fontSize="24px"/>
+    </styling>  
+    <layout xmlns:tts="http://www.w3.org/ns/ttml#styling">
+      <region xml:id="caption_r"               
+              tts:origin="10% 85%" 
+              tts:extent="80% 10%" 
+              tts:displayAlign="after"/>
+           
+    </layout>
+  </head>
+  <body>
+    <!-- El div aplica la tipografia en cascada -->
+    <div region="caption_r">
+      <!-- El parrafo se monta en la caja espacial de la region -->
+      <p begin="00:00:01.000" end="00:00:04.000"><span style="typo_s">##CREATOR_NAME##</span></p>
+    </div>
+  </body>
+</tt>
