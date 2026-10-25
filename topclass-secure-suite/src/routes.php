@@ -50,7 +50,7 @@ function topclass_virtual_manifest_endpoint($request) {
     // -------------------------------------------------------------
     // PREPARACIÓN DE DATOS PARA LOS MANIFIESTOS
     $filename  = $path_info['filename'];           
-    $base_s3_hls_folder = $cloudfront_domain . '/' . $dir_path . '/' . $filename . '_hls/' . $filename;
+    $base_s3_hls_folder = $cloudfront_domain . '/' . $dir_path . '/hls/' . $filename;
 
     $post_meta = tc_get_product_meta($product_id);
     $original_duration = 0;
@@ -75,14 +75,16 @@ function topclass_virtual_manifest_endpoint($request) {
     if ($filetype === 'master') {
         $video_endpoint = rest_url('topclass/v1/stream/' . $product_id . '/video');
         $audio_endpoint = rest_url('topclass/v1/stream/' . $product_id . '/audio');
+        $caption_endpoint = rest_url('topclass/v1/stream/' . $product_id . '/caption');
 
         $lines = array(
             "#EXTM3U",
             "#EXT-X-VERSION:" . $config['version'],
             "#EXT-X-INDEPENDENT-SEGMENTS",
-            '#EXT-X-STREAM-INF:BANDWIDTH=' . $config['bandwidth'] . ',AVERAGE-BANDWIDTH=' . $config['average_bandwidth'] . ',VIDEO-RANGE=SDR,CODECS="' . $config['codec'] . '",RESOLUTION=' . $resolution . ',FRAME-RATE=30.000,AUDIO="main"',
+            '#EXT-X-STREAM-INF:BANDWIDTH=' . $config['bandwidth'] . ',AVERAGE-BANDWIDTH=' . $config['average_bandwidth'] . ',VIDEO-RANGE=SDR,CODECS="' . $config['codec'] . '",RESOLUTION=' . $resolution . ',FRAME-RATE=30.000,AUDIO="main",SUBTITLES="subs"',
             $video_endpoint,
-            '#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="main",LANGUAGE="eng",NAME="main",DEFAULT=YES,AUTOSELECT=YES,LANGUAGE="es",CHANNELS="2",URI="' . $audio_endpoint . '"'
+            '#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="main",NAME="main",DEFAULT=YES,AUTOSELECT=YES,LANGUAGE="es",CHANNELS="2",URI="' . $audio_endpoint . '"',
+            '#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="subs",DEFAULT=YES,AUTOSELECT=YES,LANGUAGE="es",URI="' . $caption_endpoint . '"'
         );
 
         echo implode("\n", $lines);
@@ -132,6 +134,33 @@ function topclass_virtual_manifest_endpoint($request) {
             $lines[] = $chunk_name;
         }
         $lines[] = "#EXT-X-ENDLIST";
+
+        echo implode("\n", $lines);
+        exit;
+    }
+
+    // -------------------------------------------------------------
+    // CASO 3: MANIFIESTO DE AUDIO
+    // -------------------------------------------------------------
+    if ($filetype === 'caption') {
+        $file_nameModifier = '-text';
+        $file_extension = '.cmft';
+    }
+
+    // -------------------------------------------------------------
+    // LOOP MANIFIESTO DE VIDEO & AUDIO (¡URLs 100% limpias de firmas!)
+    // -------------------------------------------------------------
+    if ($filetype === 'caption') {
+        $lines = array(
+            "#EXTM3U",
+            "#EXT-X-VERSION:" . $config['version'],
+            "#EXT-X-TARGETDURATION:" . $content_duration,
+            "#EXT-X-MEDIA-SEQUENCE:0",
+            "#EXT-X-PLAYLIST-TYPE:VOD",
+            "#EXTINF:" . $content_duration . ',',
+            $base_s3_hls_folder . $file_nameModifier . '_' . sprintf('%09d', 0) . $file_extension ,
+            "#EXT-X-ENDLIST"
+        );
 
         echo implode("\n", $lines);
         exit;
