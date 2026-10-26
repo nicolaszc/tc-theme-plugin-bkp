@@ -93,8 +93,66 @@ add_shortcode('topclass_secure_content', function($atts) {
             $player_id = 'topclass-player-' . esc_attr($product_id);
             ob_start();
             ?>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Birthstone&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+                .vjs-text-track-display{
+                    bottom: 0;
+                }
+
+                .vjs-text-track-display > div{
+                    margin: 0!important;
+                }
+
+                .vjs-text-track-cue{
+                    top: 45% !important;
+                    height: unset !important;
+                    bottom: 30px !important;
+                    padding: 1rem !important;
+                }
+
+                .vjs-text-track-cue > div{
+                    background: transparent !important;
+                    text-shadow: none !important;                   
+                }
+
+                .vjs-text-track-cue span.intro-text, 
+                .vjs-text-track-cue span.legal-disclaimer{
+                    opacity: 0;
+                    transition: opacity 0.5s;
+                    font-family: 'Inter';
+                    font-size: 14px;
+                    font-weight: 300;
+                }
+
+                .vjs-text-track-cue span.vendor-name{
+                    opacity: 0;
+                    transition: opacity 0.5s;
+                    transition-delay: 0.25s;
+                    font-family: 'Birthstone';
+                    font-size: 48px;                   
+                }
+                
+                .vjs-text-track-cue span.legal.disclaimer{
+
+                }
+
+               
+                .vjs-text-track-cue span.intro-text,
+                 .vjs-text-track-cue span.vendor-name,
+                  .vjs-text-track-cue span.legal-disclaimer {
+                    /* Estado final: Totalmente visible y en su posición original */
+                    opacity: 1;
+                    transition: opacity 0.5s;
+                }
+
+                .vjs-control-bar{
+                    height: 30px;
+                }
+               
+            </style>
             <div class="topclass-secure-video-wrapper <?php echo $video_wrapper_class; ?>" style="margin: 0;">
-                <video-js id="<?php echo $player_id; ?>" controls preload="metadata">
+                <video-js id="<?php echo $player_id; ?>" controls preload="auto">
                     <p class="vjs-no-js">
                         Para ver este video, por favor habilita JavaScript y considera actualizar a un navegador web que <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video HTML5</a>.
                     </p>
@@ -115,8 +173,24 @@ add_shortcode('topclass_secure_content', function($atts) {
                                 
                             }
                         },
-                        fluid: true
-                        
+                        fluid: true,
+                        preloadTextTracks: true,
+                        children: [
+                            'BigPlayButton',
+                            'ControlBar',
+                            'TextTrackDisplay'
+                        ],
+                        ControlBar: {
+                            children: [
+                                'PlayToggle',
+                                'DurationDisplay',
+                                'ProgressControl',
+                                'RemainingTimeDisplay',
+                                'VolumePanel',
+                                'FullscreenToggle'
+                            ]
+                        },
+                                             
                     });
 
                     player.src({ src: finalVideoUrl, type: 'application/x-mpegURL' });

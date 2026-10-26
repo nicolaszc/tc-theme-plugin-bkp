@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 
 function topclass_virtual_manifest_endpoint($request) {
     $product_id = intval($request['product_id']);
-    $filetype   = sanitize_text_field($request['filetype']); // 'master', 'video' o 'audio'
+    $filetype   = sanitize_text_field($request['filetype']); // 'master', 'video', 'audio', 'caption', 'vtt'
     
     if (!is_user_logged_in()) {
         status_header(401);
@@ -142,15 +142,17 @@ function topclass_virtual_manifest_endpoint($request) {
     // -------------------------------------------------------------
     // CASO 3: MANIFIESTO DE AUDIO
     // -------------------------------------------------------------
-    if ($filetype === 'caption') {
+   /*  if ($filetype === 'caption') {
         $file_nameModifier = '-text';
         $file_extension = '.cmft';
-    }
+    } */
 
     // -------------------------------------------------------------
-    // LOOP MANIFIESTO DE VIDEO & AUDIO (¡URLs 100% limpias de firmas!)
+    // LOOP MANIFIESTO DE CAPTION
     // -------------------------------------------------------------
     if ($filetype === 'caption') {
+        $vtt_file_endpoint = rest_url('topclass/v1/stream/' . $product_id . '/vtt');
+
         $lines = array(
             "#EXTM3U",
             "#EXT-X-VERSION:" . $config['version'],
@@ -158,12 +160,50 @@ function topclass_virtual_manifest_endpoint($request) {
             "#EXT-X-MEDIA-SEQUENCE:0",
             "#EXT-X-PLAYLIST-TYPE:VOD",
             "#EXTINF:" . $content_duration . ',',
-            $base_s3_hls_folder . $file_nameModifier . '_' . sprintf('%09d', 0) . $file_extension ,
+            $vtt_file_endpoint ,
             "#EXT-X-ENDLIST"
         );
 
         echo implode("\n", $lines);
         exit;
+    }
+
+    // -------------------------------------------------------------
+    // LOOP ARCHIVO VTT
+    // -------------------------------------------------------------
+
+    header('Content-Type: text/vtt; charset=UTF-8');
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    status_header(200);
+
+    if ($filetype === 'vtt') {
+        $tIn_intro  = gmdate('H:i:s', 0) . '.000';
+        $tOut_intro = gmdate('H:i:s', 6) . '.000';
+        $tIn_outro  = gmdate("H:i:s", $content_duration - 6) . '.000';
+        $tOut_outro = gmdate("H:i:s", $content_duration) . '.000';
+
+        $disclaimer = "© Los derechos de propiedad de este contenido son exclusivamente de 
+    quien lo publicó, no cabiendole a TopclassClub responsabilidad 
+    ni usufructo de ningún tipo sobre este.";
+
+        $lines = array(
+            "WEBVTT #Elemental Media Engine(TM) 2.18.0.0",
+            "",
+            "1",
+            $tIn_intro . " --> " . $tOut_intro,
+            "<c.intro-text>presenta una producción de</c>",
+            '<c.vendor-name><i>' . $filename . '</i></c>',
+            "",
+            "2",
+            $tOut_intro . " --> " . $tIn_outro,
+            "",
+            "3",
+            $tIn_outro . " --> " . $tOut_outro,
+            '<c.legal-disclaimer>' . $disclaimer . '</c>',
+        );
+
+        echo implode("\n", $lines);
+        exit();
     }
 
     status_header(404);
