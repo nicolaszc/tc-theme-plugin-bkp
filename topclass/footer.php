@@ -12,8 +12,7 @@ defined('ABSPATH') || exit;
     <?php 
       
       $classes = get_body_class();
-      if (in_array('page-template-page-modelo',$classes)) : 
-        
+      if (in_array('page-template-page-modelo',$classes)) :       
         comments_template();  
       endif;
     ?>
@@ -35,7 +34,10 @@ defined('ABSPATH') || exit;
           get_template_part('template-parts/components/partners');
         }
       ?>
-      <?php get_template_part('template-parts/components/top-banner');   ?> 
+      <?php if(is_front_page()):  
+         get_template_part('template-parts/components/top-banner');   
+      endif;  
+      ?> 
       <!-- Footer Gradient -->  
       <div class="<?php if(!is_checkout()) { ?>footer-gradient<?php } ?>">
         <div class="container">  

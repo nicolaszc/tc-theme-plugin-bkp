@@ -208,7 +208,7 @@
     
     /* Header Styles */   
 
-      .top-box{
+      .top-box, .profile-header-wrappper{
         <?php if(is_front_page()) : ?>height:<?php echo $header_gradient_height ?>;<?php endif; ?>
         background: -moz-linear-gradient(180deg, var(--header-primary-gradient-color) 90px, var(--header-secondary-gradient-color) 100%)!important; 
         background: -webkit-linear-gradient(180deg, var(--header-primary-gradient-color) 90px, var(--header-secondary-gradient-color) 100%)!important; 

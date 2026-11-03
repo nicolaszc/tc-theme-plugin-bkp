@@ -13,8 +13,8 @@
   max-width: 100vw !important;
 }
 </style>
-<div class="moods d-flex justify-content-center align-items-center position-absolute w-100 show" >
-  <div id="<?php echo (is_mobile_device()) ?  'moods-swiper' :  'container-moods' ; ?>" class="moods-slider <?php echo (is_mobile_device()) ?  'swiper-moods' :  'd-flex justify-content-center align-items-center' ; ?>"> 
+<div class="moods d-flex justify-content-center align-items-center position-relative w-100 show" >
+  <div id="<?php echo (is_mobile_device()) ?  'moods-swiper' :  'container-moods' ; ?>" class="moods-slider <?php echo (is_mobile_device()) ?  'swiper-moods' :  'container d-flex justify-content-center align-items-center' ; ?>"> 
       <?php 
         echo (is_mobile_device()) ?  '<div class="swiper-wrapper">' :  '';
         $queried_users_slices = $GLOBALS['queried_users_slices']; 
@@ -27,7 +27,7 @@
 
           $users_moods = array_values($users_moods);
 
-          if (count($users_moods) > 5) {
+          if (count($users_moods) > 9) {
               unset($users_moods[array_rand($users_moods)]);
           }
           foreach ($users_moods as $user_moods) :

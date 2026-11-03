@@ -84,7 +84,9 @@ function tc_get_product_meta($product_id) {
     $post = get_post($product_id);
     $title = get_the_title($product_id);
     $author_id = $post->post_author;
-    $author = get_the_author_meta('user_firstname' , $post->post_author) . ' ' . get_the_author_meta('user_lastname' , $post->post_author);
+    $author = ucwords(str_replace("-", " ", get_the_author_meta('user_nicename' , $post->post_author)));
+    $post_terms = get_the_terms($product_id, 'wcpv_product_vendors');   
+    $vendor =  $post_terms[0]->name;
     $date = get_the_date('j-n-Y',$product_id);
     $s3_path = topclass_get_product_s3_path($product_id);
     $resource_url = $cloudfront_domain . '/' . ltrim($s3_path, '/');
@@ -94,9 +96,9 @@ function tc_get_product_meta($product_id) {
     $width  = isset($meta['width']) ? intval($meta['width']) : 1280;
     $height = isset($meta['height']) ? intval($meta['height']) : 720;
     $resolution = $width . 'x' . $height;
-    $orientation = ($width > $height)? 'landscape' : 'portrait';
+    $aspect = ($width > $height)? 'landscape' : 'portrait';
     
-    $meta_data = ['title'=>$title, 'author'=>$author, 'date'=>$date, 'width'=>$width, 'height'=>$height, 'duration'=>$duration, 'orientation'=>$orientation, 'resolution'=>$resolution];
+    $meta_data = ['title'=>$title, 'author'=>$author, 'vendor'=>$vendor, 'date'=>$date, 'width'=>$width, 'height'=>$height, 'duration'=>$duration, 'aspect'=>$aspect, 'resolution'=>$resolution];
     return $meta_data;
 }
 

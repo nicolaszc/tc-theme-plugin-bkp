@@ -60,15 +60,18 @@ function get_logos($logo){
     margin-bottom: .75rem;
   }
 </style>
+
 <div id="preloader" class="<?= apply_filters('bootscore/class/preloader/bg', 'tc-preloader bg-body align-items-center justify-content-center position-fixed top-0 end-0 bottom-0 start-0 zi-1070'); ?>">
-<span>TopClass</span>  
-<div id="status" class="<?= apply_filters('bootscore/class/preloader/spinner', 'spinner-border'); ?>" role="status">
-    <?php /* do_action( 'bootscore_preloader_status' ); */ ?>
-    
+  
+  <span>TopClass</span>
+
+  <div id="status" class="<?= apply_filters('bootscore/class/preloader/spinner', 'spinner-border'); ?>" role="status"> 
     <img src="<?php echo get_logos('iso_loading'); ?>" alt="Brillo Logo" class="d-td-none opacity-50 w-100">
   </div>
-    <span><?php echo $GLOBALS['current_site_cat'] ?></span><sup>©</sup>
+
+  <span><?php echo $GLOBALS['current_site_cat'] ?></span><sup>©</sup>
   
   <div class="gradient-preloader-top"></div>
   <div class="gradient-preloader-bottom"></div>
+  
 </div>

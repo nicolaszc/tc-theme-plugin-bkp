@@ -57,6 +57,8 @@ function topclass_virtual_manifest_endpoint($request) {
     if ($post_meta) {
         $original_duration = $post_meta['duration'];
         $resolution = $post_meta['resolution'];
+        $is_aspect_portrait_class = ($post_meta['aspect'] == 'portrait') ? '' : '.px-md-5';
+
     }
     if ($original_duration <= 0) {
         $original_duration = 60.0; 
@@ -177,14 +179,12 @@ function topclass_virtual_manifest_endpoint($request) {
     status_header(200);
 
     if ($filetype === 'vtt') {
-        $tIn_intro  = gmdate('H:i:s', 0) . '.000';
-        $tOut_intro = gmdate('H:i:s', 6) . '.000';
-        $tIn_outro  = gmdate("H:i:s", $content_duration - 6) . '.000';
-        $tOut_outro = gmdate("H:i:s", $content_duration) . '.000';
+        $tIn_intro  = gmdate('H:i:s', 1) . '.500';
+        $tOut_intro = gmdate('H:i:s', 6) . '.500';
+        $tIn_outro  = gmdate("H:i:s", $content_duration - 7) . '.500';
+        $tOut_outro = gmdate("H:i:s", $content_duration - 2) . '.500';
 
-        $disclaimer = "© Los derechos de propiedad de este contenido son exclusivamente de 
-    quien lo publicó, no cabiendole a TopclassClub responsabilidad 
-    ni usufructo de ningún tipo sobre este.";
+        $disclaimer = "© Los derechos de propiedad de este contenido son exclusivamente de quien lo publicó, no cabiendole a TopclassClub responsabilidad ni usufructo de ningún tipo sobre este.";
 
         $lines = array(
             "WEBVTT #Elemental Media Engine(TM) 2.18.0.0",
@@ -192,14 +192,14 @@ function topclass_virtual_manifest_endpoint($request) {
             "1",
             $tIn_intro . " --> " . $tOut_intro,
             "<c.intro-text>presenta una producción de</c>",
-            '<c.vendor-name><i>' . $filename . '</i></c>',
+            '<c.vendor-name>' . tc_get_product_meta($product_id)['vendor'] . '</c>',
             "",
             "2",
             $tOut_intro . " --> " . $tIn_outro,
             "",
             "3",
             $tIn_outro . " --> " . $tOut_outro,
-            '<c.legal-disclaimer>' . $disclaimer . '</c>',
+            '<c.legal-disclaimer.d-flex.w-100.h-100.align-items-center' . $is_aspect_portrait_class . '>' . $disclaimer . '</c>',
         );
 
         echo implode("\n", $lines);

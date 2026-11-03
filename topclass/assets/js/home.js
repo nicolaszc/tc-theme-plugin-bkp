@@ -116,8 +116,8 @@ jQuery(function ($) {
         },
         },
         observer: true,
-  observeParents: true,
-  resizeObserver: true,
+        observeParents: true,
+        resizeObserver: true,
     });
 
     //===============
@@ -140,8 +140,8 @@ jQuery(function ($) {
         forceToAxis: true,
         }, 
         observer: true,
-  observeParents: true,
-  resizeObserver: true,    
+        observeParents: true,
+        resizeObserver: true,    
     });
 
     //================
@@ -159,56 +159,68 @@ jQuery(function ($) {
 
     });
 
-    $('.contact-actions').on('click', '.share-btn', function() {
+    $('.card').on('click', '.share-btn', function() {
 
         // Encuentra la caja de los tres iconos dentro de la misma card
-        var sharebox = $(this).closest('.contact-actions').find('.share-rrss');
-        var iconOpen = $(this).find('.iconOpen');
-        var iconClose = $(this).find('.iconClose');
+        var sharebox = $(this).closest('.share-container').find('.share-rrss');
+        var card_target = $(this).closest('.card-wrapper');
+       /*  var iconOpen = $(this).find('.iconOpen');
+        var iconClose = $(this).find('.iconClose'); */
         
         // Verifica si la caja de iconos está oculta o visible
         if (sharebox.hasClass('invisible')) {
             $('.share-rrss').addClass('invisible'); // Oculta todos los iconos
-            $('.share-btn .iconOpen').removeClass('d-none');    // Muestra el primer icono de todos
-            $('.share-btn .iconClose').addClass('d-none');       // Oculta el segundo icono de todos
+            $('.card-wrapper').removeClass('z-1').addClass('z-0');
+            //$('.share-btn .iconOpen').removeClass('d-none');    // Muestra el primer icono de todos
+            //$('.share-btn .iconClose').addClass('d-none');       // Oculta el segundo icono de todos
             
             sharebox.removeClass('invisible'); // Muestra los iconos
-            iconOpen.addClass('d-none');           // Oculta el primer icono
-            iconClose.removeClass('d-none');        // Muestra el segundo icono
+            card_target.removeClass('z-0').addClass('z-1');
+            //iconOpen.addClass('d-none');           // Oculta el primer icono
+            //iconClose.removeClass('d-none');        // Muestra el segundo icono
         } else {
             
             sharebox.addClass('invisible'); // Oculta los iconos
-            iconOpen.removeClass('d-none');    // Muestra el primer icono
-            iconClose.addClass('d-none');       // Oculta el segundo icono
+            card_target.removeClass('z-1').addClass('z-0');
+            //iconOpen.removeClass('d-none');    // Muestra el primer icono
+            //iconClose.addClass('d-none');       // Oculta el segundo icono
         }
 
     });
 
-    if (scroll > 90){
+    var offset = $('header').offset().top;
+    var bannerHeight = ($('.swiper-wrapper').height());
+    var moodsHeight = ($('.moods').height());
+    var homeContentHeight = ($('html').height()) - bannerHeight;   
+   
+    if (scroll > (offset - 30)){
         $('.moods').removeClass('show');
     }else{
         $('.moods').addClass('show');
     }
     
-    var offset = $('header').offset().top;
-
     // On Scroll
     $(window).on('scroll', function () { 
-
         var scroll = $(window).scrollTop();
+        
+        console.log('Offset: ' + offset + ', Scroll: ' + scroll);
 
-        if (scroll > 255) {
+        if (scroll > (offset - 30)) {
             $('.bottom-actions-menu, .contact-toggler, .account-toggler, .cart-toggler, .brand').addClass('show');
+            $('.moods').removeClass('show');
+            $('.home .footer-bubbles').css('height', Math.round(homeContentHeight - moodsHeight));
+
         }else{
             $('.bottom-actions-menu, .contact-toggler, .account-toggler, .cart-toggler, .brand').removeClass('show');
+            $('.moods').addClass('show');
+            $('.home .footer-bubbles').css('height', Math.round(homeContentHeight + moodsHeight));
+
         }
 
-        if (scroll > 90){
+        if (scroll > offset/2){
             $('#caption-placeholder .text-captions').removeClass('show-captions');
-            $('.moods').removeClass('show');
         }else{
             $('#caption-placeholder .text-captions').addClass('show-captions');
-            $('.moods').addClass('show');
         }
 
         if (window.innerWidth < 768 && ($('body.page-template-home').length)) {
@@ -218,17 +230,7 @@ jQuery(function ($) {
                 $('.bottom-actions-menu').addClass('visible');
             }
         
-            if ((Math.round(scroll) >= Math.round(offset) - 160) && (Math.round(scroll) <= Math.round(offset) + 630)){
-                //.log("card zone");
-  
-                //$('.top-box').removeClass('is-open');  
-                 
-            }else{
-                //console.log("not card zone");
-                
-                //$('.top-box').addClass('is-open'); 
-                
-            }
+           
         }
 
         if (scroll > window.innerHeight){

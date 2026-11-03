@@ -165,9 +165,10 @@ jQuery(function ($) {
 
     if(window.innerWidth < 768){
       var bannerHeight = ($('.swiper-wrapper').height());
-      var galleryHeight = ($('.slider-row').height());
- 
+
+      var galleryHeight = ($('.slider-row').height()); 
       var totalHeight = galleryHeight+160;
+      
       var homeContentHeight = ($('html').height()) - bannerHeight;   
       var profileContentHeight = ($('html').height()) - totalHeight ; 
         

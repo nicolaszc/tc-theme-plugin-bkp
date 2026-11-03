@@ -190,7 +190,7 @@ function get_vendor_users(){
   global $queried_users_slices;
   $queried_users_slices = [
       //'slider' => array_slice($queried_users, 0, 5),
-      'moods'  => array_slice($queried_users, 0, 6),
+      'moods'  => array_slice($queried_users, 0, 10),
   ];
 
 }
@@ -242,7 +242,7 @@ function get_site(){
   global $trans_class;
   global $gtag;
 
-  $host = $_SERVER['SERVER_NAME'];
+  $host = $_SERVER['SERVER_NAME'] ?? '';
   $enviorment = ($host == 'girls.topclassclub.com' || $host == 'trans.topclassclub.com')? 'com' : 'local';
   $gtag = ($host == 'girls.topclassclub.com' || $host == 'topclass-girls.local')? 'G-1TW33ZWPRD' : 'G-GDY39XBR13';
   $current_site_cat = ($host == 'girls.topclassclub.com' || $host == 'topclass-girls.local')? 'Girls' : 'Trans';
@@ -497,8 +497,12 @@ function custom_admin_styles() {
       background-repeat:no-repeat;
       background-position:center;
       width: 32px;
-      height: 22px;
+      height: 20px;
       display: block;
+      top: 0;
+    }
+    #wpadminbar #wp-admin-bar-site-name>.ab-item img.site-icon{
+      display: none;
     }
     #adminmenu li a .update-plugins, 
     #adminmenu li a .awaiting-mod,
@@ -650,6 +654,15 @@ remove_action( 'woocommerce_review_meta', 'woocommerce_review_display_meta', 10 
 remove_action( 'woocommerce_review_comment_text', 'woocommerce_review_display_comment_text', 10 );
 
 apply_filters('bootscore/breadcrumb/handler', true);
+
+// Forzar el tamaño máximo de subida a nivel de WordPress y JS
+add_filter( 'upload_size_limit', function( $size ) {
+    return 256 * 1024 * 1024; // 256 MB en bytes (o cambia a 128)
+}, 999 );
+
+add_filter( 'max_upload_size', function( $size ) {
+    return 256 * 1024 * 1024;
+}, 999 );
 
 
 

@@ -41,54 +41,43 @@ defined('ABSPATH') || exit;
     <?php wp_body_open(); ?>
     
      <?php get_template_part('template-parts/header/theme-styles'); ?>
-      <!-- Skip Links -->
+      
       <a class="skip-link visually-hidden-focusable" href="#primary"><?php esc_html_e( 'Skip to content', 'bootscore' ); ?></a>
       <a class="skip-link visually-hidden-focusable" href="#footer"><?php esc_html_e( 'Skip to footer', 'bootscore' ); ?></a>
-      <!-- /Skip Links -->
       
-
-      <!-- Top Bar Widget -->
-      <?php if (is_active_sidebar('top-bar')) : ?>
-        <?php dynamic_sidebar('top-bar'); ?>
-      <?php endif; ?> 
-      <!-- /Top Bar Widget --> 
+      <?php if (is_active_sidebar('top-bar')) : 
+        dynamic_sidebar('top-bar'); 
+      endif; ?>  
 
       <?php if(is_front_page()):                                                                            
         get_template_part('template-parts/components/main-swiper');
-        get_template_part('template-parts/components/moods');
-      endif;
-      ?>
+      endif; ?>
+
       <div class="overlay-header-top"></div>
-        <!-- Header -->
+
       <header id="masthead" class="site-header">
 
-        <!-- Navbar -->
         <nav id="nav-main" class="navbar <?= apply_filters('bootscore/class/header/navbar/breakpoint', 'navbar-expand-lg tc-nav'); ?>">
-          <!-- Container -->
           <div class="<?= apply_filters('bootscore/class/container', 'container-fluid main-nav', 'header'); ?>">             
-            <!-- Navbar Brand -->
             <?php get_template_part('template-parts/components/logo-tc');  ?>
-            <!-- /Navbar Brand -->
-            
-            <!-- Offcanvas Navbar -->
+
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-navbar">
+              
               <div class="offcanvas-header">
-                <!-- <span class="h5 offcanvas-title"><?= apply_filters('bootscore/offcanvas/navbar/title', __('Menu', 'bootscore')); ?></span> -->
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"><i class="fa-solid fa-circle-xmark"></i></button>
               </div>
+
               <div class="offcanvas-body">
                 <?php get_template_part('template-parts/components/search'); ?>
                 <div class="nav-container">
                 <?php if(!is_checkout()) { ?>   
 
-                    <!-- Bootstrap 5 Nav Walker Main Menu -->
                     <?php get_template_part('template-parts/header/main-menu'); ?>
                     
                     <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0 ms-1 ms-md-0', 'contact-toggler'); ?> contact-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-contact" aria-controls="offcanvas-contact">
                       <i class="fa-solid fa-envelope"></i> <span class="d-inline-block d-md-none">Contacto</span>
                     </button>
                     
-                    <!-- WooCommerce -->
                     <?php
                     if (class_exists('WooCommerce')) :
                       get_template_part('template-parts/header/actions', 'woocommerce');
@@ -121,21 +110,17 @@ defined('ABSPATH') || exit;
                 <?php } ?> 
               </div>
             </div>
-            <!-- /Offcanvas Navbar -->
  
           </div>
-          <!-- /Container -->
-          <!-- Navbar Toggler -->
+
           <?php if(!is_checkout()) { ?>
             <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0 mt-2 position-absolute end-0', 'nav-toggler'); ?> <?= apply_filters('bootscore/class/header/navbar/toggler/breakpoint', 'd-lg-none'); ?> ms-1 ms-md-2 nav-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
-            <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/svg/menu.svg"  alt="..." class="">
-                
-            <!-- <i class="fa-solid fa-ellipsis-vertical"></i> --><span class="visually-hidden-focusable">Menu</span>
+            <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/svg/menu.svg"  alt="..." class="">           
+            <span class="visually-hidden-focusable">Menu</span>
             </button>
           <?php } ?> 
-          <!-- /Navbar Toggler -->
+
         </nav>
-        <!-- /Navbar -->
 
         <?php
         if (class_exists('WooCommerce')) :
@@ -145,14 +130,12 @@ defined('ABSPATH') || exit;
         endif;
         ?>
 
-        <!-- Offcanvas User and Cart -->
         <?php
         if (class_exists('WooCommerce')) :
           get_template_part('template-parts/header/offcanvas', 'woocommerce');
         endif;
         ?>
 
-        <!-- Offcanvas Contact -->
         <div class="offcanvas offcanvas-end p-4" tabindex="-1" id="offcanvas-contact"> 
           <div class="offcanvas-header mb-3">
             <h3><?= apply_filters('bootscore/offcanvas/navbar/title', __('Contáctanos', 'bootscore')); ?></h3>
@@ -164,45 +147,27 @@ defined('ABSPATH') || exit;
         </div>
         
       </header>
-      <!-- /Header -->
-      <!-- <a href="#masthead" class="mouse-container pe-auto mx-auto position-absolute w-100" style="z-index: 1021; bottom: -1.125rem"><span class="mouse bounce"> <i class="fa-solid fa-computer-mouse"></i><i class="fa-solid fa-angles-down"></i></span></a> -->
+
       <?php
         $classes = get_body_class();
-        if(is_front_page() || in_array('page-template-page-modelo',$classes)):
-      ?>
-        <!-- <div class="top-box is-open">  -->     
-          <div class="top-box">    
-            <div class="row">                
-              <div class="col-md-12 ">   
-
-                <?php 
-                if(is_front_page()) :
-                  get_template_part('template-parts/components/filters');
-                 // get_template_part('template-parts/components/top-banner');                 
-                endif;
-
-                if (in_array('page-template-page-modelo',$classes)) :             
-                  get_template_part('template-parts/components/top-profile-info');
-                endif; 
-                ?>         
-                
-            </div> 
-            <!-- <?php if(is_front_page()) : ?><a href="javascript:void(0)" class="toggle-top-box d-none d-md-block"><i class="fa-solid fa-chevron-down"></i></a><?php endif; ?>      -->  
-          </div>                      
-        </div>
-      <?php
-        endif;
+        if(in_array('page-template-page-modelo',$classes)):
+          get_template_part('template-parts/components/top-profile-info');                  
+        endif; 
       ?> 
+      
       <div class="top-box-footer text-center"></div>
 
       <?php if(!is_front_page()): ?>
-        <div class="position-fixed w-100 bkg-gradient" style="height: 50vh; top: 0; z-index: 2; pointer-events:none;"></div> 
-      <?php
-        endif;
-      ?> 
+        <div class="position-fixed w-100 bkg-gradient top-0 z-2 pe-none" style="height: 50vh"></div> 
+      <?php endif; ?> 
 
-    <div id="main-container">  
-       
-      <main id="main" class="main z-2 position-relative <?php if(!is_checkout()) { ?> pb-md-3 mb-5<?php } ?>"> 
+      <div id="main-container">  
+
+        <?php if(is_front_page()):                                                                            
+          get_template_part('template-parts/components/moods');
+          get_template_part('template-parts/components/filters');
+        endif; ?>
+
+        <main id="main" class="main z-2 position-relative <?php if(!is_checkout()) { ?> pt-5 pt-md-0 pb-md-3 mb-5<?php } ?>"> 
       
         

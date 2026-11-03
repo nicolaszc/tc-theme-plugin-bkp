@@ -11,8 +11,8 @@ jQuery(function ($){
             // options
             itemSelector: '.profile-item',
             masonry: {
-              columnWidth: 306,
-              gutter: 24,
+              columnWidth: 250,
+              gutter: 10,
               isFitWidth: true
             },
             /* percentPosition: true,

@@ -117,8 +117,8 @@ def lambda_handler(event, context):
         # Si el alto es mayor que el ancho, es portrait (vertical)
         is_portrait = height > width
         
-        logo_x = width - 180
-        logo_y = 63
+        logo_x = width - 55
+        logo_y = 15
         
         if is_portrait:
             intro_path = "s3://tcc-s3-cdn/assets-converter/trans/intro-portrait.mp4"
@@ -236,12 +236,13 @@ def lambda_handler(event, context):
                     "ImageInserter": {
                         "InsertableImages": [
                             {
-                                "Width": 150,
+                                "Width": 40,
+                                "Height": 40,
                                 "ImageX": logo_x,
                                 "ImageY": logo_y,
                                 "Layer": 1,
                                 "ImageInserterInput": "s3://tcc-s3-cdn/assets-converter/trans/watermark.png",
-                                "Opacity": 100
+                                "Opacity": 50
                             }
                         ]
                     },

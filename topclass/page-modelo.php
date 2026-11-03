@@ -135,7 +135,7 @@ $product_array_length = count($product_array);
 <style>
 .img-vendor{
     object-fit: cover!important;
-    object-position: center center!important;
+    object-position: center top !important;
     max-width: unset!important;
     min-width: 100%;
     min-height: 100%;
@@ -240,6 +240,13 @@ h2 .precio{
 .item i.type{
     display:none;
     font-size:3rem;
+    line-height:3rem;
+    width:3rem;
+    height:3rem;
+    position:absolute;
+    top: calc(50% - 1.5rem);
+    left: calc(50% - 1.5rem);
+
 }
 
 .item.swiper-slide-next i.type, .profile-swiper .item:hover i.type{
@@ -267,9 +274,78 @@ html body.page-template-page-modelo .top-box-footer {
     margin-left: -3rem;
 }
 </style>
-<div class="text-light" style="margin-top: -20px;">
+<!-- <div class="text-light" style="margin-top: -20px;">
+    
+</div> -->
+<div class="text-light mt-5 text-center text-md-start">
+    <div class="container">
+        <div class="row justify-content-center fixed-row">
+            <!-- Datos -->
+            <div class="col-md-6 vendor-about">
+                <h2 class="mb-3">Sobre mí</h2>
+                <?php echo $user_description; ?>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="row justify-content-end vendor-info">
+                    <div class="col-md-5" id="vendor_avatar">
+                        <img src="<?php echo ($user_image_url )? $user_image_url : get_stylesheet_directory_uri() . '/assets/img/svg/cs-siluettes.svg' ; ?>" class="size-custom-avatar left" loading="lazy" alt="<?php if($user_name) echo $user_name; ?>" />                  
+                                
+                    </div>
+                    <div class="col-md-5 data mt-4 mt-md-0">
+                        <h4 class="mb-1">Mis datos</h4>
+                        <p class="d-none" id="main-name"><?php echo $user_name; ?></p>
+                        <p class="d-none" id="availability"><i class="availability fa-solid fa-circle <?php if($user_availability) echo esc_attr($user_availability['value']); ?>" ></i><span class="d-none d-md-inline-block text-light ms-2 availability-label"><?php if($user_availability){ echo esc_attr($user_availability['label']); }else{ echo "Disponible"; } ?></span></p>
+                        <p class="mb-1"><span class="me-1">Edad: </span> <?php  echo $user_age; ?></p>
+                        <?php if($user_country){ ?><p class="mb-1"><span class="me-1">Nacionalidad: </span> <?php echo esc_attr($user_country['label']); ?></p><?php } ?> 
+                        <p class="d-none" id="main-location"><?php echo esc_attr($user_district['label']); ?></p> 
+                        <p class="mb-4"><span class="me-1">Horario: </span> <?php echo $user_schedule; ?></p>   
+
+                        <h4 class="mt-md-4 mb-md-1">Mis Carácteristicas</h4>
+                        <p class="mb-1"><span class="me-1">Altura: </span> <?php  echo $user_height; ?>cm</p>
+                        <p class="mb-1"><span class="me-1">Medidas: </span> <?php  echo $user_measures; ?></p>
+                        <p class="mb-1"><span class="me-1">Pelo: </span> <?php  echo esc_attr($user_hair); ?></p>
+                        <p class="mb-1"><span class="me-1">Busto: </span> <?php  echo esc_attr($user_breast); ?></p>
+                        <p class="mb-1"><span class="me-1">Cola: </span> <?php  echo esc_attr($user_back); ?></p>
+                        <?php if($_SERVER['HTTP_HOST'] == 'topclass-trans.com'){ ?><p class="mb-4"><span class="me-1">Dotación: </span> <?php  echo esc_attr($user_dotation); ?>cm</p><?php } ?>
+                        <div class="rrss fs-5 mt-4">
+                            <?php
+                                echo rrss($user_twitter, $user_instagram, $user_facebook, $user_youtube);                           
+                            ?>
+                        </div>
+                    </div>              
+                </div>          
+            </div>
+            <div class="col-md-4 text-center px-md-5 mt-5">
+                <h2 class="mb-4">
+                    <span class="atributos"><i class="fa-solid fa-tag me-2" style="color:#6ecdff"></i>CLP$
+                        <span class="precio" id="main-price">
+                            <?php echo number_format($user_price, 0, ',', '.'); ?>
+                        </span> /hr
+                    </span>
+                </h2>
+
+                <a href="https://api.whatsapp.com/send?phone=<?php echo $user_phone; ?>&text=Hola <?php echo $user_name; ?>, ¿cómo estás? te ví en https://trans.topclassclub.com/modelo/<?php echo $user_slug; ?> y me podrías contar de tu servicio porfavor" class="btn btn-primary rounded-pill d-block btn-whatsapp mb-4 mx-5" target="_blank" >
+                    <i class="fa-brands fa-whatsapp"></i> 
+                    <span id="main-phone"><?php echo split_phone($user_phone); ?></span>
+                </a>
+                
+                <?php if($user_service_length == 1): ?>
+                    <div class="add-to-cart-container mt-auto">
+                        <a href="?add-to-cart=<?php echo $user_service[0]['service_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $user_service[0]['service_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart btn btn-primary d-block rounded-pill mx-5" data-product_id="<?php echo $user_service[0]['service_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $user_service[0]['service_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $user_service[0]['service_name']; ?> has been added to your cart" product-title="<?php echo $user_service[0]['service_name']; ?>">
+                            <div class="btn-loader">
+                                <span class="spinner-border spinner-border-sm"></span>
+                            </div>
+                            + Servicio 1hr / PAGA AQUÍ
+                        </a>
+                    </div>
+                <?php endif; ?>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Slider -->
-    <div class="row slider-row">
+    <div class="row slider-row mt-5">
         <div id="<?php echo ($user_gallery_enable)? 'profile-swiper':'profile-swiper-disabled' ; ?>" class="col-md-<?php echo ($show_map)? '8' : '12'; ?> p-0 position-relative overflow-hidden slider-container profile-swiper">
           
         <div class="<?php echo ($user_gallery_enable)? 'swiper-wrapper':'row' ; ?>">
@@ -294,8 +370,8 @@ html body.page-template-page-modelo .top-box-footer {
                     endif;
                 ?>               
                     <div class="<?php echo ($user_gallery_enable)? 'swiper-slide':'col-md-4 px-0' ; ?> item <?php echo $class ?>" data-gallery="<?php echo($item['type']); ?>">
-                        <a href="<?php echo $url; ?>" class="position-relative glightbox d-inline-flex align-items-center justify-content-center <?php echo($item['type']); ?>" data-glightbox="width: 100vw; height: 100vh;" data-gallery="<?php echo($item['type']); ?>">
-                            <img src="<?php echo esc_attr($item['image']['sizes']['custom-vendor-desktop-size']); ?>" alt="<?php echo esc_attr($user_slug).'_'.$i+1; ?>" class="img-vendor position-absolute" loading="lazy"/>
+                        <a href="<?php echo $url; ?>" class="position-relative glightbox d-inline-flex justify-content-center <?php echo($item['type']); ?>" data-glightbox="width: 100vw; height: 100vh;" data-gallery="<?php echo($item['type']); ?>">
+                            <img src="<?php echo esc_attr($item['image']['sizes']['custom-vendor-desktop-size']); ?>" alt="<?php echo esc_attr($user_slug).'_'.$i+1; ?>" class="img-vendor" loading="lazy"/>
                             <?php if($user_gallery_enable){ ?><div class="swiper-lazy-preloader"></div><?php } ?>
                             <?php echo $icon; ?>
                             <?php //echo $cta; ?>
@@ -330,72 +406,7 @@ html body.page-template-page-modelo .top-box-footer {
         </div>
         <?php } ?>
     </div>
-</div>
-<div class="container text-light mt-5 text-center text-md-start">
-    <div class="row justify-content-center fixed-row">
-        <!-- Datos -->
-        <div class="col-md-6 vendor-about">
-            <h2 class="mb-3">Sobre mí</h2>
-            <?php echo $user_description; ?>
-        </div>
-        <div class="col-md-6 mt-4 mt-md-0">
-            <div class="row justify-content-end vendor-info">
-                <div class="col-md-5" id="vendor_avatar">
-                    <img src="<?php echo ($user_image_url )? $user_image_url : get_stylesheet_directory_uri() . '/assets/img/svg/cs-siluettes.svg' ; ?>" class="size-custom-avatar left" loading="lazy" alt="<?php if($user_name) echo $user_name; ?>" />                  
-                               
-                </div>
-                <div class="col-md-5 data mt-4 mt-md-0">
-                    <h4 class="mb-1">Mis datos</h4>
-                    <p class="d-none" id="main-name"><?php echo $user_name; ?></p>
-                    <p class="d-none" id="availability"><span class="d-inline-block rounded-circle shadow ms-md-3 availability <?php if($user_availability) echo esc_attr($user_availability['value']); ?>" ></span><span class="d-none d-md-inline-block text-light ms-2 availability-label"><?php if($user_availability){ echo esc_attr($user_availability['label']); }else{ echo "Disponible"; } ?></span></p>
-                    <p class="mb-1"><span class="me-1">Edad: </span> <?php  echo $user_age; ?></p>
-                    <?php if($user_country){ ?><p class="mb-1"><span class="me-1">Nacionalidad: </span> <?php echo esc_attr($user_country['label']); ?></p><?php } ?> 
-                    <p class="d-none" id="main-location"><?php echo esc_attr($user_district['label']); ?></p> 
-                    <p class="mb-4"><span class="me-1">Horario: </span> <?php echo $user_schedule; ?></p>   
 
-                    <h4 class="mt-md-4 mb-md-1">Mis Carácteristicas</h4>
-                    <p class="mb-1"><span class="me-1">Altura: </span> <?php  echo $user_height; ?>cm</p>
-                    <p class="mb-1"><span class="me-1">Medidas: </span> <?php  echo $user_measures; ?></p>
-                    <p class="mb-1"><span class="me-1">Pelo: </span> <?php  echo esc_attr($user_hair); ?></p>
-                    <p class="mb-1"><span class="me-1">Busto: </span> <?php  echo esc_attr($user_breast); ?></p>
-                    <p class="mb-1"><span class="me-1">Cola: </span> <?php  echo esc_attr($user_back); ?></p>
-                       <?php if($_SERVER['HTTP_HOST'] == 'topclass-trans.com'){ ?><p class="mb-4"><span class="me-1">Dotación: </span> <?php  echo esc_attr($user_dotation); ?>cm</p><?php } ?>
-                    <div class="rrss fs-5 mt-4">
-                        <?php
-                            echo rrss($user_twitter, $user_instagram, $user_facebook, $user_youtube);                           
-                        ?>
-                    </div>
-                </div>              
-            </div>          
-        </div>
-        <div class="col-md-4 text-center px-md-5 mt-5">
-            <h2 class="mb-4">
-                <span class="atributos"><i class="fa-solid fa-tag me-2" style="color:#6ecdff"></i>CLP$
-                    <span class="precio" id="main-price">
-                        <?php echo number_format($user_price, 0, ',', '.'); ?>
-                    </span> /hr
-                </span>
-            </h2>
-
-            <a href="https://api.whatsapp.com/send?phone=<?php echo $user_phone; ?>&text=Hola <?php echo $user_name; ?>, ¿cómo estás? te ví en https://trans.topclassclub.com/modelo/<?php echo $user_slug; ?> y me podrías contar de tu servicio porfavor" class="btn btn-primary rounded-pill d-block btn-whatsapp mb-4 mx-5" target="_blank" >
-                <i class="fa-brands fa-whatsapp"></i> 
-                <span id="main-phone"><?php echo split_phone($user_phone); ?></span>
-            </a>
-            
-            <?php if($user_service_length == 1): ?>
-                <div class="add-to-cart-container mt-auto">
-                    <a href="?add-to-cart=<?php echo $user_service[0]['service_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $user_service[0]['service_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart btn btn-primary d-block rounded-pill mx-5" data-product_id="<?php echo $user_service[0]['service_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $user_service[0]['service_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $user_service[0]['service_name']; ?> has been added to your cart" product-title="<?php echo $user_service[0]['service_name']; ?>">
-                        <div class="btn-loader">
-                            <span class="spinner-border spinner-border-sm"></span>
-                        </div>
-                        + Servicio 1hr / PAGA AQUÍ
-                    </a>
-                </div>
-            <?php endif; ?>
-
-        </div>
-    </div>
-       
     <?php
     // Products
     if ( $product_array_length > 0 ) :
@@ -417,13 +428,13 @@ html body.page-template-page-modelo .top-box-footer {
                     <div class="card border-0 mb-4 mb-md-0">
                         <?php
                         if(get_the_post_thumbnail_url($product['product_id'])):
-                            echo get_the_post_thumbnail( $product['product_id'], 'thumbnail', array( 'class' => 'w-100', 'loading' => 'lazy', 'alt' =>  $product['product_name']) );
+                            echo get_the_post_thumbnail( $product['product_id'], 'thumbnail', array( 'class' => 'product_image w-100', 'loading' => 'lazy', 'alt' =>  $product['product_name']) );
                             //echo '<img src="'.get_the_post_thumbnail_url($product['product_id'], 'medium').'" class="w-100 wp-post-image" loading="lazy" />';
                         else:
                             echo '<div class="p-4" style="background:rgba(0, 0, 0, .3)"><img src="'.wp_get_attachment_image($product['product_id'],).'" class="card-img-top" loading="lazy" alt="no image" style="aspect-ratio: 1"></div>';
                         endif;  
                         ?>
-                        <div class="card-body d-flex align-items-between flex-column">
+                        <div class="card-body d-flex align-items-between flex-column position-absolute bottom-0 w-100">
                             <h6 class="text-center"><?php echo $product['product_name']; ?></h6>
                             
                             <p class="text-center">CLP$<span class="precio"><?php echo number_format($product['product_price'], 0, ',', '.'); ?></span></p>

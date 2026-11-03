@@ -93,9 +93,9 @@ if ( have_rows( 'main_banner' ) ) :
           $device = $GLOBALS['device'];
     ?>
       <!-- Slide -->
-      <div class="swiper-slide item position-relative vh-100 overflow-hidden" >
+      <div class="swiper-slide item position-relative vh-40 overflow-hidden" >
       
-        <div class="media position-absolute vh-100">
+        <div class="media position-absolute vh-40">
             <?php        
             if($desktop_media_type == 'image' && $desktop_media_image){
             ?>
@@ -136,7 +136,7 @@ if ( have_rows( 'main_banner' ) ) :
                   <?php if ($logo) { ?><img src="<?php echo $logo; ?>" alt="topclass" class="banner-logo" /><?php } ?>
                   <h1 style="color: <?php echo $title_color ?>" class="mt-4 <?php echo $text_shadow; ?>" ><?php echo $title ?></h1>
                   <div class="description <?php echo $text_shadow; ?>" style="color: <?php echo $description_color ?>"><?php echo $description ?></div>
-                  <a href="<?php echo $link_url ?>" class="btn btn-outline-primary rounded-pill pe-auto px-5 text-uppercase fs-1 <?php echo $link_shadow; ?>" style="color: <?php echo $link_text_color; ?>!important;background-color: <?php echo $link_background_color; ?>!important;border-color:<?php echo $link_border_color; ?>!important;margin-bottom:150px"><?php echo $link_title ?></a>
+                  <a href="<?php echo $link_url ?>" class="btn btn-outline-primary rounded-pill pe-auto px-5 text-uppercase fs-1 <?php echo $link_shadow; ?>" style="color: <?php echo $link_text_color; ?>!important;background-color: <?php echo $link_background_color; ?>!important;border-color:<?php echo $link_border_color; ?>!important;"><?php echo $link_title ?></a>
                   <!-- <a href="#masthead" class="mouse-container d-none d-md-block pt-5 pe-auto mx-auto w-25"><span class="mouse bounce"><i class="fa-solid fa-computer-mouse"></i></span></a> -->
                 </div>
 

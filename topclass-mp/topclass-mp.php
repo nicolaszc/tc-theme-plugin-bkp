@@ -67,31 +67,11 @@ function topclass_get_current_upload_alias( $product_id = 0 ) {
     return $fallback_name;
 }
 
-
-
-
-
-
 /**
  * Filtro dinámico para el prefijo de AWS S3 (WP Offload Media / AS3CF)
  * Lee de forma síncrona los parámetros de la URL actual de la sesión.
  */
 $GLOBALS['topclass_media_context'] = 'public';
-
-/* function topclass_detect_upload_context_in_flight( $file ) {
-    // 1. Capturamos la URL exacta que golpeó al VPS (incluye async-upload.php?is_woo_download=1)
-    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
-    
-    // 2. Si no la encuentra ahí, revisamos el REFERER (la página madre del navegador) por si acaso
-    $referer_url = $_SERVER['HTTP_REFERER'] ?? '';
-
-    // Tu ternario maestro adaptado para morder los canales crudos del servidor
-    $is_downloadable = ( strpos( $request_uri, 'is_woo_download=1' ) !== false || strpos( $referer_url, 'is_woo_download=1' ) !== false );
-
-    $GLOBALS['topclass_media_context'] = $is_downloadable ? 'private' : 'public';
-
-    return $file;
-} */
 
 function topclass_detect_upload_context_in_flight( $file ) {
     $request_uri = $_SERVER['REQUEST_URI'] ?? '';
@@ -141,5 +121,56 @@ function topclass_media_object_prefix_by_browser_url( $prefix ) {
     return 'trans/' . $context . '/' . $alias . '/';
 }
 add_filter( 'as3cf_setting_object-prefix', 'topclass_media_object_prefix_by_browser_url', 10, 1 );
+
+/**
+ * Inyectar metadata personalizada (ancho, alto, orientación y aspect-ratio)
+ * a los objetos en AWS S3 mediante los filtros de WP Offload Media (AS3CF).
+ */
+
+function topclass_as3_add_meta( $args, $post_id ) {
+    // Solo aplicar a archivos de video
+    $mime_type = get_post_mime_type( $post_id );
+    if ( strpos( $mime_type, 'video/' ) !== 0 ) {
+        return $args;
+    }
+
+    // 1. Intentar leer la metadata calculada por WordPress
+    $meta   = wp_get_attachment_metadata( $post_id );
+    $width  = isset( $meta['width'] ) ? intval( $meta['width'] ) : 0;
+    $height = isset( $meta['height'] ) ? intval( $meta['height'] ) : 0;
+
+    // 2. FALLBACK: Si WP no ha metido las dimensiones a la meta, las leemos directo del archivo
+    if ( empty( $width ) || empty( $height ) ) {
+        $file_path = get_attached_file( $post_id );
+        if ( file_exists( $file_path ) && function_exists( 'wp_read_video_metadata' ) ) {
+            $video_meta = wp_read_video_metadata( $file_path );
+            $width  = isset( $video_meta['width'] ) ? intval( $video_meta['width'] ) : 0;
+            $height = isset( $video_meta['height'] ) ? intval( $video_meta['height'] ) : 0;
+        }
+    }
+
+    // Si ni con fallback pudimos obtener dimensiones, dejamos pasar los args normales
+    if ( empty( $width ) || empty( $height ) ) {
+        return $args;
+    }
+
+    // 3. Definir orientación y aspect-ratio
+    $orientation  = ( $width >= $height ) ? 'landscape' : 'portrait';
+    $aspect_ratio = round( $width / $height, 4 );
+
+    // 4. Inyectar en el array Metadata (AS3CF lo mandará como headers x-amz-meta-*)
+    if ( ! isset( $args['Metadata'] ) || ! is_array( $args['Metadata'] ) ) {
+        $args['Metadata'] = array();
+    }
+
+    $args['Metadata']['width']        = (string) $width;
+    $args['Metadata']['height']       = (string) $height;
+    $args['Metadata']['orientation']  = $orientation;
+    $args['Metadata']['aspect-ratio'] = (string) $aspect_ratio;
+
+    return $args;
+}
+add_filter( 'as3cf_object_meta', 'topclass_as3_add_meta', 10, 2 );
+
 
 

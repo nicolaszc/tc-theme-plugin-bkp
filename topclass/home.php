@@ -49,60 +49,80 @@ get_header();
               $share_text = urlencode('Conoce a ' . $user_name . ' en TopClass 👀');
       
           ?>
-            <div id="<?php echo $user_slug; ?>" class="<?php echo (is_mobile_device()) ?  'swiper-slide' :  'profile-item' ; ?> <?php if($user_district['value']) echo esc_attr($user_district['value']) ?>">                    
-              <div class="card border-0 mb-md-4">
+            <div id="<?php echo $user_slug; ?>" class="card-wrapper <?php echo (is_mobile_device()) ?  'swiper-slide' :  'profile-item' ; ?> <?php if($user_district['value']) echo esc_attr($user_district['value']) ?>">                    
+              <div class="card border-0 position-relative">
 
                 <div class="card-header position-relative p-0 border border-0">
 
                   <a href="<?php if($user_url) echo $user_url ;?>"><img src="<?php echo $user_image_url; ?>" class="card-img-top" loading="lazy" alt="<?php if($user_name) echo $user_name; ?>"></a>
-                  <div class="card-district d-flex justify-content-start align-items-center position-absolute text-light bottom-0 w-100 ps-3"><?php if($user_district) echo esc_attr($user_district['label']); ?></div>
-                  <i class="fa-solid fa-circle position-absolute <?php if($user_availability) echo esc_attr($user_availability['value']); ?>" ></i>
+                  <div id="card-availability" class="position-absolute"><i class="availability fa-solid fa-circle <?php if($user_availability) echo esc_attr($user_availability['value']); ?>" ></i></div>
                 
                 </div>
                
-                <div class="card-body">
-                  <div class="card-body-header d-flex align-items-start align-items-center justify-content-between">
+                <div class="card-body position-absolute w-100 d-flex align-items-start justify-content-between flex-column">
+                  
+                    <div class="card-text d-flex align-items-center">
 
-                    <h5 class="card-title nombre"><?php if($user_name) echo $user_name; ?></h5>
+                      <p class="card-district text-light mb-0 me-2 text-shadow-sm"><?php if($user_district) echo esc_attr($user_district['label']); ?></p>
+                      
+                      <div class="card-actions position-relative d-flex">   
 
-                  </div>
-                  <p class="card-text mb-0 mt-1 mb-md-1">
-                    <span class="atributos"><a href="https://api.whatsapp.com/send?phone=<?php echo $user_phone; ?>&text=Hola <?php if($user_name) echo $user_name; ?>, ¿cómo estás? me podrías contar de tu servicio porfavor" data-bs-toggle="tooltip" data-bs-title="LLámame" data-bs-placement="right" data-bs-custom-class="custom-tooltip"  data-bs-trigger="hover"><i class="fa-brands fa-whatsapp"></i><?php if($user_phone) echo split_phone($user_phone); ?><!-- <i class="fa-solid fa-eye-slash"></i> --></a></span>
-                    <span class="atributos"><i class="fa-solid fa-tag" style="color:var(--secondary-color)"></i>CLP$ <span class="precio"><?php if($user_price) echo ' '.number_format($user_price, 0, ',', '.').' '; ?></span> /hr</span>
-                     
-                  </p>
-                  <div class="card-footer-actions d-flex align-items-end justify-content-between mt-3 mt-md-4">
+                        <a href="https://api.whatsapp.com/send?phone=<?php echo $user_phone; ?>&text=Hola <?php if($user_name) echo $user_name; ?>, ¿cómo estás? me podrías contar de tu servicio porfavor" data-bs-toggle="tooltip" data-bs-title="LLámame" data-bs-placement="right" data-bs-custom-class="custom-tooltip"  data-bs-trigger="hover">
+                          <span class="atribute-icon position-relative text-shadow-sm">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <i class="fa-solid fa-phone"></i>
+                          </span>
+                          <span class="d-none"><?php if($user_phone) echo split_phone($user_phone); ?></span>
+                        </a>
 
-                    <a href="<?php if($user_url) echo $user_url ;?>" class="btn btn-primary rounded-pill px-4 cta">CONÓCEME</a>
-
-                    <div class="contact-actions position-relative">                    
-
-                      <div class="d-flex">
+                        <a href="javascript:void(0)" class="price-btn">
+                          <span class="atribute-icon">
+                            <i class="fa-solid fa-tag text-shadow-sm" style="color:#6ecdff"></i>
+                          </span>
+                          <span class="precio d-none">CLP$ <?php if($user_price) echo ' '.number_format($user_price, 0, ',', '.').' '; ?> /hr</span>
+                        </a>
+ 
                         <?php if($user_shows_map) { ?>
-                          <a href="#home-page-map" class="glightbox card-map-trigger me-3" data-bs-toggle="tooltip" data-bs-title="Ver ubicación" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-trigger="hover" data-lat="<?php if ($user_google_map['lat']) echo esc_attr($user_google_map['lat']); ?>" data-lng="<?php if ($user_google_map['lng']) echo esc_attr($user_google_map['lng']); ?>" data-type="inline">
-                            <i class="fa-solid fa-location-dot"></i>
+                          <a href="#home-page-map" class="glightbox card-map-trigger" data-bs-toggle="tooltip" data-bs-title="Ver ubicación" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-trigger="hover" data-lat="<?php if ($user_google_map['lat']) echo esc_attr($user_google_map['lat']); ?>" data-lng="<?php if ($user_google_map['lng']) echo esc_attr($user_google_map['lng']); ?>" data-type="inline">
+                            <span class="atribute-icon">  
+                              <i class="fa-solid fa-location-dot text-shadow-sm" style="color:#6ecdff"></i>
+                            </span>
                           </a> 
                         <?php } ?>
-                        <a href="javascript:void(0)" class="share-btn">
-                          <i class="fa-solid fa-share-nodes iconOpen"></i>
-                          <i class="fa-solid fa-xmark iconClose d-none"></i>
-                        </a>
-                      </div>
-                      
-                      <div class="invisible position-absolute share-rrss">
-                        <a href="<?php echo 'https://twitter.com/intent/tweet?text=' .$share_text. '&url='. $user_url; ?>" class="d-block" target="_blank" data-bs-toggle="tooltip" data-bs-title="Compartir en Twitter" data-bs-placement="top" data-bs-custom-class="custom-tooltip">
-                          <i class="fa-brands fa-square-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?php if($user_url) echo $user_url; ?>" class="mt-2 d-block" target="_blank" data-bs-toggle="tooltip" data-bs-title="Compartir en Facebook" data-bs-placement="top" data-bs-custom-class="custom-tooltip">
-                          <i class="fa-brands fa-square-facebook"></i>
-                        </a>
-                        <a href="https://api.whatsapp.com/send?text=<?php if($user_url) echo $share_text . '%20' . $user_url; ?>" class="my-2 d-block" target="_blank" data-bs-toggle="tooltip" data-bs-title="Compartir por Whatsapp" data-bs-placement="top" data-bs-custom-class="custom-tooltip">
-                          <i class="fa-brands fa-square-whatsapp"></i>
-                        </a>
-                      </div>
 
+                        <div class="share-container position-relative">
+
+                          <a href="javascript:void(0)" class="share-btn">
+                            <i class="fa-solid fa-share text-shadow-sm iconOpen" style="color:#6ecdff"></i>
+                            <i class="fa-solid fa-xmark iconClose d-none"></i>
+                          </a>
+
+                          <div class="invisible share-rrss d-flex position-absolute shadow-sm px-1">
+                            
+                            <a href="<?php echo 'https://twitter.com/intent/tweet?text=' .$share_text. '&url='. $user_url; ?>" target="_blank" data-bs-toggle="tooltip" data-bs-title="Compartir en Twitter" data-bs-placement="top" data-bs-custom-class="custom-tooltip">
+                              <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php if($user_url) echo $user_url; ?>" target="_blank" data-bs-toggle="tooltip" data-bs-title="Compartir en Facebook" data-bs-placement="top" data-bs-custom-class="custom-tooltip">
+                              <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="https://api.whatsapp.com/send?text=<?php if($user_url) echo $share_text . '%20' . $user_url; ?>" target="_blank" data-bs-toggle="tooltip" data-bs-title="Compartir por Whatsapp" data-bs-placement="top" data-bs-custom-class="custom-tooltip">
+                              <span class="atribute-icon position-relative"><i class="fa-brands fa-whatsapp"></i><i class="fa-solid fa-phone"></i></span>
+                            </a>
+
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
-                  </div>
+
+                        
+                    <h5 class="card-title nombre text-white mb-0 text-shadow-sm"><?php if($user_name) echo $user_name; ?></h5>
+
+                    <!-- <a href="<?php if($user_url) echo $user_url ;?>" class="btn btn-primary rounded-pill px-4 cta">CONÓCEME</a> -->
+
+                    
+                    
+                  
                 </div>
               </div> 
             </div>              
@@ -114,8 +134,8 @@ get_header();
       endif;      
       ?>  
       </div>  
-      <div class="<?php echo (is_mobile_device()) ?  'swiper-button-next':'d-none' ?>"><i class="fa-solid fa-circle-right"></i></div>
-      <div class="<?php echo (is_mobile_device()) ?  'swiper-button-prev ms-3':'d-none' ?>"><i class="fa-solid fa-circle-left"></i></div>     
+      <div class="<?php echo (is_mobile_device()) ?  'swiper-button-next opacity-50':'d-none' ?>"><i class="fa-solid fa-chevron-right"></i></div>
+      <div class="<?php echo (is_mobile_device()) ?  'swiper-button-prev ms-3 opacity-50':'d-none' ?>"><i class="fa-solid fa-chevron-left"></i></div>     
     </div>
    
 <?php
