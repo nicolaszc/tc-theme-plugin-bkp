@@ -1,0 +1,194 @@
+<?php
+/*
+Plugin Name:  Topclass MP
+Plugin URI:   http:/topclass.club
+Description:  Topclass MP WordPress Plugin
+Version:      1.0
+Author:       Nicolás Zakrzewicz
+Author URI:   http:/topclass.club
+License:      GPL2
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  wporg
+Domain Path:  /languages
+*/
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Add vendors fieds to vendors settings
+// 1. Ensure acf_form_head runs early
+add_action('admin_head', 'acf_form_head');
+
+function vendor_admin_script() {
+    wp_enqueue_style('admin-style', plugins_url('/vendor.css', __FILE__));
+
+    wp_enqueue_script('jquery', get_stylesheet_directory_uri() . '/assets/js/jquery-ui.min.js', array(), null, true);
+
+
+    wp_enqueue_script(
+        'admin-script',
+        plugins_url('/admin-script.js', __FILE__),
+        array('jquery', 'jquery-core', 'jquery-migrate'),
+        '3.7.2',
+        true
+    );
+}
+add_action('admin_enqueue_scripts', 'vendor_admin_script');
+
+add_action('admin_init', function() {
+    global $vendor_id, $vendor_term, $vendor_name;
+
+    $vendor_id = get_current_user_id();
+    //$vendor_term = get_user_meta($vendor_id, '_wcpv_active_vendor', true);
+
+    $vendor_user_object = get_user_by( 'id', $vendor_id );
+    $vendor_name = $vendor_user_object->user_nicename;
+});
+$GLOBALS['host'] = ($_SERVER['SERVER_NAME'] == 'girls.topclassclub.com') ? 'girls' : 'trans';
+
+$GLOBALS['fallback_name'] = 'TopClass' . $GLOBALS['host'];
+
+/**
+ * Función auxiliar para resolver el alias (Vendor o Fallback) de forma segura
+ */
+function topclass_get_current_upload_alias( $product_id = 0 ) {
+    $fallback_name = $GLOBALS['fallback_name'];
+    // 1. Si NO es administrador, usamos directamente el vendor_name global
+    if ( ! current_user_can( 'administrator' ) && ! empty( $GLOBALS['vendor_name'] ) ) {
+        return $GLOBALS['vendor_name'];
+    }
+
+    // 2. Si es admin y tenemos un product_id válido, revisamos los términos de WCPV
+    if ( $product_id > 0 && get_post_type( $product_id ) === 'product' ) {
+        $vendors = wp_get_post_terms( $product_id, 'wcpv_product_vendors' );
+        
+        if ( ! is_wp_error( $vendors ) && ! empty( $vendors ) ) {
+            $term = $vendors[0];
+            if ( ! empty( $term->slug ) ) {
+                return $term->slug;
+            }
+        }
+    }
+
+    // 3. Fallback si no tiene vendor o no es un producto con vendor asignado
+    return $fallback_name;
+}
+
+/**
+ * Filtro dinámico para el prefijo de AWS S3 (WP Offload Media / AS3CF)
+ * Lee de forma síncrona los parámetros de la URL actual de la sesión.
+ */
+$GLOBALS['topclass_media_context'] = 'public';
+
+function topclass_detect_upload_context_in_flight( $file ) {
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    $referer_url = $_SERVER['HTTP_REFERER'] ?? '';
+
+    // Detección de contexto (Público vs Privado)
+    $is_downloadable = ( strpos( $request_uri, 'is_private_content=1' ) !== false || strpos( $referer_url, 'is_private_content=1' ) !== false );
+    $GLOBALS['topclass_media_context'] = $is_downloadable ? 'private' : 'public';
+
+    // Capturar el ID del producto de forma segura (desde la petición o parseando el navegador/referer)
+    $product_id = 0;
+    if ( isset( $_REQUEST['post_id'] ) ) {
+        $product_id = intval( $_REQUEST['post_id'] );
+    } elseif ( isset( $_POST['post_id'] ) ) {
+        $product_id = intval( $_POST['post_id'] );
+    } elseif ( ! empty( $referer_url ) ) {
+        // Extraer el ID si venimos de la pantalla de edición de un post/producto
+        if ( preg_match( '/[?&]post=(\d+)/', $referer_url, $matches ) ) {
+            $product_id = intval( $matches[1] );
+        }
+    }
+
+    // Llamamos a la función pasándole el ID detectado
+    $alias = topclass_get_current_upload_alias( $product_id );
+    $GLOBALS['topclass_media_alias'] = sanitize_title( $alias );
+
+    // Renombrado del archivo
+    $filename = $file['name'];
+    $pathinfo = pathinfo( $filename );
+    $ext      = isset( $pathinfo['extension'] ) ? strtolower( $pathinfo['extension'] ) : '';
+   
+    $timestamp  = date( 'Ymd-His' );
+
+    $file['name'] = sanitize_title( $alias ) . '.' .$ext;
+
+    return $file;
+}
+
+add_filter( 'wp_handle_upload_prefilter', 'topclass_detect_upload_context_in_flight', 1 );
+
+function topclass_media_object_prefix_by_browser_url( $prefix ) {
+    // Inicializamos el contexto por defecto local
+    $context = $GLOBALS['topclass_media_context'] ?? 'public';
+    $alias   = $GLOBALS['topclass_media_alias'] ?? sanitize_title($GLOBALS['fallback_name']);
+    $host = $GLOBALS['host'];
+
+    // Retornamos la ruta final mapeada en tu bucket de S3
+    return $host . '/' . $context . '/' . $alias . '/';
+}
+add_filter( 'as3cf_setting_object-prefix', 'topclass_media_object_prefix_by_browser_url', 10, 1 );
+
+/**
+ * Inyectar metadata personalizada (ancho, alto, orientación y aspect-ratio)
+ * a los objetos en AWS S3 mediante los filtros de WP Offload Media (AS3CF).
+ */
+
+function topclass_as3_add_meta( $args, $post_id ) {
+    // Solo aplicar a archivos de video
+    $mime_type = get_post_mime_type( $post_id );
+    if ( strpos( $mime_type, 'video/' ) !== 0 ) {
+        return $args;
+    }
+
+    // 1. Intentar leer la metadata calculada por WordPress
+    $meta   = wp_get_attachment_metadata( $post_id );
+    $width  = isset( $meta['width'] ) ? intval( $meta['width'] ) : 0;
+    $height = isset( $meta['height'] ) ? intval( $meta['height'] ) : 0;
+
+    // 2. FALLBACK: Si WP no ha metido las dimensiones a la meta, las leemos directo del archivo
+    if ( empty( $width ) || empty( $height ) ) {
+        $file_path = get_attached_file( $post_id );
+        if ( file_exists( $file_path ) && function_exists( 'wp_read_video_metadata' ) ) {
+            $video_meta = wp_read_video_metadata( $file_path );
+            $width  = isset( $video_meta['width'] ) ? intval( $video_meta['width'] ) : 0;
+            $height = isset( $video_meta['height'] ) ? intval( $video_meta['height'] ) : 0;
+        }
+    }
+
+    // Si ni con fallback pudimos obtener dimensiones, dejamos pasar los args normales
+    if ( empty( $width ) || empty( $height ) ) {
+        return $args;
+    }
+
+    // 3. Definir orientación y aspect-ratio
+    $orientation  = ( $width >= $height ) ? 'landscape' : 'portrait';
+    $aspect_ratio = round( $width / $height, 4 );
+
+    // 4. Inyectar en el array Metadata (AS3CF lo mandará como headers x-amz-meta-*)
+    if ( ! isset( $args['Metadata'] ) || ! is_array( $args['Metadata'] ) ) {
+        $args['Metadata'] = array();
+    }
+
+    $args['Metadata']['width']        = (string) $width;
+    $args['Metadata']['height']       = (string) $height;
+    $args['Metadata']['orientation']  = $orientation;
+    $args['Metadata']['aspect-ratio'] = (string) $aspect_ratio;
+
+    return $args;
+}
+add_filter( 'as3cf_object_meta', 'topclass_as3_add_meta', 10, 2 );
+
+function remove_plugin_metaboxes(){
+    remove_meta_box( 'postimagediv', 'product', 'side' );
+    remove_meta_box( 'woocommerce-product-images', 'product', 'side' );
+}
+add_action( 'do_meta_boxes', 'remove_plugin_metaboxes' );
+
+
+function s3_content_meta_boxes() {
+	add_meta_box( 's3-content-box', __( 'Content Box', 'textdomain' ), 's3_box_callback', 'producto' );
+}
+add_action( 'add_meta_boxes', 's3_content_meta_boxes' );

@@ -181,39 +181,6 @@ function topclass_as3_add_meta( $args, $post_id ) {
 }
 add_filter( 'as3cf_object_meta', 'topclass_as3_add_meta', 10, 2 );
 
-add_action('pre-upload-ui', 'topclass_render_s3_path_selector');
-
-function topclass_render_s3_path_selector() {
-    // Solo mostrar el selector cuando el botón abrió el cargador con este flag.
-    if (empty($_REQUEST['use_path_selector'])) {
-        return;
-    }
-    ?>
-    <div class="topclass-s3-radio-box" style="
-        background:#f0f0f1;
-        padding:12px 15px;
-        margin:0 auto 15px;
-        max-width:450px;
-        border-radius:4px;
-        border:1px solid #c3c4c7;
-    ">
-        <strong style="display:block; margin-bottom:8px;">
-            Destino del archivo en AWS S3
-        </strong>
-
-        <label style="display:block; margin-bottom:6px;">
-            <input type="radio" name="topclass_s3_mode" value="public" checked>
-            🌐 <strong>Público</strong> (CDN / perfil / imágenes generales)
-        </label>
-
-        <label style="display:block; color:#b32d2e;">
-            <input type="radio" name="topclass_s3_mode" value="private">
-            🔒 <strong>Privado</strong> (S3 seguro / contenido descargable)
-        </label>
-    </div>
-    <?php
-}
-
 function remove_plugin_metaboxes(){
     remove_meta_box( 'postimagediv', 'product', 'side' );
     remove_meta_box( 'woocommerce-product-images', 'product', 'side' );
