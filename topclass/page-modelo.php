@@ -136,7 +136,6 @@ $product_array_length = count($product_array);
 .img-vendor{
     object-fit: cover!important;
     object-position: center top !important;
-    max-width: unset!important;
     min-width: 100%;
     min-height: 100%;
 }
@@ -238,23 +237,24 @@ h2 .precio{
     color: var(--secondary-color)!important;
 }
 .item i.type{
-    display:none;
-    font-size:3rem;
-    line-height:3rem;
-    width:3rem;
-    height:3rem;
+    /* display:none; */
+    color: var(--light-color)!important;
+    font-size:1rem;
+    line-height:1rem;
+    width:1rem;
+    height:1rem;
     position:absolute;
-    top: calc(50% - 1.5rem);
-    left: calc(50% - 1.5rem);
-
+    bottom: 1rem;
+    right: 1rem;
 }
 
 .item.swiper-slide-next i.type, .profile-swiper .item:hover i.type{
     display:inline!important;
     pointer-events: none;
 }
+
 html body.page-template-page-modelo .top-box-footer {
-    height: 40px !important;
+    /*height: 40px !important;*/
     background-image: -moz-linear-gradient(180deg, var(--header-primary-gradient-color) 0%, var(--header-secondary-gradient-color) 100%) !important;
     background-image: -webkit-linear-gradient(180deg, var(--header-primary-gradient-color) 0%, var(--header-secondary-gradient-color) 100%) !important;
     background-image: linear-gradient(180deg, var(--header-primary-gradient-color) 0%, var(--header-secondary-gradient-color) 100%) !important;
@@ -266,10 +266,12 @@ html body.page-template-page-modelo .top-box-footer {
     font-size:1rem;
     color: var(--light-color)!important;
 }
+
 .swiper-horizontal>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic, 
 .swiper-pagination-horizontal.swiper-pagination-bullets.swiper-pagination-bullets-dynamic{
     transform: none!important;
 }
+
 .profile-swiper-pagination{
     margin-left: -3rem;
 }
@@ -277,21 +279,24 @@ html body.page-template-page-modelo .top-box-footer {
 <!-- <div class="text-light" style="margin-top: -20px;">
     
 </div> -->
-<div class="text-light mt-5 text-center text-md-start">
+<div class="text-light mt-5 mt-md-0">
+
     <div class="container">
-        <div class="row justify-content-center fixed-row">
-            <!-- Datos -->
-            <div class="col-md-6 vendor-about">
-                <h2 class="mb-3">Sobre mí</h2>
-                <?php echo $user_description; ?>
-            </div>
-            <div class="col-md-6 mt-4 mt-md-0">
-                <div class="row justify-content-end vendor-info">
-                    <div class="col-md-5" id="vendor_avatar">
-                        <img src="<?php echo ($user_image_url )? $user_image_url : get_stylesheet_directory_uri() . '/assets/img/svg/cs-siluettes.svg' ; ?>" class="size-custom-avatar left" loading="lazy" alt="<?php if($user_name) echo $user_name; ?>" />                  
-                                
+        <div class="profile-main row mt-4">
+            <div class="col-md-5 pe-md-5">
+                <div class="profile-info row justify-content-center position-sticky">
+                    <!-- Datos -->
+                                     
+                    <div class="col-5 col-md-4 d-flex align-items-center justify-content-center flex-column" id="vendor_avatar">
+                        <img src="<?php echo ($user_image_url )? $user_image_url : get_stylesheet_directory_uri() . '/assets/img/svg/cs-siluettes.svg' ; ?>" class="size-custom-avatar left shadow mx-5 mx-md-0" loading="lazy" alt="<?php if($user_name) echo $user_name; ?>" />                  
+                        <div class="rrss d-flex justify-content-around fs-5 my-4 px-1 w-100">
+                            <?php
+                                echo rrss($user_twitter, $user_instagram, $user_facebook, $user_youtube);                           
+                            ?>
+                        </div>  
                     </div>
-                    <div class="col-md-5 data mt-4 mt-md-0">
+
+                    <div class="col-7 col-md-8 data ps-md-4">
                         <h4 class="mb-1">Mis datos</h4>
                         <p class="d-none" id="main-name"><?php echo $user_name; ?></p>
                         <p class="d-none" id="availability"><i class="availability fa-solid fa-circle <?php if($user_availability) echo esc_attr($user_availability['value']); ?>" ></i><span class="d-none d-md-inline-block text-light ms-2 availability-label"><?php if($user_availability){ echo esc_attr($user_availability['label']); }else{ echo "Disponible"; } ?></span></p>
@@ -300,160 +305,164 @@ html body.page-template-page-modelo .top-box-footer {
                         <p class="d-none" id="main-location"><?php echo esc_attr($user_district['label']); ?></p> 
                         <p class="mb-4"><span class="me-1">Horario: </span> <?php echo $user_schedule; ?></p>   
 
-                        <h4 class="mt-md-4 mb-md-1">Mis Carácteristicas</h4>
-                        <p class="mb-1"><span class="me-1">Altura: </span> <?php  echo $user_height; ?>cm</p>
+                        
+                        <p class="mt-2 mb-1"><span class="me-1">Altura: </span> <?php  echo $user_height; ?>cm</p>
                         <p class="mb-1"><span class="me-1">Medidas: </span> <?php  echo $user_measures; ?></p>
                         <p class="mb-1"><span class="me-1">Pelo: </span> <?php  echo esc_attr($user_hair); ?></p>
                         <p class="mb-1"><span class="me-1">Busto: </span> <?php  echo esc_attr($user_breast); ?></p>
                         <p class="mb-1"><span class="me-1">Cola: </span> <?php  echo esc_attr($user_back); ?></p>
-                        <?php if($_SERVER['HTTP_HOST'] == 'topclass-trans.com'){ ?><p class="mb-4"><span class="me-1">Dotación: </span> <?php  echo esc_attr($user_dotation); ?>cm</p><?php } ?>
-                        <div class="rrss fs-5 mt-4">
-                            <?php
-                                echo rrss($user_twitter, $user_instagram, $user_facebook, $user_youtube);                           
-                            ?>
-                        </div>
+                        <?php if($_SERVER['HTTP_HOST'] == 'trans.topclassclub.com'){ ?><p class="mb-0"><span class="me-1">Dotación: </span> <?php  echo esc_attr($user_dotation); ?>cm</p><?php } ?>
+                        
                     </div>              
-                </div>          
-            </div>
-            <div class="col-md-4 text-center px-md-5 mt-5">
-                <h2 class="mb-4">
-                    <span class="atributos"><i class="fa-solid fa-tag me-2" style="color:#6ecdff"></i>CLP$
-                        <span class="precio" id="main-price">
-                            <?php echo number_format($user_price, 0, ',', '.'); ?>
-                        </span> /hr
-                    </span>
-                </h2>
+                      
+                    <div class="col-10 col-md-8 text-center mt-5">
 
-                <a href="https://api.whatsapp.com/send?phone=<?php echo $user_phone; ?>&text=Hola <?php echo $user_name; ?>, ¿cómo estás? te ví en https://trans.topclassclub.com/modelo/<?php echo $user_slug; ?> y me podrías contar de tu servicio porfavor" class="btn btn-primary rounded-pill d-block btn-whatsapp mb-4 mx-5" target="_blank" >
-                    <i class="fa-brands fa-whatsapp"></i> 
-                    <span id="main-phone"><?php echo split_phone($user_phone); ?></span>
-                </a>
-                
-                <?php if($user_service_length == 1): ?>
-                    <div class="add-to-cart-container mt-auto">
-                        <a href="?add-to-cart=<?php echo $user_service[0]['service_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $user_service[0]['service_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart btn btn-primary d-block rounded-pill mx-5" data-product_id="<?php echo $user_service[0]['service_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $user_service[0]['service_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $user_service[0]['service_name']; ?> has been added to your cart" product-title="<?php echo $user_service[0]['service_name']; ?>">
-                            <div class="btn-loader">
-                                <span class="spinner-border spinner-border-sm"></span>
-                            </div>
-                            + Servicio 1hr / PAGA AQUÍ
+                        <h2 class="mb-4">
+                            <span class="atributos"><i class="fa-solid fa-tag me-2" style="color:#6ecdff"></i>CLP$
+                                <span class="precio" id="main-price">
+                                    <?php echo number_format($user_price, 0, ',', '.'); ?>
+                                </span>/hr
+                            </span>
+                        </h2>
+
+                        <a href="https://api.whatsapp.com/send?phone=<?php echo $user_phone; ?>&text=Hola <?php echo $user_name; ?>, ¿cómo estás? te ví en https://trans.topclassclub.com/modelo/<?php echo $user_slug; ?> y me podrías contar de tu servicio porfavor" class="btn btn-primary rounded-pill d-block btn-whatsapp mb-4" target="_blank" >
+                            <i class="fa-brands fa-whatsapp"></i> 
+                            <span id="main-phone"><?php echo split_phone($user_phone); ?></span>
                         </a>
-                    </div>
-                <?php endif; ?>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Slider -->
-    <div class="row slider-row mt-5">
-        <div id="<?php echo ($user_gallery_enable)? 'profile-swiper':'profile-swiper-disabled' ; ?>" class="col-md-<?php echo ($show_map)? '8' : '12'; ?> p-0 position-relative overflow-hidden slider-container profile-swiper">
-          
-        <div class="<?php echo ($user_gallery_enable)? 'swiper-wrapper':'row' ; ?>">
-                <?php 
-                $i=0; 
-                $img=0;
-                $video=0;
-                if($user_gallery){
-                foreach ( $user_gallery as $item ) :                                 
-                    if(($item['type'] == 'image') && $item['image'] != ''): 
-                        $url = ($item)? $item['image']['sizes']['large'] : get_stylesheet_directory_uri() . '/assets/img/svg/cs-siluettes.svg';
-                        $class = 'image';
-                        $icon = '<i class="type fa-solid fa-image text-shadow-sm"></i>';
-                        $cta = '<i class="cta fa-solid fa-circle-plus"></i>';
-                        $img++;
-                    else:
-                        $url = esc_attr($item['video']);
-                        $class = 'video';
-                        $icon = '<i class="type fa-solid fa-video text-shadow-sm"></i>';
-                        $cta = '<i class="cta fa-solid fa-circle-play"></i>';
-                        $video++;
-                    endif;
-                ?>               
-                    <div class="<?php echo ($user_gallery_enable)? 'swiper-slide':'col-md-4 px-0' ; ?> item <?php echo $class ?>" data-gallery="<?php echo($item['type']); ?>">
-                        <a href="<?php echo $url; ?>" class="position-relative glightbox d-inline-flex justify-content-center <?php echo($item['type']); ?>" data-glightbox="width: 100vw; height: 100vh;" data-gallery="<?php echo($item['type']); ?>">
-                            <img src="<?php echo esc_attr($item['image']['sizes']['custom-vendor-desktop-size']); ?>" alt="<?php echo esc_attr($user_slug).'_'.$i+1; ?>" class="img-vendor" loading="lazy"/>
-                            <?php if($user_gallery_enable){ ?><div class="swiper-lazy-preloader"></div><?php } ?>
-                            <?php echo $icon; ?>
-                            <?php //echo $cta; ?>
-                        </a>
-                    </div>
-                <?php 
-                $i++;
-                endforeach; 
-                }?>
-            </div>
-            
-            <div class="gallery-counter position-absolute text-center d-flex align-items-center justify-content-between" style="bottom: 0; left: 50%; transform: translateX(-50%); padding: 0; z-index: 9; font-size: .75rem; width: 100%; min-width: 66%; max-width: 100%">
-                <div class="owl-counter px-2">
-                    <a data-filter="image" href="#" style="padding: .7rem .5rem; display: inline-block"><i class="fa-solid fa-image text-shadow-sm me-1" ></i> <?php echo $img ; ?></a>
-                    <a data-filter="video" href="#"style="padding: .7rem .5em; display: inline-block"><i class="fa-solid fa-video text-shadow-sm me-1" ></i> <?php echo $video ; ?></a>
-                </div>
-
-                <div class="profile-swiper-pagination"></div>
-
-                <div class="navigation">
-                    <div class="profile-swiper-button-prev me-1" style="padding: .7rem 0 .7rem 1rem;"><i class="fa-solid fa-circle-arrow-left text-shadow-sm"></i></div>
-                    <div class="profile-swiper-button-next ms-1" style="padding: .7rem 1rem .7rem 0;"><i class="fa-solid fa-circle-arrow-right text-shadow-sm"></i></div>
-                </div>
-                
-            </div>
-        </div>
-        <?php if($show_map){ ?>
-        <div class="col-md-4 p-0">
-            <div id="vendor-page-map" class="acf-map" data-zoom="14">
-                <div class="marker" data-lat="<?php echo $lat; ?>" data-lng="<?php echo $lng; ?>"></div>
-            </div>
-        </div>
-        <?php } ?>
-    </div>
-
-    <?php
-    // Products
-    if ( $product_array_length > 0 ) :
-        $align = ($product_array_length >= 6) ? 'text-start' : 'text-center';
-        $slider = ($product_array_length > 6) ? true : false;
-        $pRight = ($product_array_length < 2) ? ' pe-3' : ' pe-0';
-        $device = is_mobile_device();
-        $device_helper = ($device)? ' row fixed-row' : '';
-        $slider_class = ($slider || $device) ? 'product-swiper' : 'row';
-        $slider_id = ($slider || $device) ? 'product-swiper' : 'products';
-        echo  '<h3 class="mb-3 mt-5 ' . $align .'">Mi contenido('. $product_array_length .')</h3>';
-
-        echo '<div id="'.$slider_id.'" class="justify-content-center align-items-stretch '. $slider_class . $device_helper . $pRight . '" >';
-        echo ($slider || $device) ? '<div class="swiper-wrapper">': '' ;  // open slider   
-        
-            foreach ( $product_array as $product ) :
-                ?>
-                <div class="<?php echo ($product_array_length <= 6) ? 'card-col col-12 col-md-2' : 'swiper-slide item' ?>">
-                    <div class="card border-0 mb-4 mb-md-0">
-                        <?php
-                        if(get_the_post_thumbnail_url($product['product_id'])):
-                            echo get_the_post_thumbnail( $product['product_id'], 'thumbnail', array( 'class' => 'product_image w-100', 'loading' => 'lazy', 'alt' =>  $product['product_name']) );
-                            //echo '<img src="'.get_the_post_thumbnail_url($product['product_id'], 'medium').'" class="w-100 wp-post-image" loading="lazy" />';
-                        else:
-                            echo '<div class="p-4" style="background:rgba(0, 0, 0, .3)"><img src="'.wp_get_attachment_image($product['product_id'],).'" class="card-img-top" loading="lazy" alt="no image" style="aspect-ratio: 1"></div>';
-                        endif;  
-                        ?>
-                        <div class="card-body d-flex align-items-between flex-column position-absolute bottom-0 w-100">
-                            <h6 class="text-center"><?php echo $product['product_name']; ?></h6>
-                            
-                            <p class="text-center">CLP$<span class="precio"><?php echo number_format($product['product_price'], 0, ',', '.'); ?></span></p>
+                        
+                        <?php if($user_service_length == 1): ?>
                             <div class="add-to-cart-container mt-auto">
-                                <a href="?add-to-cart=<?php echo $product['product_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $product['product_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart btn btn-primary d-block rounded-pill" data-product_id="<?php echo $product['product_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $product['product_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $product['product_name']; ?> has been added to your cart" product-title="<?php echo $product['product_name']; ?>">
-                                    + Lo quiero
+                                <a href="?add-to-cart=<?php echo $user_service[0]['service_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $user_service[0]['service_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart btn btn-primary d-block rounded-pill" data-product_id="<?php echo $user_service[0]['service_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $user_service[0]['service_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $user_service[0]['service_name']; ?> has been added to your cart" product-title="<?php echo $user_service[0]['service_name']; ?>">
+                                    <div class="btn-loader">
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                    </div>
+                                    + Servicio 1hr / PAGA AQUÍ
                                 </a>
                             </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="col-md-12 my-5 mb-md-0 text-center text-md-start vendor-about order-5 order-md-4">
+                        <h2 class="mb-3">Sobre mí</h2>
+                        <?php echo $user_description; ?>
+                    </div>
+
+                    <div class="map col-md-12 mt-5 gx-0 gx-md-4 order-4 order-md-5">
+                        <div id="vendor-page-map" class="acf-map" data-zoom="14">
+                            <div class="marker" data-lat="<?php echo $lat; ?>" data-lng="<?php echo $lng; ?>"></div>
                         </div>
                     </div>
-                </div>              
-                <?php
-            endforeach;
-            echo ($slider || $device) ? '</div><div class="swiper-pagination"></div>' : '' ; // close slider
-        echo '</div>';
-    endif;
-    wp_reset_postdata(); 
-   
-    ?>  
+
+                </div>
+            </div> 
+
+            <div class="col-md-7" >
+
+                <div class="media-tabs position-sticky row">
+                   
+                    <div class="col-12 position-relative gx-0 gx-md-4">
+                        <nav>
+                            <div class="nav nav-tabs px-2" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="nav-gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery-tab" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Galería</button>
+                                <?php if ( $product_array_length > 0 ) : ?><button class="nav-link" id="nav-content-tab" data-bs-toggle="tab" data-bs-target="#media-content-tab" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Contenido<span>New</span></button><?php endif; ?>
+                            </div>
+                        </nav>
+
+                        <div class="tab-content" id="profile-media-tab">
+
+                            <!-- Gallerry -->
+                            <div class="gallery row gx-0 tab-pane fade show active" id="gallery-tab">
+                                <?php 
+                                $i=0; 
+                                $img=0;
+                                $video=0;
+                                if($user_gallery){
+                                foreach ( $user_gallery as $item ) :                                 
+                                    if(($item['type'] == 'image') && $item['image'] != ''): 
+                                        $url = ($item)? $item['image']['sizes']['large'] : get_stylesheet_directory_uri() . '/assets/img/svg/cs-siluettes.svg';
+                                        $class = 'image';
+                                        $icon = '<i class="type fa-solid fa-image text-shadow-sm"></i>';
+                                        $cta = '<i class="cta fa-solid fa-circle-plus"></i>';
+                                        $img++;
+                                    else:
+                                        $url = esc_attr($item['video']);
+                                        $class = 'video';
+                                        $icon = '<i class="type fa-solid fa-video text-shadow-sm"></i>';
+                                        $cta = '<i class="cta fa-solid fa-circle-play"></i>';
+                                        $video++;
+                                    endif;
+                                ?>               
+                                    <div class="col-6 col-md-4 px-0 item <?php echo $class ?>" data-gallery="<?php echo($item['type']); ?>">
+                                        <a href="<?php echo $url; ?>" class="position-relative d-inline-block w-100 overflow-hidden glightbox <?php echo($item['type']); ?>" data-glightbox="width: 100vw; height: 100vh;" data-gallery="<?php echo($item['type']); ?>">
+                                            <img src="<?php echo esc_attr($item['image']['sizes']['custom-vendor-desktop-size']); ?>" alt="<?php echo esc_attr($user_slug).'_'.$i+1; ?>" class="img-vendor" loading="lazy"/>
+                                            <?php echo $icon; ?>
+                                            <?php //echo $cta; ?>
+                                        </a>
+                                    </div>
+                                <?php 
+                                $i++;
+                                endforeach; 
+                                }?>
+                                
+                            </div>
+
+                            <!-- Content -->
+                            <div class="media-content row gx-0 tab-pane fade" id="media-content-tab">
+                                <?php
+                                // Products
+                                if ( $product_array_length > 0 ) :  
+                                    foreach ( $product_array as $product ) :
+                                        ?>
+                                        <div class="col-6 col-md-4 px-0">
+                                            <div class="content-card border-0 mb-0 position-relative">
+                                                <a href="?add-to-cart=<?php echo $product['product_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $product['product_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo $product['product_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $product['product_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $product['product_name']; ?> has been added to your cart" product-title="<?php echo $product['product_name']; ?>">
+                                                    <?php
+                                                    if(get_the_post_thumbnail_url($product['product_id'])):
+                                                        echo get_the_post_thumbnail( $product['product_id'], 'thumbnail', array( 'class' => 'img-vendor', 'loading' => 'lazy', 'alt' =>  $product['product_name']) );
+                                                        //echo '<img src="'.get_the_post_thumbnail_url($product['product_id'], 'medium').'" class="w-100 wp-post-image" loading="lazy" />';
+                                                    else:
+                                                        echo '<div class="p-4" style="background:rgba(0, 0, 0, .3)"><img src="'.wp_get_attachment_image($product['product_id'],).'" class="card-img-top" loading="lazy" alt="no image" style="aspect-ratio: 1"></div>';
+                                                    endif;  
+                                                    ?>
+                                                </a>
+                                                <div class="card-body d-flex align-items-between flex-column position-absolute w-100">
+                                                    <h6 class="text-center"><?php echo $product['product_name']; ?></h6>
+                                                    
+                                                    <p class="text-center">CLP$<span class="precio"><?php echo number_format($product['product_price'], 0, ',', '.'); ?></span></p>
+                                                    <div class="add-to-cart-container mt-auto">
+                                                        <span class="btn btn-primary d-block rounded-pill">
+                                                            + Lo quiero
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>              
+                                        <?php
+                                    endforeach;
+                                endif;
+                                wp_reset_postdata();                       
+                                ?>  
+                            </div>
+
+                        </div>
+
+                        <div class="counter d-flex px-2 me-2 position-absolute top-0 end-0 w-auto">
+                            <?php if ( $img > 0 ) : ?><a data-filter="image" href="#" class="image-filter p-2 lh-1 d-inline-block" ><i class="fa-solid fa-image text-shadow-sm me-1" ></i> <?php echo $img ; ?></a><?php endif; ?>
+                            <?php if ( $video > 0 ) : ?><a data-filter="video" href="#" class="video-filter p-2 lh-1 d-inline-block" ><i class="fa-solid fa-video text-shadow-sm me-1" ></i> <?php echo $video ; ?></a><?php endif; ?>
+                        </div>
+
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>
+    </div>
+
+    
+
+    
 </div>
      
 

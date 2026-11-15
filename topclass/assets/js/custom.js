@@ -166,8 +166,8 @@ jQuery(function ($) {
     if(window.innerWidth < 768){
       var bannerHeight = ($('.swiper-wrapper').height());
 
-      var galleryHeight = ($('.slider-row').height()); 
-      var totalHeight = galleryHeight+160;
+      //var galleryHeight = ($('.slider-row').height()); 
+      var totalHeight = 160;
       
       var homeContentHeight = ($('html').height()) - bannerHeight;   
       var profileContentHeight = ($('html').height()) - totalHeight ; 
@@ -183,12 +183,12 @@ jQuery(function ($) {
       
       var totalHeight = bannerHeight+180;
       var homeContentHeight = ($('html').height()) - bannerHeight;   
-      var profileContentHeight = ($('html').height()) - totalHeight;  
+      var profileContentHeight = ($('html').height()) - 180;  
       
       $('.home .footer-bubbles').css('height', Math.round(homeContentHeight - 37));
       $('.home .footer-bubbles').css('top', Math.round(bannerHeight));
 
-      $('.page-template-page-modelo .footer-bubbles').css('top', Math.round(totalHeight));
+      $('.page-template-page-modelo .footer-bubbles').css('top', 180);
       $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
 
     }

@@ -5,7 +5,7 @@
 
 .moods-slider {
   max-width: 100vw !important; /* Asegura que no se pase del viewport */
-  overflow: hidden; /* Para que no salga scroll */
+  /*overflow: hidden;  Para que no salga scroll */
 }
 
 /* Asegura que los slides no se extiendan demasiado */

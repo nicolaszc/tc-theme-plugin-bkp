@@ -66,7 +66,7 @@ function get_logos($logo){
   <span>TopClass</span>
 
   <div id="status" class="<?= apply_filters('bootscore/class/preloader/spinner', 'spinner-border'); ?>" role="status"> 
-    <img src="<?php echo get_logos('iso_loading'); ?>" alt="Brillo Logo" class="d-td-none opacity-50 w-100">
+    <img src="<?php echo get_logos('iso_loading'); ?>" alt="TCT" class="d-td-none opacity-50 w-100">
   </div>
 
   <span><?php echo $GLOBALS['current_site_cat'] ?></span><sup>©</sup>

@@ -77,7 +77,7 @@ get_header();
 
                         <a href="javascript:void(0)" class="price-btn">
                           <span class="atribute-icon">
-                            <i class="fa-solid fa-tag text-shadow-sm" style="color:#6ecdff"></i>
+                            <i class="fa-solid fa-tag text-shadow-sm"></i>
                           </span>
                           <span class="precio d-none">CLP$ <?php if($user_price) echo ' '.number_format($user_price, 0, ',', '.').' '; ?> /hr</span>
                         </a>
@@ -85,7 +85,7 @@ get_header();
                         <?php if($user_shows_map) { ?>
                           <a href="#home-page-map" class="glightbox card-map-trigger" data-bs-toggle="tooltip" data-bs-title="Ver ubicación" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-trigger="hover" data-lat="<?php if ($user_google_map['lat']) echo esc_attr($user_google_map['lat']); ?>" data-lng="<?php if ($user_google_map['lng']) echo esc_attr($user_google_map['lng']); ?>" data-type="inline">
                             <span class="atribute-icon">  
-                              <i class="fa-solid fa-location-dot text-shadow-sm" style="color:#6ecdff"></i>
+                              <i class="fa-solid fa-location-dot text-shadow-sm"></i>
                             </span>
                           </a> 
                         <?php } ?>
@@ -93,7 +93,7 @@ get_header();
                         <div class="share-container position-relative">
 
                           <a href="javascript:void(0)" class="share-btn">
-                            <i class="fa-solid fa-share text-shadow-sm iconOpen" style="color:#6ecdff"></i>
+                            <i class="fa-solid fa-share text-shadow-sm iconOpen"></i>
                             <i class="fa-solid fa-xmark iconClose d-none"></i>
                           </a>
 

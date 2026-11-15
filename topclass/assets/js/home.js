@@ -203,7 +203,7 @@ jQuery(function ($) {
     $(window).on('scroll', function () { 
         var scroll = $(window).scrollTop();
         
-        console.log('Offset: ' + offset + ', Scroll: ' + scroll);
+        //console.log('Offset: ' + offset + ', Scroll: ' + scroll);
 
         if (scroll > (offset - 30)) {
             $('.bottom-actions-menu, .contact-toggler, .account-toggler, .cart-toggler, .brand').addClass('show');

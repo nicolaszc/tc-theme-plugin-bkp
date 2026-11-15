@@ -426,6 +426,14 @@ function my_login_logo() { ?>
       pointer-events:none;
     }
 
+    .wp-tooltip__toggle{
+      color: #FFF!important;
+    }
+
+    .wp-tooltip__toggle:hover{
+      color: #6ecdff!important;
+    }
+
     .login form{
       border-radius:6px;
       background: transparent !important;
@@ -663,6 +671,93 @@ add_filter( 'upload_size_limit', function( $size ) {
 add_filter( 'max_upload_size', function( $size ) {
     return 256 * 1024 * 1024;
 }, 999 );
+
+// Desactivar inyección del script de analíticas de Cloudflare si pasa por WordPress
+add_filter('script_loader_tag', function($tag, $handle) {
+    if (strpos($tag, 'cloudflareinsights.com') !== false) {
+        return '';
+    }
+    return $tag;
+}, 10, 2);
+
+// Opcional: Desactivar los emojis nativos de WordPress para limpiar espacio en el HTML
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+
+// Desactivar estilos y bloques de Gutenberg en el frontend
+add_action('init', function() {
+    remove_action('wp_enqueue_scripts', 'wp_enqueue_classic_theme_styles');
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_dequeue_style('global-styles');
+    wp_dequeue_style('classic-theme-styles');
+}, 100);
+
+// Remover plantillas de medios de WordPress del footer
+remove_action('wp_footer', 'wp_print_media_templates', 10);
+
+// Desactivar emojis
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+remove_action('admin_print_scripts', 'print_emoji_detection_script');
+remove_action('admin_print_styles', 'print_emoji_styles');
+
+// Remover versión de WordPress y enlaces innecesarios
+remove_action('wp_head', 'wp_generator');
+remove_action('wp_head', 'wlwmanifest_link');
+remove_action('wp_head', 'rsd_link');
+
+// Escudo total contra inyecciones no deseadas en el HTML de salida
+add_action('template_redirect', function() {
+    ob_start(function($buffer) {
+        // 1. Eliminar el script de Cloudflare Beacon/Insights si se cuela por el CDN
+        $buffer = preg_replace('/<script[^>]*src=["\'][^"\']*cloudflareinsights\.com[^"\']*["\'][^>]*>.*?<\/script>/is', '', $buffer);
+        
+        // 2. Eliminar todas las plantillas ocultas de medios de WordPress (<script type="text/html" id="tmpl-...">)
+        $buffer = preg_replace('/<script[^>]*type=["\']text\/html["\'][^>]*id=["\']tmpl-[^"\']*["\'][^>]*>.*?<\/script>/is', '', $buffer);
+        
+        // 3. Eliminar el script cargador de emojis de WordPress
+        $buffer = preg_replace('/<script[^>]*id=["\']wp-emoji-settings[^"\']*["\'][^>]*>.*?<\/script>/is', '', $buffer);
+        
+        return $buffer;
+    });
+});
+
+// Anular impresiones automáticas del Core
+remove_action('wp_footer', 'wp_print_media_templates', 10);
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+
+
+// 1. Deshabilitar completamente la carga de assets de WooCommerce Blocks en el Frontend
+add_action('wp_enqueue_scripts', function() {
+    // Lista de estilos de bloques a remover
+    wp_dequeue_style('wc-blocks-vendors-style');
+    wp_dequeue_style('wc-blocks-style');
+    wp_dequeue_style('wc-all-blocks-style');
+
+    // Desencolar scripts de bloques WooCommerce
+    wp_dequeue_script('wc-blocks-middleware');
+    wp_dequeue_script('wc-checkout-block');
+    wp_dequeue_script('wc-cart-block');
+}, 100);
+
+// 2. Matar todos los prefetch/preload automáticos de scripts de bloques en el head
+add_filter('wp_resource_hints', function($urls, $relation_type) {
+    if (in_array($relation_type, ['prefetch', 'preload'], true)) {
+        return array_filter($urls, function($url) {
+            $url_str = is_array($url) ? ($url['href'] ?? '') : $url;
+            return strpos($url_str, 'woocommerce/assets/client/blocks') === false
+                && strpos($url_str, 'wp-includes/js/dist') === false;
+        });
+    }
+    return $urls;
+}, 100, 2);
+
+// 3. Remover el soporte de widgets por bloques si usas temas clásicos/custom
+add_action('after_setup_theme', function() {
+    remove_theme_support('widgets-block-editor');
+});
 
 
 

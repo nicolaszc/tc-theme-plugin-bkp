@@ -74,8 +74,8 @@ defined('ABSPATH') || exit;
 
                     <?php get_template_part('template-parts/header/main-menu'); ?>
                     
-                    <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0 ms-1 ms-md-0', 'contact-toggler'); ?> contact-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-contact" aria-controls="offcanvas-contact">
-                      <i class="fa-solid fa-envelope"></i> <span class="d-inline-block d-md-none">Contacto</span>
+                    <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0 ms-md-0', 'contact-toggler'); ?> contact-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-contact" aria-controls="offcanvas-contact">
+                      <i class="fa-solid fa-envelope"></i>
                     </button>
                     
                     <?php
@@ -87,7 +87,7 @@ defined('ABSPATH') || exit;
                     ?>
                     <!-- /WooCommerce -->
                     <!-- Gender selector -->
-                    <div class="d-flex mb-3 mb-md-0 ms-1 ms-md-3 gender-toggler <?php echo ($GLOBALS['current_site_cat'] == 'Trans')? 'flex-row-reverse':'' ?>">                          
+                    <div class="d-flex me-3 me-md-0 ms-md-3 gender-toggler <?php echo ($GLOBALS['current_site_cat'] == 'Trans')? 'flex-row-reverse':'' ?>">                          
                         <a href="<?php echo $GLOBALS['trans_link'] ?>" class="btn <?php echo $GLOBALS['trans_class'] ?> border-0  trans" aria-label="Acompañantes transgenero"><i class="fa-solid fa-transgender"></i></a>
                         <a href="<?php echo $GLOBALS['venus_link'] ?>" class="btn <?php echo $GLOBALS['venus_class'] ?> border-0 venus" aria-label="Acompañantes mujeres"><i class="fa-solid fa-venus"></i></a>                 
                     </div>
@@ -114,8 +114,8 @@ defined('ABSPATH') || exit;
           </div>
 
           <?php if(!is_checkout()) { ?>
-            <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0 mt-2 position-absolute end-0', 'nav-toggler'); ?> <?= apply_filters('bootscore/class/header/navbar/toggler/breakpoint', 'd-lg-none'); ?> ms-1 ms-md-2 nav-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
-            <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/svg/menu.svg"  alt="..." class="">           
+            <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0 position-absolute end-0', 'nav-toggler'); ?> <?= apply_filters('bootscore/class/header/navbar/toggler/breakpoint', 'd-lg-none'); ?> ms-1 ms-md-2 nav-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
+            <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/svg/menu.svg"  alt="..." class="menu-toggle-btn">           
             <span class="visually-hidden-focusable">Menu</span>
             </button>
           <?php } ?> 
@@ -168,6 +168,6 @@ defined('ABSPATH') || exit;
           get_template_part('template-parts/components/filters');
         endif; ?>
 
-        <main id="main" class="main z-2 position-relative <?php if(!is_checkout()) { ?> pt-5 pt-md-0 pb-md-3 mb-5<?php } ?>"> 
+        <main id="main" class="main z-2 position-relative <?php if(!is_checkout()) { ?> pb-md-3 mb-5<?php } ?>"> 
       
         

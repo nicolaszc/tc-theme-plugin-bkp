@@ -6,30 +6,45 @@
             padding: 0;
             margin: 0;
         }  
+        
         .vendor #wpfooter strong{
             font-weight: 400;
             margin: 0 1rem;
             text-align: center;
             display: block;
-        }      
+        }  
+
         #wcpv-vendor-settings .form-field:nth-child(2),
         form#your-profile h2:nth-child(10),
         form#your-profile h2:nth-child(10)+table{
             display:none;
         } 
-        /*     
-        .vendor .woocommerce-product-description{
-            display: none !important;
-        }    
-        */
        
-        .vendor #postimagediv{
+        #woocommerce-product-data .product_data_tabs,
+        #woocommerce-product-data #wcpv-product-vendor-tax-general-settings,
+        #woocommerce-product-data .show_if_booking,
+        #woocommerce-product-data .postbox-header .type_box,
+        .woocommerce-admin-page #wp-excerpt-media-buttons,
+        #woocommerce-product-data ._download_limit_field,
+        #woocommerce-product-data ._download_expiry_field,
+        .woocommerce-admin-page #product_cat-adder,
+        .woocommerce-admin-page #product_cat-tabs{
+            display: none!important;
+        }
+
+        .vendor #postimagediv, #woocommerce-product-data .show_if_downloadable{
             display: block !important;
         }
-        .vendor #product_cat-all{
+
+        #woocommerce-product-data .pricing{
+            border: none !important;
+        }
+
+        .woocommerce-admin-page #product_cat-all{
             border: none !important;
             padding: 0 !important;
         }
+
         @media(max-width: 782px){
 
             body.vendor{
@@ -78,7 +93,6 @@
                 font-size: 1.3em;
                 font-weight:600;
                 margin-top: 2em;
-
             }
             .vendor form#your-profile .acf-field-tab .acf-input{ 
                 display: none !important;

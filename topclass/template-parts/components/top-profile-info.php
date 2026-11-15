@@ -3,7 +3,7 @@
         <div class="row">                
             <div class="col-md-12 ">  
             
-                <div id="profile-header-info" class="profile-header-info position-absolute align-items-center d-flex justify-content-between flex-column w-100 py-3">
+                <div id="profile-header-info" class="profile-header-info position-relative align-items-center d-flex justify-content-between flex-column py-3">
                     
                     <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/banners/top-banner.png"  alt="..." class="d-none d-md-block m-auto position-absolute z-0">
                     
@@ -11,14 +11,14 @@
                     
                     <div class="m-0 position-relative z-1 mt-2 mt-md-0 d-flex">
 
-                        <div class="d-flex me-3 align-items-center">
-                            <span class="atribute-icon d-none d-md-inline-flex me-1">
+                        <div class="d-flex me-2 me-md-3 align-items-center">
+                            <span class="atribute-icon me-1">
                                 <i class="fa-solid fa-location-dot" style="color:#6ecdff"></i>
                             </span>
                             <span id="header-location" class="m-0 lh-1"></span>
                         </div>
 
-                        <a href="https://api.whatsapp.com/send?phone=<?php echo $vendor_phone; ?>&text=Hola <?php echo $vendor_name; ?>, ¿cómo estás? me podrías contar de tu servicio porfavor" target="_blank" id="header-phone-link" class="d-flex me-3 align-items-center">
+                        <a href="https://api.whatsapp.com/send?phone=<?php echo $vendor_phone; ?>&text=Hola <?php echo $vendor_name; ?>, ¿cómo estás? me podrías contar de tu servicio porfavor" target="_blank" id="header-phone-link" class="d-flex ms-2 ms-md-0 me-md-3 align-items-center">
                             <span class="atribute-icon position-relative me-1">
                                 <i class="fa-brands fa-whatsapp"></i>
                                 <i class="fa-solid fa-phone"></i>
@@ -26,7 +26,7 @@
                             <span id="header-phone" class="m-0 lh-1"></span>
                         </a>
 
-                        <div class="d-flex me-3 align-items-center">
+                        <div class="d-none d-md-flex align-items-center">
                             <span class="atribute-icon me-1">
                                 <i class="fa-solid fa-tag" style="color:#6ecdff"></i>
                             </span>

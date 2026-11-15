@@ -28,7 +28,7 @@ defined('ABSPATH') || exit;
 if ( is_account_page() || is_checkout() ) {
  // Do nothing
 } else { ?>
-  <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0', 'account-toggler'); ?> ms-1 ms-md-2 account-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-user" aria-controls="offcanvas-user">
+  <button class="<?= apply_filters('bootscore/class/header/button', 'btn btn-outline-light border-0', 'account-toggler'); ?> ms-md-2 account-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-user" aria-controls="offcanvas-user">
     <i class="fa-solid fa-user"></i><span class="visually-hidden-focusable">Account</span>
   </button>
 <?php } ?>

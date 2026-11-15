@@ -20,12 +20,20 @@ if (!defined('ABSPATH')) {
 // 1. Ensure acf_form_head runs early
 add_action('admin_head', 'acf_form_head');
 
-function vendor_admin_script(){
-    wp_enqueue_style( 'admin-style', plugins_url( '/vendor.css' , __FILE__ ));
+function vendor_admin_script() {
+    wp_enqueue_style('admin-style', plugins_url('/vendor.css', __FILE__));
 
-    wp_enqueue_script( 'admin-script', plugins_url( '/admin-script.js' , __FILE__ ), array( 'jquery' ), '1.0', true );
+    wp_enqueue_script('jquery', get_stylesheet_directory_uri() . '/assets/js/jquery-ui.min.js', array(), null, true);
+
+
+    wp_enqueue_script(
+        'admin-script',
+        plugins_url('/admin-script.js', __FILE__),
+        array('jquery', 'jquery-core', 'jquery-migrate'),
+        '3.7.2',
+        true
+    );
 }
-
 add_action('admin_enqueue_scripts', 'vendor_admin_script');
 
 add_action('admin_init', function() {
@@ -37,15 +45,15 @@ add_action('admin_init', function() {
     $vendor_user_object = get_user_by( 'id', $vendor_id );
     $vendor_name = $vendor_user_object->user_nicename;
 });
+$GLOBALS['host'] = ($_SERVER['SERVER_NAME'] == 'girls.topclassclub.com') ? 'girls' : 'trans';
 
-
+$GLOBALS['fallback_name'] = 'TopClass' . $GLOBALS['host'];
 
 /**
  * Función auxiliar para resolver el alias (Vendor o Fallback) de forma segura
  */
 function topclass_get_current_upload_alias( $product_id = 0 ) {
-    $GLOBALS['fallback_name'] = 'TopClass' . ( $GLOBALS['current_site_cat'] ?? 'General' );
-
+    $fallback_name = $GLOBALS['fallback_name'];
     // 1. Si NO es administrador, usamos directamente el vendor_name global
     if ( ! current_user_can( 'administrator' ) && ! empty( $GLOBALS['vendor_name'] ) ) {
         return $GLOBALS['vendor_name'];
@@ -78,7 +86,7 @@ function topclass_detect_upload_context_in_flight( $file ) {
     $referer_url = $_SERVER['HTTP_REFERER'] ?? '';
 
     // Detección de contexto (Público vs Privado)
-    $is_downloadable = ( strpos( $request_uri, 'is_woo_download=1' ) !== false || strpos( $referer_url, 'is_woo_download=1' ) !== false );
+    $is_downloadable = ( strpos( $request_uri, 'is_private_content=1' ) !== false || strpos( $referer_url, 'is_private_content=1' ) !== false );
     $GLOBALS['topclass_media_context'] = $is_downloadable ? 'private' : 'public';
 
     // Capturar el ID del producto de forma segura (desde la petición o parseando el navegador/referer)
@@ -116,9 +124,10 @@ function topclass_media_object_prefix_by_browser_url( $prefix ) {
     // Inicializamos el contexto por defecto local
     $context = $GLOBALS['topclass_media_context'] ?? 'public';
     $alias   = $GLOBALS['topclass_media_alias'] ?? sanitize_title($GLOBALS['fallback_name']);
+    $host = $GLOBALS['host'];
 
     // Retornamos la ruta final mapeada en tu bucket de S3
-    return 'trans/' . $context . '/' . $alias . '/';
+    return $host . '/' . $context . '/' . $alias . '/';
 }
 add_filter( 'as3cf_setting_object-prefix', 'topclass_media_object_prefix_by_browser_url', 10, 1 );
 
@@ -172,5 +181,47 @@ function topclass_as3_add_meta( $args, $post_id ) {
 }
 add_filter( 'as3cf_object_meta', 'topclass_as3_add_meta', 10, 2 );
 
+add_action('pre-upload-ui', 'topclass_render_s3_path_selector');
+
+function topclass_render_s3_path_selector() {
+    // Solo mostrar el selector cuando el botón abrió el cargador con este flag.
+    if (empty($_REQUEST['use_path_selector'])) {
+        return;
+    }
+    ?>
+    <div class="topclass-s3-radio-box" style="
+        background:#f0f0f1;
+        padding:12px 15px;
+        margin:0 auto 15px;
+        max-width:450px;
+        border-radius:4px;
+        border:1px solid #c3c4c7;
+    ">
+        <strong style="display:block; margin-bottom:8px;">
+            Destino del archivo en AWS S3
+        </strong>
+
+        <label style="display:block; margin-bottom:6px;">
+            <input type="radio" name="topclass_s3_mode" value="public" checked>
+            🌐 <strong>Público</strong> (CDN / perfil / imágenes generales)
+        </label>
+
+        <label style="display:block; color:#b32d2e;">
+            <input type="radio" name="topclass_s3_mode" value="private">
+            🔒 <strong>Privado</strong> (S3 seguro / contenido descargable)
+        </label>
+    </div>
+    <?php
+}
+
+function remove_plugin_metaboxes(){
+    remove_meta_box( 'postimagediv', 'product', 'side' );
+    remove_meta_box( 'woocommerce-product-images', 'product', 'side' );
+}
+add_action( 'do_meta_boxes', 'remove_plugin_metaboxes' );
 
 
+function s3_content_meta_boxes() {
+	add_meta_box( 's3-content-box', __( 'Content Box', 'textdomain' ), 's3_box_callback', 'producto' );
+}
+add_action( 'add_meta_boxes', 's3_content_meta_boxes' );
