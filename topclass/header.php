@@ -163,9 +163,9 @@ defined('ABSPATH') || exit;
 
       <div id="main-container">  
 
-        <?php if(is_front_page()):                                                                            
-          get_template_part('template-parts/components/moods');
+        <?php if(is_front_page()):  
           get_template_part('template-parts/components/filters');
+          get_template_part('template-parts/components/moods');
         endif; ?>
 
         <main id="main" class="main z-2 position-relative <?php if(!is_checkout()) { ?> pb-md-3 mb-5<?php } ?>" style="backdrop-filter: blur(8px)"> 
