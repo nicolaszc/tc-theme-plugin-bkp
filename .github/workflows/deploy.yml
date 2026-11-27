@@ -1,1 +1,142 @@
 
+name: Deploy WordPress to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wordpress-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Hostinger VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install SSH and rsync
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssh-client rsync
+
+      - name: Configure SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Verify VPS connection
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -p "$VPS_PORT" \
+            "$VPS_USER@$VPS_HOST" \
+            "echo 'SSH connection successful'"
+
+      - name: Check deployment directories
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -p "$VPS_PORT" \
+            "$VPS_USER@$VPS_HOST" \
+            "for d in \
+              /var/www/trans.topclassclub.com/html/wp-content/themes/topclass \
+              /var/www/trans.topclassclub.com/html/wp-content/plugins/topclass-secure-suite \
+              /var/www/trans.topclassclub.com/html/wp-content/plugins/tc-secure-aws-media-manager \
+              /var/www/trans.topclassclub.com/html/wp-content/plugins/topclass-mp \
+              /var/www/trans.topclassclub.com/html/tools \
+              /var/www/girls.topclassclub.com/html/wp-content/themes/topclass \
+              /var/www/girls.topclassclub.com/html/wp-content/plugins/topclass-secure-suite \
+              /var/www/girls.topclassclub.com/html/wp-content/plugins/tc-secure-aws-media-manager \
+              /var/www/girls.topclassclub.com/html/wp-content/plugins/topclass-mp \
+              /var/www/girls.topclassclub.com/html/tools; do
+                if [ ! -d \"\$d\" ]; then
+                  echo \"ERROR: Missing directory: \$d\"
+                  exit 1
+                fi
+              done
+              echo 'All deployment directories exist.'"
+
+      - name: Dry run deployment
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          set -e
+
+          SSH_CMD="ssh -i ~/.ssh/id_ed25519 -p $VPS_PORT"
+
+          deploy_dir() {
+            local source="$1"
+            local destination="$2"
+
+            echo ""
+            echo "=========================================="
+            echo "DRY RUN: $source"
+            echo "DEST: $destination"
+            echo "=========================================="
+
+            rsync -azvn --itemize-changes \
+              -e "$SSH_CMD" \
+              "$source" \
+              "$VPS_USER@$VPS_HOST:$destination"
+          }
+
+          # TRANS
+          deploy_dir "topclass/" \
+            "/var/www/trans.topclassclub.com/html/wp-content/themes/topclass/"
+
+          deploy_dir "topclass-secure-suite/" \
+            "/var/www/trans.topclassclub.com/html/wp-content/plugins/topclass-secure-suite/"
+
+          deploy_dir "tc-secure-aws-media-manager/" \
+            "/var/www/trans.topclassclub.com/html/wp-content/plugins/tc-secure-aws-media-manager/"
+
+          deploy_dir "topclass-mp/" \
+            "/var/www/trans.topclassclub.com/html/wp-content/plugins/topclass-mp/"
+
+          deploy_dir "tools/" \
+            "/var/www/trans.topclassclub.com/html/tools/"
+
+          # GIRLS
+          deploy_dir "topclass/" \
+            "/var/www/girls.topclassclub.com/html/wp-content/themes/topclass/"
+
+          deploy_dir "topclass-secure-suite/" \
+            "/var/www/girls.topclassclub.com/html/wp-content/plugins/topclass-secure-suite/"
+
+          deploy_dir "tc-secure-aws-media-manager/" \
+            "/var/www/girls.topclassclub.com/html/wp-content/plugins/tc-secure-aws-media-manager/"
+
+          deploy_dir "topclass-mp/" \
+            "/var/www/girls.topclassclub.com/html/wp-content/plugins/topclass-mp/"
+
+          deploy_dir "tools/" \
+            "/var/www/girls.topclassclub.com/html/tools/"
+
+          echo ""
+          echo "DRY RUN COMPLETED."
