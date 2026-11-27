@@ -17,7 +17,7 @@ defined('ABSPATH') || exit;
       endif;
     ?>
     
-    <!-- Footer 2-->
+    <!-- Footer -->
     <footer id="footer" class="pt-md-5 position-relative">
       
       <?php if(!is_checkout()) { ?>

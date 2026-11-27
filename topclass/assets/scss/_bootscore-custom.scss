@@ -3323,6 +3323,7 @@ i.availability{
         margin-bottom: 0;
         position: relative;
         padding: .5rem 1.25rem;
+        display: flex;
         &.active{
             background-color: rgb(from var(--light-color) r g b / .3);
             color: var(--light-color);
