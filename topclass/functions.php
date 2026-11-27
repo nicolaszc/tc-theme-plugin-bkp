@@ -761,8 +761,8 @@ add_action('after_setup_theme', function() {
 
 add_action('wp_footer', function () {
     echo '<!-- Environment: ' . esc_html(wp_get_environment_type()) . ' -->';
-    echo '<!-- Child theme: ' . (is_child_theme() ? 'yes' : 'no') . ' -->';
-    echo '<!-- Child SCSS: ' . (bootscore_child_has_scss() ? 'yes' : 'no') . ' -->';
+    echo ' . (is_child_theme() ? 'yes' : 'no') . ' -->';
+    echo '. (bootscore_child_has_scss() ? 'yes' : 'no') . ' -->';
 });
 
 
