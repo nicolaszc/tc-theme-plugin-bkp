@@ -1,16 +1,13 @@
 
-<div class="top-box d-none">    
+<div id="filter" class="container">    
     <div class="row">                
         <div class="col-md-12 "> 
-
-            <div class="filter-sort">
-                <div class="filter-container d-flex justify-content-between align-items-center">
                     
                     <div class="button-group filter-group d-flex align-items-center">
                         <div id="dropdown-district-filter"></div>
                     </div>
                         
-                    <div class="btn-group card-sort-dropdown">
+                    <div class="btn-group sort">
                         <button class="btn btn-secondary dropdown-toggle px-0 px-md-4 py-2 rounded-pill" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"><span>
                             Ordenar <i class="fa-solid fa-arrow-up-wide-short"></i><span>
                         </button>
