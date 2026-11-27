@@ -5,13 +5,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      dry_run:
-        description: 'Simular despliegue sin modificar producción'
-        required: true
-        type: boolean
-        default: true
 
 permissions:
   contents: read
@@ -106,7 +99,7 @@ jobs:
             echo "DEST: $destination"
             echo "=========================================="
 
-            rsync -azvn --itemize-changes \
+            rsync -azv --itemize-changes \
               -e "$SSH_CMD" \
               "$source" \
               "$VPS_USER@$VPS_HOST:$destination"
