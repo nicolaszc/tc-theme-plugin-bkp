@@ -1,8 +1,9 @@
 
 <div id="filter" class="container position-absolute">    
     <div class="row">                
-        <div class="col-md-12 d-flex justify-between "> 
-                    
+        <div class="col-md-12"> 
+                <div class="d-flex justify-between">
+
                     <div class="button-group filter-group d-flex align-items-center">
                         <div id="dropdown-district-filter"></div>
                     </div>
@@ -19,7 +20,8 @@
                             <li class="drop-down-last-item" style="border-bottom-left-radius: 6px !important; border-bottom-right-radius: 6px !important; height: 5px; background-color: rgb(from var(--light-color) r g b / .9);"></li>
                         </ul>
                     </div>
-                    
+
+                </div>    
                
             
         </div> 
