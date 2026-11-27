@@ -6,6 +6,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Simular despliegue sin modificar producción'
+        required: true
+        type: boolean
+        default: true
 
 permissions:
   contents: read
