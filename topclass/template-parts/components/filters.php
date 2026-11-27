@@ -1,7 +1,7 @@
 
-<div id="filter" class="container">    
+<div id="filter" class="container position-absolute">    
     <div class="row">                
-        <div class="col-md-12 "> 
+        <div class="col-md-12 d-flex justify-between "> 
                     
                     <div class="button-group filter-group d-flex align-items-center">
                         <div id="dropdown-district-filter"></div>
