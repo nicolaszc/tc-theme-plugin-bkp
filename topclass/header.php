@@ -168,6 +168,6 @@ defined('ABSPATH') || exit;
           get_template_part('template-parts/components/filters');
         endif; ?>
 
-        <main id="main" class="main z-2 position-relative <?php if(!is_checkout()) { ?> pb-md-3 mb-5<?php } ?>"> 
+        <main id="main" class="main z-2 position-relative <?php if(!is_checkout()) { ?> pb-md-3 mb-5<?php } ?>" style="backdrop-filter: blur(8px)"> 
       
         

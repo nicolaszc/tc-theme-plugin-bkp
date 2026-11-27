@@ -205,8 +205,25 @@
         form#your-profile tr.user-github-wrap,
         form#your-profile tr.acf-hidden,
         form#your-profile h3:nth-last-child(5),
-        form#your-profile table:nth-last-child(4),
         .acf-field-688c5c7006ef0,
-        .acf-field-688c6eafb0b5c {
+        .acf-field-688c6eafb0b5c,
+        .post-type-product #general_product_data .show_if_downloadable .delete {
             display: none !important;
         }
+        .post-type-product #general_product_data .show_if_downloadable .sort{
+            background-color: transparent;
+            pointer-events: none;
+            padding: 0 !important;
+            width: 0;          
+        }
+         .post-type-product #general_product_data .show_if_downloadable .sort::before{
+            content: '';
+            width: 0;
+        }
+        .post-type-product #general_product_data .show_if_downloadable .ui-sortable tr{
+            display: none;
+        }
+        .post-type-product #general_product_data .show_if_downloadable .ui-sortable tr:first-child{
+            display: table-row;
+        }
+        

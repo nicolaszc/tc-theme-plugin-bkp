@@ -28,73 +28,74 @@ defined('ABSPATH') || exit;
         <div class="silueta-desktop position-absolute d-none d-md-block">
           <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/svg/silueta-desktop.svg" />
         </div>
-         <!-- /Silueta -->
-      <h6 class="text-center text-light fw-medium">Partners</h6>
-      <?php 
-          get_template_part('template-parts/components/partners');
-        }
-      ?>
-      <?php if(is_front_page()):  
-         get_template_part('template-parts/components/top-banner');   
-      endif;  
-      ?> 
-      <!-- Footer Gradient -->  
-      <div class="<?php if(!is_checkout()) { ?>footer-gradient<?php } ?>">
-        <div class="container">  
-          <div class="row mt-5 text-light justify-content-center">
+        <!-- /Silueta -->
+        <div style="backdrop-filter: blur(8px); z-index: 2; position: relative">
+          <h6 class="text-center text-light fw-medium">Partners</h6>
+          <?php 
+            get_template_part('template-parts/components/partners');
+            }
+          ?>
+          <?php if(is_front_page()):  
+            get_template_part('template-parts/components/top-banner');   
+          endif;  
+          ?> 
+          <!-- Footer Gradient -->  
+          <div class="<?php if(!is_checkout()) { ?>footer-gradient<?php } ?>">
+            <div class="container">  
+              <div class="row mt-5 text-light justify-content-center">
 
-            <?php if(!is_checkout()) { ?>    
-                   
-              <!-- Newsletter -->
-              <div class="col col-md-4 text-center pb-5 newsletter mb-5 mb-md-0">
-                <p class="mb-0">Mantente informado</p> 
-                <h5 class="mb-3">Suscríbete a nuestro newsletter</h5> 
-                <div class="input-group mx-auto mb-0 w-75 rounded-pill">
-                    <input id="newsletter" name="newsletter" type="text" class="border-white form-control rounded-start-pill search-input quicksearch" placeholder="email" aria-label="email">
-                    <button class="input-group-text btn btn-primary rounded-end-pill px-4" id="newsletter">
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                <?php if(!is_checkout()) { ?>    
+                        
+                  <!-- Newsletter -->
+                  <div class="col col-md-4 text-center pb-5 newsletter mb-5 mb-md-0">
+                    <p class="mb-0">Mantente informado</p> 
+                    <h5 class="mb-3">Suscríbete a nuestro newsletter</h5> 
+                    <div class="input-group mx-auto mb-0 w-75 rounded-pill">
+                        <input id="newsletter" name="newsletter" type="text" class="border-white form-control rounded-start-pill search-input quicksearch" placeholder="email" aria-label="email">
+                        <button class="input-group-text btn btn-primary rounded-end-pill px-4" id="newsletter">
+                          <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                  </div>
+                  <!-- /Newsletter -->
+                  <!-- RRSS -->
+                  <div class="col-12 d-flex align-items-center justify-content-center rrss">
+                    Síguenos en: 
+                    <a href="https://x.com/topclassclub" target="_blank" class="ps-2 pe-1"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://t.me/topclassClub" target="_blank" class="px-1 px-1"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="https://api.whatsapp.com/send?phone=56977253992&text=Hola%20TopclassClub%20quiero%20saber..." target="_blank" class="px-1 ps-2"><i class="fa-brands fa-whatsapp"></i></a>
+                  </div>
+                  <!-- /RRSS -->
+                  <!--  Brand -->
+                  <div class="col-6 col-md-3 pt-4 pb-5">
+                    <!-- <a href="#" class="m-auto"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/logo/topclass-logo-white.svg" class="w-35" /></a> -->
+                    <?php get_template_part('template-parts/components/logo-tc');  ?>
+                  </div>
+                  <!--  /Brand -->
+                <?php } ?>
+                <!-- Footer links -->
+                <div class="col-12 d-block d-md-flex align-items-center justify-content-center mb-3 text-center footer-links">
+                  <a href="#" class="footer-links px-md-4 d-block d-md-inline-block mt-3 mt-md-0">Términos y condiciones</a><span class="d-none d-md-inline-block">|</span>
+                  <a href="#" class="footer-links px-md-4 d-block d-md-inline-block mt-3 mt-md-0">Política de privacidad</a><span class="d-none d-md-inline-block">|</span>
+                  <a href="#" class="footer-links px-md-4 d-block d-md-inline-block mt-3 mt-md-0">Contáctanos</a>
                 </div>
+                <!-- /Footer links -->
               </div>
-              <!-- /Newsletter -->
-              <!-- RRSS -->
-              <div class="col-12 d-flex align-items-center justify-content-center rrss">
-                Síguenos en: 
-                <a href="https://x.com/topclassclub" target="_blank" class="ps-2 pe-1"><i class="fa-brands fa-x-twitter"></i></a>
-						    <a href="https://t.me/topclassClub" target="_blank" class="px-1 px-1"><i class="fa-brands fa-telegram"></i></a>
-						    <a href="https://api.whatsapp.com/send?phone=56977253992&text=Hola%20TopclassClub%20quiero%20saber..." target="_blank" class="px-1 ps-2"><i class="fa-brands fa-whatsapp"></i></a>
+                <!-- Footer copy -->
+          <div class="footer-copy">
+            <div class="text-body-secondary pb-2 text-center footer-info">            
+              <div class="container footer-info">
+                <?php global $site_cat; ?>
+                <div class="small copyright text-light notranslate" translate="no"><span class="cr-symbol">&copy;</span>&nbsp;<?= date('Y'); ?> TopclassClub&nbsp; - &nbsp;<?php echo $_SERVER['HTTP_HOST'] ?>
               </div>
-              <!-- /RRSS -->
-              <!--  Brand -->
-              <div class="col-6 col-md-3 pt-4 pb-5">
-                <!-- <a href="#" class="m-auto"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/logo/topclass-logo-white.svg" class="w-35" /></a> -->
-                <?php get_template_part('template-parts/components/logo-tc');  ?>
               </div>
-              <!--  /Brand -->
-            <?php } ?>
-            <!-- Footer links -->
-            <div class="col-12 d-block d-md-flex align-items-center justify-content-center mb-3 text-center footer-links">
-              <a href="#" class="footer-links px-md-4 d-block d-md-inline-block mt-3 mt-md-0">Términos y condiciones</a><span class="d-none d-md-inline-block">|</span>
-              <a href="#" class="footer-links px-md-4 d-block d-md-inline-block mt-3 mt-md-0">Política de privacidad</a><span class="d-none d-md-inline-block">|</span>
-              <a href="#" class="footer-links px-md-4 d-block d-md-inline-block mt-3 mt-md-0">Contáctanos</a>
             </div>
-            <!-- /Footer links -->
           </div>
-           <!-- Footer copy -->
-      <div class="footer-copy">
-        <div class="text-body-secondary pb-2 text-center footer-info">            
-          <div class="container footer-info">
-            <?php global $site_cat; ?>
-            <div class="small copyright text-light notranslate" translate="no"><span class="cr-symbol">&copy;</span>&nbsp;<?= date('Y'); ?> TopclassClub&nbsp; - &nbsp;<?php echo $_SERVER['HTTP_HOST'] ?>
+          <!-- /Footer copy -->
+            </div>
           </div>
-          </div>
+          <!-- /Footer Gradient -->
         </div>
-      </div>
-      <!-- /Footer copy -->
-        </div>
-      </div>
-      <!-- /Footer Gradient -->
-     
     </footer>
     <!-- /Footer -->
     <!-- Smoke -->

@@ -105,6 +105,10 @@ if ( $loop->have_posts() ) {
         $product_price = $product->get_price();
         $product_price_html = $product->get_price_html();
         $product_link = get_permalink( $product_id );
+        $product_preview = get_post_meta( $post->ID, '_topclass_preview_url', true );
+        $product_duration = absint( get_post_meta( $post->ID, '_topclass_video_duration_ms', true ) );
+        $duration_seconds = (int) round( $product_duration / 1000 );
+        $duration_label = floor( $duration_seconds / 60 ) . ':' . str_pad( (string) ( $duration_seconds % 60 ), 2, '0', STR_PAD_LEFT );
         $product_image = get_the_post_thumbnail_url( $product_id, 'thumbnail' );
         if($product_parent_cat['slug'] == 'servicio' && !$service_done):
             $user_service[] = array(
@@ -121,6 +125,8 @@ if ( $loop->have_posts() ) {
             'product_name' => $product_name,
             'product_price' => $product_price,
             'product_price_html' => $product_price_html,
+            'product_preview' => $product_preview,
+            'product_duration' => $duration_label,
         );
         endif;
     endwhile;
@@ -225,9 +231,9 @@ h2 .precio{
 }
 .gallery-counter{
     color: var(--light-color)!important;
-    background-image: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.05) 100%) !important;
+    /*background-image: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.05) 100%) !important;
     background-image: -webkit-linear-gradient(90deg,  rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.05) 100%) !important;
-    background-image: linear-gradient(90deg,  rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.05) 100%) !important;
+    background-image: linear-gradient(90deg,  rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.05) 100%) !important;*/
 
 }
 .gallery-counter a{
@@ -363,8 +369,8 @@ html body.page-template-page-modelo .top-box-footer {
                     <div class="col-12 position-relative gx-0 gx-md-4">
                         <nav>
                             <div class="nav nav-tabs px-2" id="nav-tab" role="tablist">
-                                <button class="nav-link active" id="nav-gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery-tab" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Galería</button>
-                                <?php if ( $product_array_length > 0 ) : ?><button class="nav-link" id="nav-content-tab" data-bs-toggle="tab" data-bs-target="#media-content-tab" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Contenido<span>New</span></button><?php endif; ?>
+                                <button class="nav-link d-flex align-items-center active" id="nav-gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery-tab" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Galería</button>
+                                <?php if ( $product_array_length > 0 ) : ?><button class="nav-link d-flex align-items-center" id="nav-content-tab" data-bs-toggle="tab" data-bs-target="#media-content-tab" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Contenido <i class="fa-solid fa-money-check-dollar"></i></button><?php endif; ?>
                             </div>
                         </nav>
 
@@ -409,29 +415,44 @@ html body.page-template-page-modelo .top-box-footer {
                             <!-- Content -->
                             <div class="media-content row gx-0 tab-pane fade" id="media-content-tab">
                                 <?php
+                                $i=0; 
+                                $content_video=0;
                                 // Products
                                 if ( $product_array_length > 0 ) :  
                                     foreach ( $product_array as $product ) :
+                                        $content_video++;
                                         ?>
-                                        <div class="col-6 col-md-4 px-0">
+                                        <div class="col-6 col-md-4 px-0 content-col">
                                             <div class="content-card border-0 mb-0 position-relative">
-                                                <a href="?add-to-cart=<?php echo $product['product_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $product['product_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo $product['product_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $product['product_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $product['product_name']; ?> has been added to your cart" product-title="<?php echo $product['product_name']; ?>">
+                                                <a href="?add-to-cart=<?php echo $product['product_id']; ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo $product['product_id']; ?>" data-quantity="1" class="product_type_simple add_to_cart_button ajax_add_to_cart d-block h-100 top-0" data-product_id="<?php echo $product['product_id']; ?>" data-product_sku="" aria-label="Add to cart: <?php echo $product['product_name']; ?>”" rel="nofollow" data-success_message="“<?php echo $product['product_name']; ?> has been added to your cart" product-title="<?php echo $product['product_name']; ?>">
                                                     <?php
-                                                    if(get_the_post_thumbnail_url($product['product_id'])):
+                                                    /* if(get_the_post_thumbnail_url($product['product_id'])):
                                                         echo get_the_post_thumbnail( $product['product_id'], 'thumbnail', array( 'class' => 'img-vendor', 'loading' => 'lazy', 'alt' =>  $product['product_name']) );
                                                         //echo '<img src="'.get_the_post_thumbnail_url($product['product_id'], 'medium').'" class="w-100 wp-post-image" loading="lazy" />';
                                                     else:
                                                         echo '<div class="p-4" style="background:rgba(0, 0, 0, .3)"><img src="'.wp_get_attachment_image($product['product_id'],).'" class="card-img-top" loading="lazy" alt="no image" style="aspect-ratio: 1"></div>';
-                                                    endif;  
+                                                    endif;   */
+                                                    if($product['product_preview']){
+                                                        echo '<video muted playsinline loop preload="metadata" style="display:block;position: absolute; top: 0; transform: translate(-12.5%,-12.5%); max-width: 125%;" onmouseover="this.play()" onmouseout="this.pause()" class="img-vendor vid-vendor" id="preview-' .$product['product_id'] . '">';
+                                                        echo '<source src="' .  $product['product_preview'] . '" type="video/mp4">';
+                                                        echo '</video>';
+                                                        echo '<button type="button" onclick="playVid(event)" class="d-inline-block d-lg-none position-absolute top-0 end-0 text-white mt-1 btn btn-lg preview-play" id="preview-play-' .$product['product_id'] . '"><i class="fs-5 fa-solid fa-circle-play"></i></button>';
+                                                        echo '<button type="button" onclick="pauseVid(event)" class="d-none d-lg-none position-absolute top-0 end-0 text-white mt-1 btn btn-lg preview-pause" id="preview-pause-' .$product['product_id'] . '"><i class="fs-5 fa-solid fa-circle-pause"></i></button>';
+                                                    }elseif(get_the_post_thumbnail_url($product['product_id'])){
+                                                        echo get_the_post_thumbnail( $product['product_id'], 'thumbnail', array( 'class' => 'img-vendor', 'loading' => 'lazy', 'alt' =>  $product['product_name']) );
+                                                    }else{
+                                                        echo '<div class="p-4" style="background:rgba(0, 0, 0, .3)"><img src="'.wp_get_attachment_image($product['product_id'],).'" class="card-img-top" loading="lazy" alt="no image" style="aspect-ratio: 1"></div>';
+                                                    }                                                
+                                                    
                                                     ?>
                                                 </a>
                                                 <div class="card-body d-flex align-items-between flex-column position-absolute w-100">
-                                                    <h6 class="text-center"><?php echo $product['product_name']; ?></h6>
+                                                    <h6 class="text-center mb-0"><?php echo $product['product_name']; ?></h6>
+                                                    <small class="text-center mb-2" style="font-weight: 200; font-size: .75rem"><i class="fa-regular fa-clock"></i> <?php echo $product['product_duration'] ?></small>
                                                     
-                                                    <p class="text-center">CLP$<span class="precio"><?php echo number_format($product['product_price'], 0, ',', '.'); ?></span></p>
                                                     <div class="add-to-cart-container mt-auto">
-                                                        <span class="btn btn-primary d-block rounded-pill">
-                                                            + Lo quiero
+                                                        <span class="btn btn-primary d-block rounded-0">
+                                                            + CLP$<span class="precio"><?php echo number_format($product['product_price'], 0, ',', '.'); ?></span>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -443,14 +464,53 @@ html body.page-template-page-modelo .top-box-footer {
                                 wp_reset_postdata();                       
                                 ?>  
                             </div>
+                             <script> 
 
+                                function playVid(e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    console.log('play')
+                                    
+                                    console.log(e.currentTarget);
+                                    let vid = e.currentTarget.closest('.add_to_cart_button').querySelector(".vid-vendor"); 
+                                    let btnPause = e.currentTarget.closest('.add_to_cart_button').querySelector(".preview-pause"); 
+
+                                    vid.play(); 
+                                    vid.classList.add('hover');
+                                    e.currentTarget.classList.remove('d-inline-block');
+                                    e.currentTarget.classList.add('d-none');
+                                    btnPause.classList.remove('d-none');
+                                    btnPause.classList.add('d-inline-block');                                                      
+                                } 
+
+                                function pauseVid(e) { 
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    console.log('pause')
+                                    
+                                    console.log(e.currentTarget);
+                                    let vid = e.currentTarget.closest('.add_to_cart_button').querySelector(".vid-vendor"); 
+                                    let btnPlay = e.currentTarget.closest('.add_to_cart_button').querySelector(".preview-play"); 
+
+                                    vid.pause(); 
+                                    vid.classList.remove('hover');
+                                    e.currentTarget.classList.remove('d-inline-block');
+                                    e.currentTarget.classList.add('d-none');
+                                    btnPlay.classList.remove('d-none');
+                                    btnPlay.classList.add('d-inline-block');  
+                                } 
+
+                            </script> 
                         </div>
 
-                        <div class="counter d-flex px-2 me-2 position-absolute top-0 end-0 w-auto">
-                            <?php if ( $img > 0 ) : ?><a data-filter="image" href="#" class="image-filter p-2 lh-1 d-inline-block" ><i class="fa-solid fa-image text-shadow-sm me-1" ></i> <?php echo $img ; ?></a><?php endif; ?>
-                            <?php if ( $video > 0 ) : ?><a data-filter="video" href="#" class="video-filter p-2 lh-1 d-inline-block" ><i class="fa-solid fa-video text-shadow-sm me-1" ></i> <?php echo $video ; ?></a><?php endif; ?>
+                        <div class="counter gallery-counter d-flex px-2 me-2 position-absolute top-0 end-0 w-auto">
+                            <?php if ( $img > 0 ) : ?><a data-filter="image" href="javascript:void(0)" class="image-filter p-2 lh-1 d-inline-block" ><i class="fa-solid fa-image text-shadow-sm me-1" ></i> <?php echo $img ; ?></a><?php endif; ?>
+                            <?php if ( $video > 0 ) : ?><a data-filter="video" href="javascript:void(0)" class="video-filter p-2 lh-1 d-inline-block" ><i class="fa-solid fa-video text-shadow-sm me-1" ></i> <?php echo $video ; ?></a><?php endif; ?>
                         </div>
-
+                        
+                        <div class="counter content-counter d-flex px-2 me-2 position-absolute top-0 end-0 w-auto d-none">
+                            <?php if ( $content_video > 0 ) : ?><a href="javascript:void(0)" class="video-filter p-2 lh-1 d-inline-block" ><i class="fa-solid fa-video text-shadow-sm me-1" ></i> <?php echo $content_video ; ?></a><?php endif; ?>
+                        </div>
                     </div>
                 </div>
 

@@ -207,6 +207,10 @@ jQuery(function ($) {
 
         scrollPos = (document.body.getBoundingClientRect()).top;
 
+        var profileContentHeight = ($('html').height()) - 180 ; 
+        console.log(profileContentHeight);
+        $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
+
     }
     
 
@@ -214,9 +218,7 @@ jQuery(function ($) {
     $('.media-tabs').css('top', 230);
     var scrollPos = 0;
     
-    $(window).on('scroll', function () {   
-       
-
+    $(window).on('scroll', function () {         
         calculateStickyPos();
     })
 
@@ -227,32 +229,28 @@ jQuery(function ($) {
         tabId = e.target.id;
         console.log(tabId);
         if(tabId == "nav-gallery-tab"){
-            $('.counter').addClass('d-flex').removeClass('d-none');
+            $('.gallery-counter').addClass('d-flex').removeClass('d-none');
+            $('.content-counter').addClass('d-none').removeClass('d-flex');
             console.log('visible');
-            var profileContentHeight = ($('html').height()) - 160 ; 
-            console.log(profileContentHeight);
-            $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
+            //var profileContentHeight = ($('html').height()) - 160 ; 
+            //console.log(profileContentHeight);
+            //$('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
 
         }else{
-            $('.counter').addClass('d-none').removeClass('d-flex');
+            $('.gallery-counter').addClass('d-none').removeClass('d-flex');
+            $('.content-counter').addClass('d-flex').removeClass('d-none');
             console.log('invisible');
-            var profileContentHeight = ($('html').height()) - 160 ; 
+            //var profileContentHeight = ($('html').height()) - 160 ; 
 
-            console.log(profileContentHeight);
-            $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
-
-
+            //console.log(profileContentHeight);
+            //$('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
         }
        
     });
-
     
     function transitionEnd(){
         console.log("Transition ended");
-        calculateStickyPos();
-       
-
-       
+        calculateStickyPos();     
     }
 
     $('.counter a').on( "click", function(e) {
@@ -263,10 +261,8 @@ jQuery(function ($) {
             $('.gallery .item').removeClass('hide');
             $('.counter a').removeClass('item-type-selected');
         }else{
-
             $('.gallery .item.' + opositeItemType).addClass('hide');
-            $('.gallery .item.' + itemType).removeClass('hide');
-            
+            $('.gallery .item.' + itemType).removeClass('hide');           
             $('.counter a.' + opositeItemType + '-filter').removeClass('item-type-selected');
             $(this).addClass('item-type-selected');
         }

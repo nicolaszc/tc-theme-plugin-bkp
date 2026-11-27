@@ -161,43 +161,43 @@ jQuery(function ($) {
     });
 
   }); 
-   //Bubbles
+  //Bubbles
 
-    if(window.innerWidth < 768){
-      var bannerHeight = ($('.swiper-wrapper').height());
+  if(window.innerWidth < 768){
+    var bannerHeight = ($('.swiper-wrapper').height());
 
-      //var galleryHeight = ($('.slider-row').height()); 
-      var totalHeight = 160;
-      
-      var homeContentHeight = ($('html').height()) - bannerHeight;   
-      var profileContentHeight = ($('html').height()) - totalHeight ; 
-        
-      $('.home .footer-bubbles').css('height', Math.round(homeContentHeight - 97));
-      $('.home .footer-bubbles').css('top', Math.round(bannerHeight));
-
-      $('.page-template-page-modelo .footer-bubbles').css('top', Math.round(totalHeight));
-      $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
-
-    }else{
-      var bannerHeight = ($('.swiper-wrapper').height());
-      
-      var totalHeight = bannerHeight+180;
-      var homeContentHeight = ($('html').height()) - bannerHeight;   
-      var profileContentHeight = ($('html').height()) - 180;  
-      
-      $('.home .footer-bubbles').css('height', Math.round(homeContentHeight - 37));
-      $('.home .footer-bubbles').css('top', Math.round(bannerHeight));
-
-      $('.page-template-page-modelo .footer-bubbles').css('top', 180);
-      $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
-
-    }
+    //var galleryHeight = ($('.slider-row').height()); 
+    var totalHeight = 160;
     
-    $('.bubbles-wrapper .bubble').each(function() {
-      var parentHeight = Math.round($(this).parent().height());
-      var rndInt = Math.floor(Math.random() * 6) + 1;
-      $(this).attr('data-speed', (Math.round(parentHeight/350)+rndInt));
-    });
+    var homeContentHeight = ($('html').height()) - bannerHeight;   
+    var profileContentHeight = ($('html').height()) - totalHeight ; 
+      
+    $('.home .footer-bubbles').css('height', Math.round(homeContentHeight - 97));
+    $('.home .footer-bubbles').css('top', Math.round(bannerHeight));
+
+    $('.page-template-page-modelo .footer-bubbles').css('top', Math.round(totalHeight));
+    $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
+
+  }else{
+    var bannerHeight = ($('.swiper-wrapper').height());
+    
+    var totalHeight = bannerHeight+180;
+    var homeContentHeight = ($('html').height()) - bannerHeight;   
+    var profileContentHeight = ($('html').height()) - 180;  
+    
+    $('.home .footer-bubbles').css('height', Math.round(homeContentHeight - 37));
+    $('.home .footer-bubbles').css('top', Math.round(bannerHeight));
+
+    $('.page-template-page-modelo .footer-bubbles').css('top', 180);
+    $('.page-template-page-modelo .footer-bubbles').css('height', Math.round(profileContentHeight));
+
+  }
+  
+  $('.bubbles-wrapper .bubble').each(function() {
+    var parentHeight = Math.round($(this).parent().height());
+    var rndInt = Math.floor(Math.random() * 6) + 1;
+    $(this).attr('data-speed', (Math.round(parentHeight/350)+rndInt));
+  });
 
     
 }); 

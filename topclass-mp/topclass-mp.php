@@ -30,7 +30,7 @@ function vendor_admin_script() {
         'admin-script',
         plugins_url('/admin-script.js', __FILE__),
         array('jquery', 'jquery-core', 'jquery-migrate'),
-        '3.7.2',
+        '3.7.3',
         true
     );
 }
@@ -53,6 +53,8 @@ $GLOBALS['fallback_name'] = 'TopClass' . $GLOBALS['host'];
  * Función auxiliar para resolver el alias (Vendor o Fallback) de forma segura
  */
 function topclass_get_current_upload_alias( $product_id = 0 ) {
+    $GLOBALS['fallback_name'] = 'TopClass' . ( $GLOBALS['current_site_cat'] ?? 'General' );
+
     $fallback_name = $GLOBALS['fallback_name'];
     // 1. Si NO es administrador, usamos directamente el vendor_name global
     if ( ! current_user_can( 'administrator' ) && ! empty( $GLOBALS['vendor_name'] ) ) {
@@ -80,6 +82,7 @@ function topclass_get_current_upload_alias( $product_id = 0 ) {
  * Lee de forma síncrona los parámetros de la URL actual de la sesión.
  */
 $GLOBALS['topclass_media_context'] = 'public';
+$GLOBALS['topclass_upload_product_id'] = 0;
 
 function topclass_detect_upload_context_in_flight( $file ) {
     $request_uri = $_SERVER['REQUEST_URI'] ?? '';
@@ -95,12 +98,17 @@ function topclass_detect_upload_context_in_flight( $file ) {
         $product_id = intval( $_REQUEST['post_id'] );
     } elseif ( isset( $_POST['post_id'] ) ) {
         $product_id = intval( $_POST['post_id'] );
+
     } elseif ( ! empty( $referer_url ) ) {
-        // Extraer el ID si venimos de la pantalla de edición de un post/producto
-        if ( preg_match( '/[?&]post=(\d+)/', $referer_url, $matches ) ) {
-            $product_id = intval( $matches[1] );
+        if ( ! $product_id && ! empty( $referer_url ) ) {
+            // Extraer el ID si venimos de la pantalla de edición de un post/producto
+            if ( preg_match( '/[?&]post=(\d+)/', $referer_url, $matches ) ) {
+                $product_id = intval( $matches[1] );
+            }
         }
     }
+    // Se reutiliza para adjuntar el producto a los metadatos del objeto S3.
+    $GLOBALS['topclass_upload_product_id'] = $product_id;
 
     // Llamamos a la función pasándole el ID detectado
     $alias = topclass_get_current_upload_alias( $product_id );
@@ -143,6 +151,19 @@ function topclass_as3_add_meta( $args, $post_id ) {
         return $args;
     }
 
+    if ( ! isset( $args['Metadata'] ) || ! is_array( $args['Metadata'] ) ) {
+        $args['Metadata'] = array();
+    }
+
+    // El converter necesita el producto para devolver el preview al post correcto.
+    $product_id = absint( $GLOBALS['topclass_upload_product_id'] ?? 0 );
+    if ( ! $product_id ) {
+        $product_id = absint( wp_get_post_parent_id( $post_id ) );
+    }
+    if ( $product_id && get_post_type( $product_id ) === 'product' ) {
+        $args['Metadata']['product_id'] = (string) $product_id;
+    }
+
     // 1. Intentar leer la metadata calculada por WordPress
     $meta   = wp_get_attachment_metadata( $post_id );
     $width  = isset( $meta['width'] ) ? intval( $meta['width'] ) : 0;
@@ -181,8 +202,96 @@ function topclass_as3_add_meta( $args, $post_id ) {
 }
 add_filter( 'as3cf_object_meta', 'topclass_as3_add_meta', 10, 2 );
 
+/**
+ * Endpoint privado para que la Lambda guarde el preview y duración en el producto.
+ * Define TOPCLASS_PREVIEW_API_TOKEN en wp-config.php y usa el mismo valor en Lambda.
+ */
+function topclass_preview_api_permission( $request ) {
+    $expected = defined( 'TOPCLASS_PREVIEW_API_TOKEN' ) ? (string) TOPCLASS_PREVIEW_API_TOKEN : '';
+    $provided = (string) $request->get_header( 'X-Topclass-Preview-Token' );
+
+    return $expected !== '' && $provided !== '' && hash_equals( $expected, $provided );
+}
+
+function topclass_save_video_preview_meta( $request ) {
+    $product_id = absint( $request->get_param( 'product_id' ) );
+    $preview_url = esc_url_raw( $request->get_param( 'preview_url' ) );
+    $duration_ms = absint( $request->get_param( 'duration_ms' ) );
+
+    if ( ! $product_id || get_post_type( $product_id ) !== 'product' ) {
+        return new WP_Error( 'invalid_product', 'El producto no existe.', array( 'status' => 400 ) );
+    }
+
+    $url_host = strtolower( (string) wp_parse_url( $preview_url, PHP_URL_HOST ) );
+    if ( ! $preview_url || wp_parse_url( $preview_url, PHP_URL_SCHEME ) !== 'https' || $url_host !== 'cdn.topclassclub.com' ) {
+        return new WP_Error( 'invalid_preview_url', 'La URL del preview no es válida.', array( 'status' => 400 ) );
+    }
+
+    if ( $duration_ms < 1 ) {
+        return new WP_Error( 'invalid_duration', 'La duración debe ser mayor que cero.', array( 'status' => 400 ) );
+    }
+
+    update_post_meta( $product_id, '_topclass_preview_url', $preview_url );
+    update_post_meta( $product_id, '_topclass_video_duration_ms', $duration_ms );
+
+    if (
+        get_post_meta( $product_id, '_topclass_preview_url', true ) !== $preview_url ||
+        absint( get_post_meta( $product_id, '_topclass_video_duration_ms', true ) ) !== $duration_ms
+    ) {
+        return new WP_Error( 'preview_meta_save_failed', 'No se pudo guardar el preview en el producto.', array( 'status' => 500 ) );
+    }
+
+    return rest_ensure_response( array(
+        'product_id'  => $product_id,
+        'preview_url' => $preview_url,
+        'duration_ms' => $duration_ms,
+        'saved'       => true,
+    ) );
+}
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'topclass/v1', '/video-preview', array(
+        'methods'             => WP_REST_Server::CREATABLE,
+        'callback'            => 'topclass_save_video_preview_meta',
+        'permission_callback' => 'topclass_preview_api_permission',
+    ) );
+} );
+
+/** Vista de solo lectura para revisar el preview guardado en el producto. */
+function topclass_render_video_preview_metabox( $post ) {
+    $preview_url = get_post_meta( $post->ID, '_topclass_preview_url', true );
+    $duration_ms = absint( get_post_meta( $post->ID, '_topclass_video_duration_ms', true ) );
+
+    if ( ! $preview_url ) {
+        echo '<p>Todavía no hay un preview guardado para este producto.</p>';
+        return;
+    }
+
+    if ( $duration_ms ) {
+        $duration_seconds = (int) round( $duration_ms / 1000 );
+        $duration_label = floor( $duration_seconds / 60 ) . ':' . str_pad( (string) ( $duration_seconds % 60 ), 2, '0', STR_PAD_LEFT );
+        echo '<p><strong>Duración del video:</strong> ' . esc_html( $duration_label ) . '</p>';
+    }
+
+    echo '<video controls muted playsinline preload="metadata" style="display:block;width:100%;max-width:360px;height:auto;">';
+    echo '<source src="' . esc_url( $preview_url ) . '" type="video/mp4">';
+    echo '</video>';
+    echo '<p><a href="' . esc_url( $preview_url ) . '" target="_blank" rel="noopener noreferrer">Abrir preview</a></p>';
+}
+
+add_action( 'add_meta_boxes_product', function () {
+    add_meta_box(
+        'topclass-video-preview',
+        'Preview de video',
+        'topclass_render_video_preview_metabox',
+        'product',
+        'side',
+        'default'
+    );
+} );
+
 function remove_plugin_metaboxes(){
-    remove_meta_box( 'postimagediv', 'product', 'side' );
+    //remove_meta_box( 'postimagediv', 'product', 'side' );
     remove_meta_box( 'woocommerce-product-images', 'product', 'side' );
 }
 add_action( 'do_meta_boxes', 'remove_plugin_metaboxes' );
@@ -192,3 +301,19 @@ function s3_content_meta_boxes() {
 	add_meta_box( 's3-content-box', __( 'Content Box', 'textdomain' ), 's3_box_callback', 'producto' );
 }
 add_action( 'add_meta_boxes', 's3_content_meta_boxes' );
+
+add_filter( 'register_post_type_args', 'rename_wc_product_post_type', 10, 2 );
+function rename_wc_product_post_type( $args, $post_type ) {
+    if ( 'product' !== $post_type ) {
+        return $args;
+    }
+
+    $args['labels']['name']          = 'Contenidos & Servicios';
+    $args['labels']['singular_name'] = 'Contenido & Servicio';
+    $args['labels']['menu_name']     = 'Contenidos & Servicios';
+    $args['labels']['all_items']     = 'Todos los Contenidos & Servicios';
+    $args['labels']['add_new_item']  = 'Nuevo Contenido o Servicio';
+    $args['labels']['edit_item']     = 'Editar Contenido o Servicio';
+
+    return $args;
+}

@@ -44,7 +44,7 @@ if (post_password_required()) {
 ?>
   
   <div id="sticky-comments">
-  <div id="comments" class="comments-area">
+  <div id="comments" class="comments-area pt-5" style="backdrop-filter: blur(8px)">
     <div class="container">
       <div class="row justify-content-center fixed-row">
         <?php 
@@ -53,7 +53,7 @@ if (post_password_required()) {
           $comments_number = count($comments);
           if ($comments_number > 0) {
         ?>
-        <div class="col-md-6 text-start">
+        <div class="order-md-2 col-md-7 text-start">
           <div class="d-flex align-items-center justify-content-between mb-4">
 
             <h4 class="comments-title mb-0">
@@ -117,7 +117,7 @@ if (post_password_required()) {
         endif; // Check for have_comments().
         ?>
       
-      <div class="col-md-5 <?php if ($comments_number > 0)  : echo 'offset-md-1'; endif; ?> mb-5 my-md-0" id="commentform-container">
+      <div class="order-md-1 col-md-5 mb-5 my-md-0 pe-5" id="commentform-container">
         <?php
         
         // If comments are closed and there are comments, let's leave a little note, shall we?
