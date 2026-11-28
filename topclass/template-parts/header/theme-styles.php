@@ -230,12 +230,15 @@
       opacity: 0;
       height:0;
       transition: all 0.5s;
-      position: relative;
+      position: sticky;
+      top: 90px;
       z-index: 1001;
+      margin-bottom: 0;
     }
     #filter.show{
       opacity: 1;
       height: auto;
+      margin-bottom: 1rem;
     }
 
     /* Footer Styles */
