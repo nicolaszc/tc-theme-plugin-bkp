@@ -1,5 +1,5 @@
 
-<div id="filter" class="container d-none">    
+<div id="filter" class="container">    
     <div class="row">                
         <div class="col-md-12"> 
                 <div class="d-flex justify-between position-absolute w-100">
