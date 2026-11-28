@@ -7,7 +7,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-            <button class="btn btn-outline-light border-0" id="filter-btn">
+            <button class="btn btn-outline-light border-0" id="filter-btn" style="padding-left: 0 !important;padding-right: 0 !important;height: 36px;width: 48px;background: rgb(from var(--light-color) r g b / 0.125);color: var(--light-color);">
                 <i class="fa-solid fa-sliders"></i>
             </button>
         </div>
