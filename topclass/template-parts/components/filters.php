@@ -4,8 +4,8 @@
         <div class="col-md-12"> 
                 <div class="d-flex justify-between position-absolute w-100">
 
-                    <div class="button-group filter-group d-flex align-items-center">
-                        <div id="district-filter"></div>
+                    <div class="button-group filter-group">
+                        <div id="district-filter" class="d-flex align-items-center"></div>
                     </div>
                         
                     <div class="btn-group sort">
