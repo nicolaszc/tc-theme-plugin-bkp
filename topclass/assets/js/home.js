@@ -150,7 +150,7 @@ jQuery(function ($) {
 
     // Isotope toggle filters
     $('#filter-btn').click(function(e){
-    
+    console.log('filter')
         if($('#filter').hasClass('is-open')){
             $('#filter').removeClass('is-open, .show');
         }else{
