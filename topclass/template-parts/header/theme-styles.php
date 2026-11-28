@@ -216,7 +216,7 @@
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--header-primary-gradient-color )', endColorstr='var(--header-secondary-gradient-color)', GradientType=1)!important;
       }
       .filter-open-box{
-        height:180px;
+        height:180px !important;
         background-image: -moz-linear-gradient(180deg, var(--header-primary-gradient-color ) 30%, var(--header-secondary-gradient-color) 100%)!important; 
         background-image: -webkit-linear-gradient(180deg, var(--header-primary-gradient-color ) 30%, var(--header-secondary-gradient-color) 100%)!important; 
         background-image: linear-gradient(180deg, var(--header-primary-gradient-color ) 30%, var(--header-secondary-gradient-color) 100%)!important ; 
@@ -224,7 +224,7 @@
 
       }
       .filter-open-main{
-        margin-top: -180px;
+        margin-top: -180px !important;
       }
     #filter{
       opacity: 0;
