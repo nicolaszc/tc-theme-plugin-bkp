@@ -197,7 +197,7 @@ jQuery(function ($) {
     var moodsHeight = ($('.moods').height());
     var homeContentHeight = ($('html').height()) - bannerHeight;   
    
-    if (scroll > (offset - 30)){
+    if (scroll > (offset)){
         $('.moods').removeClass('show');
     }else{
         $('.moods').addClass('show');
@@ -209,7 +209,7 @@ jQuery(function ($) {
         
         console.log('Offset: ' + offset + ', Scroll: ' + scroll);
 
-        if (scroll > (offset - 30)) {
+        if (scroll > (offset)) {
             $('.bottom-actions-menu, .contact-toggler, .account-toggler, .cart-toggler, .brand').addClass('show');
             $('.moods').removeClass('show');
             $('.home .footer-bubbles').css('height', Math.round(homeContentHeight - moodsHeight));
