@@ -11,10 +11,10 @@
                     <div class="d-flex align-items-center justify-content-end text-white button-group sort-group w-50">
                             <i class="fa-solid fa-arrow-up-wide-short"></i>
                         
-                            <button class="btn btn-primary ms-2" type="input" data-value="nombre">Nombre</button>
-                            <button class="btn btn-primary ms-2" type="input" data-value="precio_ma">Precio Mayor</button>
-                            <button class="btn btn-primary ms-2" type="input" data-value="precio_me">Precio Menor</button>
-                            <button class="btn btn-primary ms-2" type="input" data-value="random" checked>Aleatorio</button>
+                            <button class="btn btn-primary rounded-pill ms-2" type="input" data-value="nombre">Nombre</button>
+                            <button class="btn btn-primary rounded-pill ms-2" type="input" data-value="precio_ma">Precio Mayor</button>
+                            <button class="btn btn-primary rounded-pill ms-2" type="input" data-value="precio_me">Precio Menor</button>
+                            <button class="btn btn-primary rounded-pill ms-2" type="input" data-value="random" checked>Aleatorio</button>
                         
                     </div>
 
