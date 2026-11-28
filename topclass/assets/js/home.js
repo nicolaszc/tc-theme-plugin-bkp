@@ -153,8 +153,12 @@ jQuery(function ($) {
     console.log('filter')
         if($('#filter').hasClass('is-open')){
             $('#filter').removeClass('is-open show');
+            $('#main-container').removeClass('filter-open-main')
+            $('.top-box-footer').removeClass('filter-open-box')
         }else{
             $('#filter').addClass('is-open show');
+            $('#main-container').addClass('filter-open-main')
+            $('.top-box-footer').addClass('filter-open-box')
         }
 
     });
