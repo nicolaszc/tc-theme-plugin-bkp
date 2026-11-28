@@ -152,9 +152,9 @@ jQuery(function ($) {
     $('#filter-btn').click(function(e){
     console.log('filter')
         if($('#filter').hasClass('is-open')){
-            $('#filter').removeClass('is-open, .show');
+            $('#filter').removeClass('is-open show');
         }else{
-            $('#filter').addClass('is-open, .show');
+            $('#filter').addClass('is-open show');
         }
 
     });
