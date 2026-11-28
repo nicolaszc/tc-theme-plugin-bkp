@@ -208,7 +208,7 @@
     
     /* Header Styles */   
 
-      #filter, .profile-header-wrappper{
+      .profile-header-wrappper{
         <?php if(is_front_page()) : ?>height:<?php echo $header_gradient_height ?>;<?php endif; ?>
         background: -moz-linear-gradient(180deg, var(--header-primary-gradient-color) 90px, var(--header-secondary-gradient-color) 100%)!important; 
         background: -webkit-linear-gradient(180deg, var(--header-primary-gradient-color) 90px, var(--header-secondary-gradient-color) 100%)!important; 
@@ -219,6 +219,8 @@
       opacity: 0;
       height:0;
       transition: all 0.5s;
+      position: relative;
+      z-index: 1001;
     }
     #filter.show{
       opacity: 1;
