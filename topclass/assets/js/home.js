@@ -3,9 +3,9 @@ jQuery(function ($) {
     var scroll = $(window).scrollTop();
 
     // Insertarlo en el lugar visible
-    $('#dropdown-district-filter').html($('#district-dropdown').html());
+    $('#district-filter').html($('#district-filter-group').html());
     // Eliminar el contenedor original del DOM
-    $('#district-dropdown').remove();
+    $('#district-filter-group').remove();
     
     
     const $captionPlaceholder = $('#caption-placeholder');
@@ -149,12 +149,12 @@ jQuery(function ($) {
     //================
 
     // Isotope toggle filters
-    $('.toggle-top-box').click(function(e){
+    $('#filter-btn').click(function(e){
     
-        if($('.top-box').hasClass('is-open')){
-            $('.top-box').removeClass('is-open');
+        if($('#filters').hasClass('is-open')){
+            $('#filters').removeClass('is-open, .show');
         }else{
-            $('.top-box').addClass('is-open');
+            $('#filters').addClass('is-open, .show');
         }
 
     });
@@ -240,7 +240,7 @@ jQuery(function ($) {
         }
 
         // on scroll close filter dropdown       
-        $('.filter-sort .dropdown-toggle, .filter-sort .dropdown-menu').removeClass('show');
+        $('#filters').removeClass('show');
 
     })
 

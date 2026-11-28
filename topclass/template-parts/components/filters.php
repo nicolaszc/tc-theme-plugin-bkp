@@ -5,7 +5,7 @@
                 <div class="d-flex justify-between position-absolute w-100">
 
                     <div class="button-group filter-group d-flex align-items-center">
-                        <div id="dropdown-district-filter"></div>
+                        <div id="district-filter"></div>
                     </div>
                         
                     <div class="btn-group sort">
