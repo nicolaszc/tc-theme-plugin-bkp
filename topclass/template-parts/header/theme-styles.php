@@ -240,7 +240,9 @@
       height: auto;
       margin-bottom: 1rem;
     }
-
+.moods{
+  height: 0;
+}
     /* Footer Styles */
     <?php if(!is_checkout()) { ?>
     #footer{
