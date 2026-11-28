@@ -143,9 +143,9 @@ asort($used_districts);
 
 // Create a select dropdown for the used districts 
 echo '<div id="district-filter-group">';    
-echo  '<button class="dropdown-item" type="input" data-value="*">Todas</button>';
+echo  '<button class="btn btn-primary" type="input" data-value="*">Todas</button>';
 foreach ($used_districts as $value => $label) {
-    echo '<button class="dropdown-item" type="input" data-value=".'. esc_attr($value) .'">' . esc_html($label) . '</button>';
+    echo '<button class="btn btn-primary" type="input" data-value=".'. esc_attr($value) .'">' . esc_html($label) . '</button>';
 }
 echo '</div>';
 

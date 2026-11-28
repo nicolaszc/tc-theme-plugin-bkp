@@ -2,23 +2,20 @@
 <div id="filter" class="container">    
     <div class="row">                
         <div class="col-md-12"> 
-                <div class="d-flex justify-between position-absolute w-100">
+                <div class="d-flex justify-between w-100">
 
-                    <div class="button-group filter-group">
+                    <div class="button-group filter-group w-50">
                         <div id="district-filter" class="d-flex align-items-center"></div>
                     </div>
                         
-                    <div class="btn-group sort">
-                        <button class="btn btn-secondary dropdown-toggle px-0 px-md-4 py-2 rounded-pill" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"><span>
+                    <div class="button-group sort-group w-50">
                             Ordenar <i class="fa-solid fa-arrow-up-wide-short"></i><span>
-                        </button>
-                        <ul class="dropdown-menu w-100" id="card-sort-dropdown">
-                            <li><button class="dropdown-item" type="input" data-value="nombre">Nombre</button></li>
-                            <li><button class="dropdown-item" type="input" data-value="precio_ma">Precio Mayor</button></li>
-                            <li><button class="dropdown-item" type="input" data-value="precio_me">Precio Menor</button></li>
-                            <li><button class="dropdown-item" type="input" data-value="random" checked>Aleatorio</button></li>
-                            <li class="drop-down-last-item" style="border-bottom-left-radius: 6px !important; border-bottom-right-radius: 6px !important; height: 5px; background-color: rgb(from var(--light-color) r g b / .9);"></li>
-                        </ul>
+                        
+                            <button class="btn btn-primary" type="input" data-value="nombre">Nombre</button>
+                            <button class="btn btn-primary" type="input" data-value="precio_ma">Precio Mayor</button>
+                            <button class="btn btn-primary" type="input" data-value="precio_me">Precio Menor</button>
+                            <button class="btn btn-primary" type="input" data-value="random" checked>Aleatorio</button>
+                        
                     </div>
 
                 </div>    
