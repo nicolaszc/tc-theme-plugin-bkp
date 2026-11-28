@@ -151,10 +151,10 @@ jQuery(function ($) {
     // Isotope toggle filters
     $('#filter-btn').click(function(e){
     
-        if($('#filters').hasClass('is-open')){
-            $('#filters').removeClass('is-open, .show');
+        if($('#filter').hasClass('is-open')){
+            $('#filter').removeClass('is-open, .show');
         }else{
-            $('#filters').addClass('is-open, .show');
+            $('#filter').addClass('is-open, .show');
         }
 
     });
