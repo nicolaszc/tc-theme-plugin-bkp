@@ -7,12 +7,12 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-            
+            <button class="btn" id="filter-btn">
+                <i class="fa-solid fa-sliders"></i>
+            </button>
         </div>
         <small class="mt-3 mb-5 d-block d-md-none text-center">* Buscar por nombre de la modelo.</small>
     </div>
-    <button class="btn" id="filter-btn">
-        <i class="fa-solid fa-sliders"></i>
-    </button>
+    
 <?php endif; ?>
             
