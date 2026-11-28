@@ -142,19 +142,11 @@ get_header();
 asort($used_districts); 
 
 // Create a select dropdown for the used districts 
-echo '<div id="district-dropdown">';     
-echo '<div class="btn-group district-filter-dropdown">';
-echo '<button class="btn btn-secondary dropdown-toggle px-0 px-md-4 py-2 rounded-pill" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">';
-echo  '<span data-bs-toggle="tooltip" data-bs-title="Filtrar" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip"><i class="fa-solid fa-filter"></i> Filtrar comuna</span> ';
-echo  '</button>';
-echo  '<ul class="dropdown-menu" id="district-filter-dropdown">';
-echo  '<li><button class="dropdown-item" type="input" data-value="*">Todas</button></li>';
+echo '<div id="district-filter-group">';    
+echo  '<button class="dropdown-item" type="input" data-value="*">Todas</button>';
 foreach ($used_districts as $value => $label) {
-    echo '<li><button class="dropdown-item" type="input" data-value=".'. esc_attr($value) .'">' . esc_html($label) . '</button></li>';
+    echo '<button class="dropdown-item" type="input" data-value=".'. esc_attr($value) .'">' . esc_html($label) . '</button><';
 }
-echo '<li class="drop-down-last-item" style="border-bottom-left-radius: 6px !important; border-bottom-right-radius: 6px !important; height: 5px; background-color: rgb(from var(--light-color) r g b / .9);"></li>';
-echo '</ul>';
-echo '</div>';
 echo '</div>';
 
 get_footer();
