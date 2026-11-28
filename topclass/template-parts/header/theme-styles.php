@@ -208,14 +208,22 @@
     
     /* Header Styles */   
 
-      .top-box, .profile-header-wrappper{
+      #filter, .profile-header-wrappper{
         <?php if(is_front_page()) : ?>height:<?php echo $header_gradient_height ?>;<?php endif; ?>
         background: -moz-linear-gradient(180deg, var(--header-primary-gradient-color) 90px, var(--header-secondary-gradient-color) 100%)!important; 
         background: -webkit-linear-gradient(180deg, var(--header-primary-gradient-color) 90px, var(--header-secondary-gradient-color) 100%)!important; 
         background: linear-gradient(180deg, var(--header-primary-gradient-color) 90px, var(--header-secondary-gradient-color) 100%)!important; 
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--header-primary-gradient-color )', endColorstr='var(--header-secondary-gradient-color)', GradientType=1)!important;
       }
-    
+    #filter{
+      opacity: 0;
+      height:0;
+      transition: all 0.5s;
+    }
+    #filter.show{
+      opacity: 1;
+      height: auto;
+    }
 
     /* Footer Styles */
     <?php if(!is_checkout()) { ?>
